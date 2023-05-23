@@ -1,0 +1,59 @@
+.todos {
+  max-width: 30rem;
+  margin: 0 auto;
+  background-color: #f0f8ff;
+  box-shadow: 4px 4px 4px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.todos ul {
+  list-style: none;
+  text-align: start;
+}
+
+.todos li {
+  position: relative;
+  display: inline-flex;
+  justify-content: start;
+  align-items: center;
+  width: 28rem;
+  margin: 1rem 0;
+}
+
+.content {
+  padding: 0 0.4rem;
+  width: 20rem;
+  border-bottom: solid 2px #6d6d6d8e;
+  animation: line 1s linear;
+}
+
+.checked {
+  transition: all 1s ease-in;
+  font-style: italic;
+  color: #6d6d6d;
+}
+
+.check {
+  display: none;
+}
+
+.check + label {
+  display: inline-block;
+  border: solid 3px #25390b;
+  border-radius: 4px;
+  margin-right: 2rem;
+  width: 15px;
+  height: 15px;
+}
+
+.check:checked + label:after {
+  position: absolute;
+  content: "✓";
+  font-size: 11px;
+  font-weight: bold;
+  width: 15px;
+  height: 15px;
+  text-align: center;
+  color: #701d1d;
+}
