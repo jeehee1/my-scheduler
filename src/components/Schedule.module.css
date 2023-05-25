@@ -1,0 +1,39 @@
+.time-table {
+  width: fit-content;
+  background-color: #f5eadd;
+}
+
+.table {
+  border-top: none;
+  border-collapse: collapse;
+  border-radius: 12px;
+}
+.table th {
+  font:inherit;
+  border: 1px solid #746363;
+}
+
+.table td {
+  width: 3rem;
+  border: 1px solid #ab9191;
+}
+
+
+.min {
+  position: relative;
+}
+
+.min th {
+  padding: 0;
+  border: none;
+  position: relative;
+  font-size: 0.2rem;
+  right: 0;
+  bottom: 0;
+}
+
+.min th div {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
