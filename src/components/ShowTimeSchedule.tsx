@@ -1,5 +1,8 @@
 //   colorTable should be [{time: 9.4, color: 'yellow', 'content:'something'}, {time:9.5, color: 'yellow', 'content:'something'}]
 
+import { MouseEvent, useState } from "react";
+import ShowScheduleInfo from "./ShowScheduleInfo";
+
 const ShowTimeSchedule = ({
   timeInfo,
 }: {
@@ -13,24 +16,29 @@ const ShowTimeSchedule = ({
     } | null;
   };
 }) => {
-  const info = [
-    { time: 9.4, color: "yellow", content: "something" },
-    { time: 9.5, color: "yellow", content: "something" },
-  ];
-
-  const foundInfo = info.find((o) => o.time === timeInfo.time) || {
-    color: "none",
+  const [showInfo, setShowInfo] = useState(false);
+  const showScheduleHandler = (event: MouseEvent) => {
+    event.preventDefault();
+    setShowInfo(true);
+    console.log(event.screenX + window.scrollX, event.screenY + window.scrollY);
   };
+
   return (
-    <td
-      style={{
-        backgroundColor: timeInfo.schedule
-          ? timeInfo.schedule.color
-          : undefined,
-      }}
-    >
-      {timeInfo.schedule ? timeInfo.schedule.schedule : ""}
-    </td>
+    <>
+      <td
+        onMouseOver={showScheduleHandler}
+        onMouseLeave={() => {
+          setShowInfo(false);
+        }}
+        style={{
+          backgroundColor: timeInfo.schedule
+            ? timeInfo.schedule.color
+            : undefined,
+        }}
+      >
+        {showInfo && <ShowScheduleInfo info={timeInfo.schedule} />}
+      </td>
+    </>
   );
 };
 

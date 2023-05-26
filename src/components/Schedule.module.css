@@ -1,15 +1,13 @@
-.time-table {
-  width: fit-content;
-  background-color: #f5eadd;
-}
 
 .table {
+  margin: 0 auto;
+  cursor: default;
   border-top: none;
   border-collapse: collapse;
   border-radius: 12px;
 }
 .table th {
-  font:inherit;
+  font: inherit;
   border: 1px solid #746363;
 }
 
@@ -18,6 +16,11 @@
   border: 1px solid #ab9191;
 }
 
+.time-cell {
+  background-color: #887878;
+  width: 4rem;
+  color: #d8d8d8;
+}
 
 .min {
   position: relative;
