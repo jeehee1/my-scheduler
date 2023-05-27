@@ -13,6 +13,7 @@
 }
 
 .todos li {
+  font-weight: bold;
   position: relative;
   display: inline-flex;
   justify-content: start;
@@ -25,13 +26,14 @@
   padding: 0 0.4rem;
   width: 20rem;
   border-bottom: solid 2px #6d6d6d8e;
-  animation: line 1s linear;
 }
 
 .checked {
   transition: all 1s ease-in;
   font-style: italic;
+  text-decoration: line-through ;
   color: #6d6d6d;
+  font-weight: normal
 }
 
 .check {

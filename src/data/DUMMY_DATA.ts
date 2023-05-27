@@ -21,3 +21,10 @@ export const DUMMY_SCHEDULE = {
     },
   ],
 };
+
+
+export const DUMMY_TODOS = [
+    {id: 0, todo: "헬스장가기 - 상체운동", checked: false},
+    {id: 1, todo: "Todo 컴포넌트 구현하기", checked: false},
+    {id: 2, todo: "고양이 밥주기", checked: false},
+]

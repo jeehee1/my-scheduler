@@ -17,7 +17,9 @@ const ShowScheduleInfo = ({
   }
   return (
     <div
-      className={activeInfo?`${classes.info} ${classes.active}`:classes.info}
+      className={
+        activeInfo ? `${classes.info} ${classes.active}` : classes.info
+      }
       onMouseOver={() => setActiveInfo(true)}
       onMouseLeave={() => setActiveInfo(false)}
     >

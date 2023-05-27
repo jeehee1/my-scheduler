@@ -11,8 +11,8 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>This is test page</p>
       </header>
-      <Schedules />
-      {/* <Todos /> */}
+      {/* <Schedules /> */}
+      <Todos />
       <p>Body content</p>
     </div>
   );
