@@ -1,5 +1,6 @@
 
 .table {
+  width: 25rem;
   margin: 0 auto;
   cursor: default;
   border-top: none;
@@ -12,13 +13,12 @@
 }
 
 .table td {
-  width: 3rem;
   border: 1px solid #ab9191;
 }
 
 .time-cell {
   background-color: #887878;
-  width: 4rem;
+  max-width: 0.2rem;
   color: #d8d8d8;
 }
 

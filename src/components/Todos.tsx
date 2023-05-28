@@ -1,6 +1,7 @@
 import classes from "./Todos.module.css";
 import { DUMMY_TODOS } from "../data/DUMMY_DATA";
 import { useState } from "react";
+import Card from "../layout/Card";
 
 const Todos = () => {
   const [todos, setTodos] = useState(DUMMY_TODOS);
@@ -35,9 +36,11 @@ const Todos = () => {
   }
 
   return (
-    <div className={classes.todos}>
-      <ul>{todoList}</ul>
-    </div>
+    <Card>
+      <div className={classes.todos}>
+        <ul>{todoList}</ul>
+      </div>
+    </Card>
   );
 };
 

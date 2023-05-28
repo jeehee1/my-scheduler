@@ -20,7 +20,6 @@ const ShowTimeSchedule = ({
   const showScheduleHandler = (event: MouseEvent) => {
     event.preventDefault();
     setShowInfo(true);
-    console.log(event.screenX + window.scrollX, event.screenY + window.scrollY);
   };
 
   return (

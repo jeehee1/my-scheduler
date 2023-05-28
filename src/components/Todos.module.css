@@ -1,13 +1,11 @@
 .todos {
-  max-width: 30rem;
+  width: 25rem;
   margin: 0 auto;
   background-color: #f0f8ff;
-  box-shadow: 4px 4px 4px 8px rgba(0, 0, 0, 0.25);
-  border-radius: 4px;
-  padding: 1rem;
 }
 
 .todos ul {
+  padding: 0;
   list-style: none;
   text-align: start;
 }

@@ -8,9 +8,9 @@ import Card from "../layout/Card";
 const Schedules = () => {
   let tableBody = [];
   const minArray = [0, 10, 20, 30, 40, 50];
-  let minBody = [];
+  let showMinute = [];
   for (let m = 0; m < 6; m++) {
-    minBody.push(
+    showMinute.push(
       <th>
         <div>{minArray[m] + 10}</div>
       </th>
@@ -43,7 +43,7 @@ const Schedules = () => {
         <thead>
           <tr className={classes.min}>
             <th></th>
-            {minBody}
+            {showMinute}
           </tr>
         </thead>
         <tbody className={classes["table-body"]}>{tableBody}</tbody>

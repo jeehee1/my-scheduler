@@ -1,4 +1,5 @@
 .card {
+    margin: 0 auto;
     background-color: aliceblue;
     width: fit-content;
     padding:  2rem;
