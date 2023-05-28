@@ -13,11 +13,18 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>This is test page</p>
       </header>
-      <Goal />
-      <Schedules />
-      <Todos />
-      <Diet />
-      <p>Body content</p>
+      <main>
+        <div className='content'>
+          <div className="first-column">
+            <Goal />
+            <Schedules />
+          </div>
+          <div className="second-column">
+            <Todos />
+            <Diet />
+          </div>
+        </div>
+      </main>
     </div>
   );
 }

@@ -2,6 +2,19 @@
   text-align: center;
 }
 
+.content {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.first-column {
+  width: fit-content;
+}
+.second-column {
+  width: fit-content;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
