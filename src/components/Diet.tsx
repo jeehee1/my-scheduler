@@ -1,6 +1,7 @@
 import classes from "./Diet.module.css";
 import Card from "../layout/Card";
 import { DUMMY_DIET } from "../data/DUMMY_DATA";
+import Title from "../layout/Title";
 
 const Diet = () => {
   const diet: {
@@ -18,9 +19,10 @@ const Diet = () => {
     );
   }
   return (
-    <Card>
-        {showDiet}
-    </Card>
+    <>
+      <Title>Diet Plan</Title>
+      <Card>{showDiet}</Card>
+    </>
   );
 };
 

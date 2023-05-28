@@ -2,6 +2,7 @@ import classes from "./Todos.module.css";
 import { DUMMY_TODOS } from "../data/DUMMY_DATA";
 import { useState } from "react";
 import Card from "../layout/Card";
+import Title from "../layout/Title";
 
 const Todos = () => {
   const [todos, setTodos] = useState(DUMMY_TODOS);
@@ -36,11 +37,14 @@ const Todos = () => {
   }
 
   return (
-    <Card>
-      <div className={classes.todos}>
-        <ul>{todoList}</ul>
-      </div>
-    </Card>
+    <>
+      <Title>Todos</Title>
+      <Card>
+        <div className={classes.todos}>
+          <ul>{todoList}</ul>
+        </div>
+      </Card>
+    </>
   );
 };
 

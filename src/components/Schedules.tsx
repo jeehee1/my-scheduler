@@ -4,6 +4,7 @@ import ShowScheduleInfo from "./ShowScheduleInfo";
 import ShowTimeSchedule from "./ShowTimeSchedule";
 import { DUMMY_SCHEDULE } from "../data/DUMMY_DATA";
 import Card from "../layout/Card";
+import Title from "../layout/Title";
 
 const Schedules = () => {
   let tableBody = [];
@@ -38,17 +39,20 @@ const Schedules = () => {
   }
 
   return (
-    <Card>
-      <table className={classes.table}>
-        <thead>
-          <tr className={classes.min}>
-            <th></th>
-            {showMinute}
-          </tr>
-        </thead>
-        <tbody className={classes["table-body"]}>{tableBody}</tbody>
-      </table>
-    </Card>
+    <>
+      <Title>Schedules</Title>
+      <Card>
+        <table className={classes.table}>
+          <thead>
+            <tr className={classes.min}>
+              <th></th>
+              {showMinute}
+            </tr>
+          </thead>
+          <tbody className={classes["table-body"]}>{tableBody}</tbody>
+        </table>
+      </Card>
+    </>
   );
 };
 
