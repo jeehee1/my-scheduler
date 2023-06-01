@@ -12,17 +12,20 @@ const Schedules = () => {
   let showMinute = [];
   for (let m = 0; m < 6; m++) {
     showMinute.push(
-      <th>
+      <th key={minArray[m]}>
         <div>{minArray[m] + 10}</div>
       </th>
     );
   }
   for (let time = 6; time < 25; time++) {
     tableBody.push(
-      <tr>
-        <th className={classes["time-cell"]}>{time}</th>
+      <tr key={time}>
+        <th key={time} className={classes["time-cell"]}>
+          {time}
+        </th>
         {minArray.map((min) => (
           <ShowTimeSchedule
+            key={time + min / 100}
             timeInfo={{
               time: time + min / 100,
               schedule:

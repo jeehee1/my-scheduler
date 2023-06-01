@@ -10,7 +10,7 @@ const Todos = () => {
   let todoList = [];
   for (let i = 0; i < todos.length; i++) {
     todoList.push(
-      <li>
+      <li key={todos[i].id}>
         <input
           type="checkbox"
           id={`${todos[i].id}`}

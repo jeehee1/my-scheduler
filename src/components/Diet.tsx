@@ -12,7 +12,7 @@ const Diet = () => {
   for (let t = 0; t < 4; t++) {
     let selectedType = type[t];
     showDiet.push(
-      <div className={classes.diet}>
+      <div className={classes.diet} key={type[t]}>
         <span className={classes.type}>{selectedType}</span>
         <p>{diet[selectedType]}</p>
       </div>
