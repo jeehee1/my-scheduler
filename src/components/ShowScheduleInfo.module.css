@@ -1,21 +1,19 @@
 .info {
-    position: absolute;
-    background-color: #faebd76d;
-    border-radius: 4px;
-    border-top: 4px  solid rgb(225, 113, 15);
-    border-bottom: 4px  solid rgb(225, 113, 15);
-    width: 6rem; 
-
-
+  position: absolute;
+  background-color: #faebd76d;
+  border-radius: 4px;
+  border-top: 4px solid rgb(225, 113, 15);
+  border-bottom: 4px solid rgb(225, 113, 15);
+  width: 6rem;
 }
 
 .schedule {
-    font:inherit;
-    color: #404040;
-    font-weight: bold;
+  font: inherit;
+  color: #404040;
+  font-weight: bold;
 }
 
 .active {
-    background-color: #faebd7;
-    box-shadow: 0 2px 2px 4px rgba(0,0,0,0.25);
+  background-color: #faebd7;
+  box-shadow: 0 2px 2px 4px rgba(0, 0, 0, 0.25);
 }

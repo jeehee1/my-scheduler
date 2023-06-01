@@ -5,6 +5,7 @@ import Todos from "./components/Todos";
 import Schedules from "./components/Schedules";
 import Diet from "./components/Diet";
 import Goal from "./components/Goal";
+import SearchDate from "./components/SearchDate";
 
 function App() {
   return (
@@ -14,7 +15,10 @@ function App() {
         <p>This is test page</p>
       </header>
       <main>
-        <div className='content'>
+        <div>
+          <SearchDate />
+        </div>
+        <div className="content">
           <div className="first-column">
             <Goal />
             <Schedules />

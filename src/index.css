@@ -6,10 +6,19 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #e1e1e1;
-  color: #353535
+  color: #353535;
+
+  .react-datepicker {
+    .react-datepicker__header {
+      padding-bottom: 0.3rem;
+      background-color: #3c3535;
+    }
+
+    .react-datepicker__day-name {
+      color: white;
+    }
+  }
 }
-
-
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
