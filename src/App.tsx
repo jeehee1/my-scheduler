@@ -10,10 +10,6 @@ import SearchDate from "./components/SearchDate";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>This is test page</p>
-      </header>
       <main>
         <div>
           <SearchDate />
