@@ -1,12 +1,12 @@
 import classes from "./Diet.module.css";
 import Card from "../layout/Card";
-import { DUMMY_DIET } from "../data/DUMMY_DATA";
 import Title from "../layout/Title";
 
-const Diet = () => {
-  const diet: {
-    [key: string]: string;
-  } = DUMMY_DIET;
+const Diet = ({
+  diet,
+}: {
+  diet:{[key:string]:string};
+}) => {
   const type = ["breakfast", "lunch", "dinner", "snacks"];
   const showDiet = [];
   for (let t = 0; t < 4; t++) {

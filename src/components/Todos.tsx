@@ -1,11 +1,12 @@
 import classes from "./Todos.module.css";
-import { DUMMY_TODOS } from "../data/DUMMY_DATA";
+import { DUMMY_DATA } from "../data/DUMMY_DATA";
 import { useState } from "react";
 import Card from "../layout/Card";
 import Title from "../layout/Title";
 
-const Todos = () => {
-  const [todos, setTodos] = useState(DUMMY_TODOS);
+type Todo = { id: number; todo: string; checked: boolean };
+
+const Todos = ({todos}:{todos:Todo[]}) => {
 
   let todoList = [];
   for (let i = 0; i < todos.length; i++) {
@@ -17,9 +18,6 @@ const Todos = () => {
           className={classes.check}
           onChange={() => {
             console.log("clicked");
-            let changedTodo = [...todos];
-            changedTodo[i].checked = !changedTodo[i].checked;
-            setTodos(changedTodo);
           }}
         />
         <label htmlFor={`${i}`} />
