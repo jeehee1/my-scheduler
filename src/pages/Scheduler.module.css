@@ -1,0 +1,51 @@
+.content {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  height: 100%;
+  margin-bottom: 3rem;
+}
+
+.first-column {
+  width: fit-content;
+}
+.second-column {
+  width: fit-content;
+}
+
+.edit-btn {
+  border: 1px solid #a992f6;
+  background-color: #a992f6;
+  border-radius: 4px;
+  font: inherit;
+  font-weight: bold;
+  color: #323232;
+  padding: 0.2rem 0.4rem;
+  box-shadow: 1px 1px 4px 2px rgba(0, 0, 0, 0.2);
+}
+
+.edit-btn:hover,
+.edit-btn:active {
+  cursor: pointer;
+  border: 1px solid #947de0;
+  background-color: #947de0;
+}
+
+.sign {
+  padding: 0 0.2rem;
+  display: inline-block;
+  position: absolute;
+  animation: moving-sign 1s infinite;
+}
+
+@keyframes moving-sign {
+  0% {
+    margin-left: 10px;
+  }
+  50% {
+    margin-left: 25px;
+  }
+  100% {
+    margin-left: 10px;
+  }
+}

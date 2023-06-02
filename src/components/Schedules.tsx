@@ -7,6 +7,7 @@ import Card from "../layout/Card";
 import Title from "../layout/Title";
 
 const Schedules = () => {
+  const [storedSchedules, setStoredSchedules] = useState(DUMMY_SCHEDULE)
   let tableBody = [];
   const minArray = [0, 10, 20, 30, 40, 50];
   let showMinute = [];
@@ -29,7 +30,7 @@ const Schedules = () => {
             timeInfo={{
               time: time + min / 100,
               schedule:
-                DUMMY_SCHEDULE.schedules.find(
+                storedSchedules.schedules.find(
                   (o) =>
                     o.startTime <= time + min / 100 &&
                     o.endTime > time + min / 100
