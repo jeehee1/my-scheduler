@@ -6,3 +6,31 @@
     font-size: 1.2rem;
     font-weight: bold;
 }
+
+.goal textarea {
+    font: inherit;
+    display: block;
+    width: 80%;
+    padding: 1rem 2rem;
+    height: 8em;
+    margin: 1rem auto;
+}
+
+
+.submit-btn {
+    border: 1px solid #a992f6;
+    background-color: #a992f6;
+    border-radius: 4px;
+    font: inherit;
+    font-weight: bold;
+    color: #323232;
+    padding: 0.2rem 0.4rem;
+    box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.2);
+  }
+  
+  .submit-btn:hover,
+  .submit-btn:active {
+    cursor: pointer;
+    border: 1px solid #947de0;
+    background-color: #947de0;
+  }
