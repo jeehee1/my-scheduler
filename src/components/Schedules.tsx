@@ -1,22 +1,18 @@
-import classes from "./Schedule.module.css";
+import classes from "./Schedules.module.css";
 import ShowTimeSchedule from "./ShowTimeSchedule";
 import Card from "../layout/Card";
 import Title from "../layout/Title";
+import { Schedule } from "../types/SchedulerType";
+import EditMessage from "../layout/EditMessage";
+import { useState } from "react";
 
-type Schedule =
-  | {
-      id: number;
-      startTime: number;
-      endTime: number;
-      schedule: string;
-      color: string;
-    }[]
-  | null;
+const Schedules = ({ schedules }: { schedules: Schedule[] }) => {
+  const [editSchedules, setEditSchedules] = useState<boolean>(false);
 
-const Schedules = ({ schedules }: { schedules: Schedule }) => {
   let tableBody = [];
   const minArray = [0, 10, 20, 30, 40, 50];
   let showMinute = [];
+
   for (let m = 0; m < 6; m++) {
     showMinute.push(
       <th key={minArray[m]}>
@@ -51,17 +47,19 @@ const Schedules = ({ schedules }: { schedules: Schedule }) => {
   return (
     <>
       <Title>Schedules</Title>
-      <Card>
-        <table className={classes.table}>
-          <thead>
-            <tr className={classes.min}>
-              <th></th>
-              {showMinute}
-            </tr>
-          </thead>
-          <tbody className={classes["table-body"]}>{tableBody}</tbody>
-        </table>
-      </Card>
+      <div onClick={() => setEditSchedules(true)}>
+        <Card editting={editSchedules}>
+          <table className={classes.table}>
+            <thead>
+              <tr className={classes.min}>
+                <th></th>
+                {showMinute}
+              </tr>
+            </thead>
+            <tbody className={classes["table-body"]}>{tableBody}</tbody>
+          </table>
+        </Card>
+      </div>
     </>
   );
 };

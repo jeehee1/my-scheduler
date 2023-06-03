@@ -1,31 +1,31 @@
 import React, { useState } from "react";
 
 type ModeContextObj = {
-  mode: string;
-  editMode: () => void;
-  viewMode: () => void;
+  editMode: boolean;
+  changeEditMode: () => void;
+  changeViewMode: () => void;
 };
 
 export const ModeContext = React.createContext<ModeContextObj>({
-  mode: "view",
-  editMode: () => {},
-  viewMode: () => {},
+  editMode: false,
+  changeEditMode: () => {},
+  changeViewMode: () => {},
 });
 
 const ModeContextProvider = ({ children }: { children: any }) => {
-  const [pageMode, setPageMode] = useState<string>("view");
+  const [editMode, setEditMode] = useState<boolean>(false);
 
   const editModeHandler = () => {
-    setPageMode("edit");
+    setEditMode(true);
   };
   const viewModeHandler = () => {
-    setPageMode("view");
+    setEditMode(false);
   };
 
   const contextMode: ModeContextObj = {
-    mode: pageMode,
-    editMode: editModeHandler,
-    viewMode: viewModeHandler,
+    editMode: editMode,
+    changeEditMode: editModeHandler,
+    changeViewMode: viewModeHandler,
   };
 
   return (

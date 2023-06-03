@@ -13,6 +13,15 @@
   width: fit-content;
 }
 
+.content-chunck{
+    position:relative;
+    margin: 2rem 3rem 3rem 3rem;
+}
+
+.edit {
+    padding-bottom: 1rem;
+}
+
 .edit-btn {
   border: 1px solid #a992f6;
   background-color: #a992f6;
@@ -36,7 +45,7 @@
   display: inline-block;
   position: absolute;
   animation: moving-sign 1s infinite;
-}
+    }
 
 @keyframes moving-sign {
   0% {

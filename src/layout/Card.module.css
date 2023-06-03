@@ -1,8 +1,28 @@
 .card {
-    background-color: #f9f5fa;
-    width: fit-content;
-    padding:  2rem;
-    border-radius: 8px;
-    box-shadow: 1px 2px 8px 4px rgba(0, 0, 0, 0.25);
-    margin: 2rem 3rem 3rem 3rem;
+  background-color: #f9f5fa;
+  width: fit-content;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 1px 2px 8px 4px rgba(0, 0, 0, 0.25);
+}
+
+.active {
+  transition: all;
+
+  box-shadow: 1px 2px 6px 6px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  animation: bump-card 1s;
+}
+
+@keyframes bump-card {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.07);
+    background-color: #eae5a862;
+  }
+  100% {
+    transform: scalse(1);
+  }
 }

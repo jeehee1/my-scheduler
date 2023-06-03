@@ -1,14 +1,13 @@
 import classes from "./Diet.module.css";
 import Card from "../layout/Card";
 import Title from "../layout/Title";
+import EditMessage from "../layout/EditMessage";
+import { useState } from "react";
 
-const Diet = ({
-  diet,
-}: {
-  diet:{[key:string]:string};
-}) => {
+const Diet = ({ diet }: { diet: { [key: string]: string } }) => {
   const type = ["breakfast", "lunch", "dinner", "snacks"];
   const showDiet = [];
+  const [editDiet, setEditDiet] = useState<boolean>(false);
   for (let t = 0; t < 4; t++) {
     let selectedType = type[t];
     showDiet.push(
@@ -21,7 +20,9 @@ const Diet = ({
   return (
     <>
       <Title>Diet Plan</Title>
-      <Card>{showDiet}</Card>
+      <div onClick={() => setEditDiet(true)}>
+        <Card editting={editDiet}>{showDiet}</Card>
+      </div>
     </>
   );
 };

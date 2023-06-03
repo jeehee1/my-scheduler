@@ -4,32 +4,43 @@ import Title from "../layout/Title";
 import { useContext, useRef, useState } from "react";
 import { ModeContext } from "../context/mode-context";
 
-const Goal = ({goal}:{goal: string}) => {
+const Goal = ({
+  goal,
+  updateGoal,
+}: {
+  goal: string;
+  updateGoal: (newGoal: string) => void;
+}) => {
   const modeCtx = useContext(ModeContext);
-  const todoRef = useRef<HTMLTextAreaElement>(null);
+  const goalRef = useRef<HTMLTextAreaElement>(null);
+  const [editGoal, setEditGoal] = useState<boolean>(false);
 
-  console.log(modeCtx.mode);
-
-  const updateGoalHandler = () => {};
+  const updateGoalHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    updateGoal(goalRef.current?.value || "");
+    setEditGoal(false);
+  };
 
   return (
     <>
       <Title>Goal</Title>
-      <Card>
-        <div className={classes.goal}>
-          <span>Today's Goal</span>
-          {modeCtx.mode === "edit" ? (
-            <div>
+      <div onClick={() => setEditGoal(true)}>
+        <Card editting={editGoal}>
+          <div className={classes.goal}>
+            <span>Today's Goal</span>
+            {editGoal ? (
               <form onSubmit={updateGoalHandler}>
-                <textarea ref={todoRef} />
-                <button className={classes["submit-btn"]}>Submit</button>
+                <textarea id="goal" defaultValue={goal} ref={goalRef} />
+                <button className={classes["submit-btn"]}>
+                  이걸로 정할래요
+                </button>
               </form>
-            </div>
-          ) : (
-            <p>{goal}</p>
-          )}
-        </div>
-      </Card>
+            ) : (
+              <p>{goal}</p>
+            )}
+          </div>
+        </Card>
+      </div>
     </>
   );
 };

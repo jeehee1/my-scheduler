@@ -9,6 +9,7 @@ function App() {
       <div className="App">
         <main>
           <div>
+            
             <SearchDate />
           </div>
           <Scheduler />
