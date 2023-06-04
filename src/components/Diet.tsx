@@ -8,6 +8,7 @@ const Diet = ({ diet }: { diet: { [key: string]: string } }) => {
   const type = ["breakfast", "lunch", "dinner", "snacks"];
   const showDiet = [];
   const [editDiet, setEditDiet] = useState<boolean>(false);
+  
   for (let t = 0; t < 4; t++) {
     let selectedType = type[t];
     showDiet.push(

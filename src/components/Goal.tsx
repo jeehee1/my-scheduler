@@ -1,7 +1,7 @@
 import classes from "./Goal.module.css";
 import Card from "../layout/Card";
 import Title from "../layout/Title";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { ModeContext } from "../context/mode-context";
 
 const Goal = ({
@@ -20,6 +20,10 @@ const Goal = ({
     updateGoal(goalRef.current?.value || "");
     setEditGoal(false);
   };
+
+  useEffect(() => {
+    if (modeCtx.editMode===false) setEditGoal(false);
+  }, [modeCtx.editMode]);
 
   return (
     <>
