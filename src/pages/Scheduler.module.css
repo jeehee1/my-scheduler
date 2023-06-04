@@ -6,25 +6,23 @@
   margin-bottom: 3rem;
 }
 
-.first-column {
+.column {
   width: fit-content;
-}
-.second-column {
-  width: fit-content;
+  margin: 0 2rem;
 }
 
-.content-chunck{
-    position:relative;
-    margin: 2rem 3rem 3rem 3rem;
+.content-chunck {
+  position: relative;
 }
 
 .edit {
-    padding-bottom: 1rem;
+  position: relative;
+  height: 5rem;
 }
 
 .edit-btn {
-  border: 1px solid #a992f6;
-  background-color: #a992f6;
+  border: 1px solid #f4d31a;
+  background-color: #f4d31a;
   border-radius: 4px;
   font: inherit;
   font-weight: bold;
@@ -36,16 +34,17 @@
 .edit-btn:hover,
 .edit-btn:active {
   cursor: pointer;
-  border: 1px solid #947de0;
-  background-color: #947de0;
+  border: 1px solid #cfb317;
+  background-color: #cfb317;
 }
+
 
 .sign {
   padding: 0 0.2rem;
   display: inline-block;
   position: absolute;
   animation: moving-sign 1s infinite;
-    }
+}
 
 @keyframes moving-sign {
   0% {

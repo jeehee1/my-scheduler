@@ -18,20 +18,27 @@ const Scheduler = () => {
 
   return (
     <>
-      {!modeCtx.editMode && (
-        <div className={classes.edit}>
+      <div className={classes.edit}>
+        {modeCtx.editMode && (
           <button
-            className={classes["edit-btn"]}
-            onClick={modeCtx.changeEditMode}
+            className={`${classes["edit-btn"]} ${classes.cancel}`}
+            onClick={modeCtx.changeViewMode}
           >
-            계획을 수정하고 싶어요
+            이제 됐어요!
           </button>
-          <div className={classes.sign}>{"◀ Click!"}</div>
-        </div>
-      )}
-      {modeCtx.editMode && <EditMessage />}
+        )}
+        {!modeCtx.editMode && (
+            <button
+              className={classes["edit-btn"]}
+              onClick={modeCtx.changeEditMode}
+            >
+              계획을 수정하고 싶어요
+            </button>
+        )}
+        {modeCtx.editMode && <EditMessage />}
+      </div>
       <div className={classes.content}>
-        <div className={classes["first-column"]}>
+        <div className={classes["column"]}>
           <div className={classes["content-chunck"]}>
             <Goal goal={storedData.goal} updateGoal={updateGoalHandler} />
           </div>
@@ -39,7 +46,7 @@ const Scheduler = () => {
             <Schedules schedules={storedData.schedules} />
           </div>
         </div>
-        <div className={classes["second-column"]}>
+        <div className={classes["column"]}>
           <div className={classes["content-chunck"]}>
             <Todos todos={storedData.todos} />
           </div>
