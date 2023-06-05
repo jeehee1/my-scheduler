@@ -48,7 +48,7 @@ const Schedules = ({ schedules }: { schedules: Schedule[] }) => {
     <>
       <Title>Schedules</Title>
       <div onClick={() => setEditSchedules(true)}>
-        <Card editting={editSchedules}>
+        <Card >
           <table className={classes.table}>
             <thead>
               <tr className={classes.min}>

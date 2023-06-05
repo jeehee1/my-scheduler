@@ -1,13 +1,19 @@
 import classes from "./Todos.module.css";
 import { DUMMY_DATA } from "../data/DUMMY_DATA";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Card from "../layout/Card";
 import Title from "../layout/Title";
-import { Todo } from "../types/SchedulerType";
-import EditMessage from "../layout/EditMessage";
+import { typeTodo } from "../types/SchedulerType";
+import { ModeContext } from "../context/mode-context";
 
-const Todos = ({ todos }: { todos: Todo[] }) => {
+const Todos = ({ todos }: { todos: typeTodo[] }) => {
+  const modeCtx = useContext(ModeContext);
+
   const [editTodos, setEditTodos] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (modeCtx.editMode === false) setEditTodos(false);
+  }, [modeCtx.editMode]);
 
   let todoList = [];
   for (let i = 0; i < todos.length; i++) {
@@ -38,11 +44,18 @@ const Todos = ({ todos }: { todos: Todo[] }) => {
   return (
     <>
       <Title>Todos</Title>
-      <Card editting={editTodos}>
-        <div className={classes.todos}>
-          <ul>{todoList}</ul>
-        </div>
-      </Card>
+      <div
+        onClick={() => {
+          modeCtx.editMode && !editTodos && setEditTodos(true);
+        }}
+      >
+        <Card >
+          <div className={classes.todos}>
+            {!editTodos && <ul>{todoList}</ul>}
+            {/* {editTodos && <EditTodos todos={todos} />} */}
+          </div>
+        </Card>
+      </div>
     </>
   );
 };

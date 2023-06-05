@@ -30,23 +30,17 @@ const Scheduler = () => {
     editingDiet: false,
   });
 
-  const updateGoalHandler = (newGoal: string) => {
-    setStoredData({ ...storedData, goal: newGoal });
-  };
-
-  useEffect(() => {}, [modeCtx.editMode]);
-
   return (
     <>
+      {modeCtx.editMode && (
+        <button
+          className={`${classes["edit-btn"]} ${classes.cancel}`}
+          onClick={modeCtx.changeViewMode}
+        >
+          이렇게 저장할래요!
+        </button>
+      )}
       <div className={classes.edit}>
-        {modeCtx.editMode && (
-          <button
-            className={`${classes["edit-btn"]} ${classes.cancel}`}
-            onClick={modeCtx.changeViewMode}
-          >
-            이제 됐어요!
-          </button>
-        )}
         {!modeCtx.editMode && (
           <button
             className={classes["edit-btn"]}
@@ -60,9 +54,9 @@ const Scheduler = () => {
       <div className={classes.content}>
         <div className={classes["column"]}>
           <div className={classes["content-chunck"]}>
-            <Goal goal={storedData.goal} updateGoal={updateGoalHandler} />
+            <Goal goal={storedData.goal} />
           </div>
-          <div className={classes["content-chunck"]}>
+          {/* <div className={classes["content-chunck"]}>
             <Schedules schedules={storedData.schedules} />
           </div>
         </div>
@@ -72,7 +66,7 @@ const Scheduler = () => {
           </div>
           <div className={classes["content-chunck"]}>
             <Diet diet={storedData.diet} />
-          </div>
+          </div> */}
         </div>
       </div>
     </>

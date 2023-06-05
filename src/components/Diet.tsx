@@ -22,7 +22,7 @@ const Diet = ({ diet }: { diet: { [key: string]: string } }) => {
     <>
       <Title>Diet Plan</Title>
       <div onClick={() => setEditDiet(true)}>
-        <Card editting={editDiet}>{showDiet}</Card>
+        <Card >{showDiet}</Card>
       </div>
     </>
   );

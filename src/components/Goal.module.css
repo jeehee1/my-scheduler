@@ -17,6 +17,8 @@
 }
 
 .submit-btn {
+  margin: 0 auto;
+  display: block;
   border: 1px solid #a992f6;
   background-color: #a992f6;
   border-radius: 4px;

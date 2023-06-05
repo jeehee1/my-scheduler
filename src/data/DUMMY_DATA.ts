@@ -36,3 +36,11 @@ export const DUMMY_DATA = {
   },
   goal: "Do your best",
 };
+
+
+// '2020-01-01': {
+//   schedules: [],
+//   todos: [],
+//   diet: {},
+//   goal: string
+// }

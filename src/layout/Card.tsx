@@ -1,17 +1,18 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import classes from "./Card.module.css";
 import { ModeContext } from "../context/mode-context";
 
-const Card = ({ children, editting }: { children: any; editting: boolean }) => {
+const Card = ({ children }: { children: any }) => {
   const modeCtx = useContext(ModeContext);
   const [isActive, setIsActive] = useState(false);
 
+  useEffect(() => {
+    setIsActive(false);
+  }, [modeCtx.editMode]);
+
   return (
     <>
-      {(!modeCtx.editMode || editting) && (
-        <div className={classes.card}>{children}</div>
-      )}
-      {modeCtx.editMode && !editting && (
+      {!modeCtx.editMode && (
         <div
           onMouseOver={() => {
             setIsActive(true);
@@ -26,6 +27,7 @@ const Card = ({ children, editting }: { children: any; editting: boolean }) => {
           {children}
         </div>
       )}
+      {modeCtx.editMode && <div className={classes.card}>{children}</div>}
     </>
   );
 };
