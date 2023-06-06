@@ -58,13 +58,13 @@ const Scheduler = () => {
           </div>
           {/* <div className={classes["content-chunck"]}>
             <Schedules schedules={storedData.schedules} />
-          </div>
+          </div> */}
         </div>
         <div className={classes["column"]}>
           <div className={classes["content-chunck"]}>
-            <Todos todos={storedData.todos} />
+            <Todos/>
           </div>
-          <div className={classes["content-chunck"]}>
+          {/* <div className={classes["content-chunck"]}>
             <Diet diet={storedData.diet} />
           </div> */}
         </div>

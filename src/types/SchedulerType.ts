@@ -5,7 +5,7 @@ export type typeSchedule = {
   schedule: string;
   color: string;
 };
-export type typeTodo = { id: number; todo: string; checked: boolean };
+export type typeTodo = { todo: string; checked: boolean };
 export type typeDiet = {
   breakfast: string;
   lunch: string;

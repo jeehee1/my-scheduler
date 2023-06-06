@@ -21,9 +21,36 @@
 
 .input-todo {
   font: inherit;
-  width: 100%;
-  border: none;
+  width: 80%;
+  border: solid 2px #6d6d6d8e;
   padding: 0.2rem;
+}
+
+.todo-btn {
+  height: 1.6rem;
+  border: 1px solid #2b701d;
+  margin: 0 auto;
+  border-radius: 4px;
+  background-color: #2e701d;
+  font:inherit;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.delete {
+  border: 1px solid #701d1d;
+  background-color: #701d1d;
+
+}
+
+.todo-btn:hover{
+  cursor:pointer;
+  background-color: #215f13;
+}
+
+.delete:hover {
+  border:1px solid #6e0f0f;
+  background-color: #6e0f0f;
 }
 
 .content {
@@ -77,4 +104,25 @@
   top: -12px;
   text-align: center;
   color: #701d1d;
+}
+
+
+.submit-btn {
+  margin: 1rem auto 0;
+  display: block;
+  border: 1px solid #a992f6;
+  background-color: #a992f6;
+  border-radius: 4px;
+  font: inherit;
+  font-weight: bold;
+  color: #323232;
+  padding: 0.2rem 0.4rem;
+  box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.2);
+}
+
+.submit-btn:hover,
+.submit-btn:active {
+  cursor: pointer;
+  border: 1px solid #947de0;
+  background-color: #947de0;
 }

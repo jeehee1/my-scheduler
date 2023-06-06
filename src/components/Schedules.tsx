@@ -2,11 +2,11 @@ import classes from "./Schedules.module.css";
 import ShowTimeSchedule from "./ShowTimeSchedule";
 import Card from "../layout/Card";
 import Title from "../layout/Title";
-import { Schedule } from "../types/SchedulerType";
+import { typeSchedule } from "../types/SchedulerType";
 import EditMessage from "../layout/EditMessage";
 import { useState } from "react";
 
-const Schedules = ({ schedules }: { schedules: Schedule[] }) => {
+const Schedules = ({ schedules }: { schedules: typeSchedule[] }) => {
   const [editSchedules, setEditSchedules] = useState<boolean>(false);
 
   let tableBody = [];
