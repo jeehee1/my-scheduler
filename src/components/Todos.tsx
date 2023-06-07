@@ -46,16 +46,24 @@ const Todos = () => {
             id: Object.keys(data)[0],
             todos: data[Object.keys(data)[0]],
           };
-          console.log(data)
+          console.log(data);
           setLoadedTodos(todosData);
         }
         break;
+      case "CHECK_TODO":
+        console.log(data);
+
+        if (data && !loading && !error) {
+          setLoadedTodos({ id: loadedTodos!.id, todos: extra });
+        }
+        break;
       case "SAVE_TODOS":
-        if(data&&!loading&&!error){
+        if (data && !loading && !error) {
           const todosData = {
-            id: loadedTodos?loadedTodos.id:data,
+            id: loadedTodos ? loadedTodos.id : data,
             todos: extra,
           };
+          setLoadedTodos(todosData);
         }
         break;
       default:
@@ -67,6 +75,25 @@ const Todos = () => {
     if (modeCtx.editMode === false) setEditTodosMode(false);
   }, [modeCtx.editMode]);
 
+  // TODO 체크 기능 - 클릭시마다 데이터 연동
+  const changeClickedHandler = (i: number) => {
+    const checkedTodos = [...loadedTodos!.todos];
+    const splicedTodo = checkedTodos!.splice(i, 1, {
+      todo: loadedTodos!.todos[i].todo,
+      checked: !loadedTodos!.todos[i].checked,
+    });
+    console.log(
+      process.env.REACT_APP_DATABASE_URL + `2026-06-05/todos/${loadedTodos!.id}.json`
+    );
+    sendRequest(
+      process.env.REACT_APP_DATABASE_URL + `/2023-06-05/todos/${loadedTodos!.id}.json`,
+      "PUT",
+      checkedTodos,
+      checkedTodos,
+      "CHECK_TODO"
+    );
+  };
+
   useEffect(() => {
     // todo 리스트 뷰 모드
     if (!editTodosMode) {
@@ -76,20 +103,16 @@ const Todos = () => {
           todoList.push(
             <li key={i}>
               <>
-                {!modeCtx.editMode && (
-                  <>
-                    <input
-                      type="checkbox"
-                      id={`${loadedTodos.todos[i].todo}`}
-                      className={classes.check}
-                      onChange={() => {
-                        console.log("clicked");
-                      }}
-                      checked={loadedTodos.todos[i].checked}
-                    />
-                    <label htmlFor={`${loadedTodos.todos[i].todo}`} />
-                  </>
-                )}
+                <>
+                  <input
+                    type="checkbox"
+                    id={`${loadedTodos.todos[i].todo}`}
+                    className={classes.check}
+                    onChange={() => changeClickedHandler(i)}
+                    checked={loadedTodos.todos[i].checked}
+                  />
+                  <label htmlFor={`${loadedTodos.todos[i].todo}`} />
+                </>
                 <span
                   className={
                     loadedTodos.todos[i].checked
@@ -142,19 +165,28 @@ const Todos = () => {
   };
   console.log(loadedTodos);
 
+  //수정한 todo list 저장
   const saveTodosHandler = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); 
+    event.preventDefault();
     if (loadedTodos) {
       sendRequest(
-        loadedTodos? process.env.REACT_APP_DATABASE_URL+`/2023-06-05/todos/${loadedTodos.id}.json`
-        : process.env.REACT_APP_DATABASE_URL+"https://my-scheduler-9a484-default-rtdb.firebaseio.com/my-scheduler/2023-06-05/todos.json",
-        loadedTodos ? "PUT" : "POST",loadedTodos.todos, loadedTodos.todos, "SAVE_TODOS" );
+        loadedTodos
+          ? process.env.REACT_APP_DATABASE_URL +
+              `/2023-06-05/todos/${loadedTodos.id}.json`
+          : process.env.REACT_APP_DATABASE_URL +
+              "https://my-scheduler-9a484-default-rtdb.firebaseio.com/my-scheduler/2023-06-05/todos.json",
+        loadedTodos ? "PUT" : "POST",
+        loadedTodos.todos,
+        loadedTodos.todos,
+        "SAVE_TODOS"
+      );
     } else {
       alert("저장할 데이터가 없습니다.");
     }
     setEditTodosMode(false);
   };
 
+  // todo 추가하기
   const addTodoHandler = () => {
     if (loadedTodos) {
       setLoadedTodos({
