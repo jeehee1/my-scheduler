@@ -14,36 +14,54 @@ import Title from "../layout/Title";
 import { typeTodo } from "../types/SchedulerType";
 import { ModeContext } from "../context/mode-context";
 import { JSX } from "react/jsx-runtime";
+import useHttp from "../hooks/use-http";
 
 const Todos = () => {
   const modeCtx = useContext(ModeContext);
+  const { sendRequest, data, error, loading, extra, identifier } = useHttp();
   const todoRef = useRef<HTMLInputElement>(null);
   const [loadedTodos, setLoadedTodos] = useState<{
-    key: string;
+    id: string;
     todos: typeTodo[];
   } | null>();
   const [editTodosMode, setEditTodosMode] = useState<boolean>(false);
   const [editTodosList, setEditTodosList] = useState<JSX.Element[]>([]);
   let todoList: JSX.Element[];
 
-  const fetchTodos = useCallback(async () => {
-    const response = await fetch(
-      "https://my-scheduler-9a484-default-rtdb.firebaseio.com/my-scheduler/2023-06-05/todos.json"
+  useEffect(() => {
+    sendRequest(
+      process.env.REACT_APP_DATABASE_URL + "/2023-06-05/todos.json",
+      "GET",
+      null,
+      null,
+      "GET_TODOS"
     );
-    const data = await response.json();
-    if (data) {
-      const todosData = {
-        key: Object.keys(data)[0],
-        todos: data[Object.keys(data)[0]],
-      };
-      console.log("todosData");
-      setLoadedTodos(todosData);
-    }
   }, []);
 
   useEffect(() => {
-    const fetchedTodos = fetchTodos();
-  }, []);
+    switch (identifier) {
+      case "GET_TODOS":
+        if (data && !loading && !error) {
+          const todosData = {
+            id: Object.keys(data)[0],
+            todos: data[Object.keys(data)[0]],
+          };
+          console.log(data)
+          setLoadedTodos(todosData);
+        }
+        break;
+      case "SAVE_TODOS":
+        if(data&&!loading&&!error){
+          const todosData = {
+            id: loadedTodos?loadedTodos.id:data,
+            todos: extra,
+          };
+        }
+        break;
+      default:
+        break;
+    }
+  }, [data, identifier, loading, extra]);
 
   useEffect(() => {
     if (modeCtx.editMode === false) setEditTodosMode(false);
@@ -58,16 +76,20 @@ const Todos = () => {
           todoList.push(
             <li key={i}>
               <>
-                {!modeCtx.editMode&&<><input
-                  type="checkbox"
-                  id={`${loadedTodos.todos[i].todo}`}
-                  className={classes.check}
-                  onChange={() => {
-                    console.log("clicked");
-                  }}
-                  checked={loadedTodos.todos[i].checked}
-                />
-                <label htmlFor={`${loadedTodos.todos[i].todo}`} /></>}
+                {!modeCtx.editMode && (
+                  <>
+                    <input
+                      type="checkbox"
+                      id={`${loadedTodos.todos[i].todo}`}
+                      className={classes.check}
+                      onChange={() => {
+                        console.log("clicked");
+                      }}
+                      checked={loadedTodos.todos[i].checked}
+                    />
+                    <label htmlFor={`${loadedTodos.todos[i].todo}`} />
+                  </>
+                )}
                 <span
                   className={
                     loadedTodos.todos[i].checked
@@ -92,10 +114,10 @@ const Todos = () => {
       if (loadedTodos) {
         for (let i = 0; i < loadedTodos.todos.length; i++) {
           todoList.push(
-            <li key={i} className={classes['edit-list']}>
+            <li key={i} className={classes["edit-list"]}>
               <p>{loadedTodos.todos[i].todo}</p>
               <button
-                className={classes['delete-btn']}
+                className={classes["delete-btn"]}
                 onClick={() => deleteTodoHandler(i)}
               >
                 빼기
@@ -114,27 +136,19 @@ const Todos = () => {
     console.log(deletedTodo);
 
     setLoadedTodos({
-      key: loadedTodos!.key,
+      id: loadedTodos!.id,
       todos: newTodos,
     });
   };
   console.log(loadedTodos);
 
   const saveTodosHandler = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    event.preventDefault(); 
     if (loadedTodos) {
-      const response = await fetch(
-        loadedTodos!.key
-          ? `https://my-scheduler-9a484-default-rtdb.firebaseio.com/my-scheduler/2023-06-05/todos/${loadedTodos.key}.json`
-          : "https://my-scheduler-9a484-default-rtdb.firebaseio.com/my-scheduler/2023-06-05/todos.json",
-        {
-          method: loadedTodos ? "PUT" : "POST",
-          body: JSON.stringify(loadedTodos?.todos || null),
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      const data = await response.json();
-      console.log(data);
+      sendRequest(
+        loadedTodos? process.env.REACT_APP_DATABASE_URL+`/2023-06-05/todos/${loadedTodos.id}.json`
+        : process.env.REACT_APP_DATABASE_URL+"https://my-scheduler-9a484-default-rtdb.firebaseio.com/my-scheduler/2023-06-05/todos.json",
+        loadedTodos ? "PUT" : "POST",loadedTodos.todos, loadedTodos.todos, "SAVE_TODOS" );
     } else {
       alert("저장할 데이터가 없습니다.");
     }
@@ -144,7 +158,7 @@ const Todos = () => {
   const addTodoHandler = () => {
     if (loadedTodos) {
       setLoadedTodos({
-        key: loadedTodos.key,
+        id: loadedTodos.id,
         todos: [
           ...loadedTodos.todos,
           { todo: todoRef.current?.value || "", checked: false },
@@ -164,12 +178,9 @@ const Todos = () => {
         <Card>
           <div className={classes.todos}>
             {editTodosMode && (
-              <div className={classes['new-todo']}>
+              <div className={classes["new-todo"]}>
                 <input type="text" ref={todoRef} />
-                <button
-                  className={classes["plus"]}
-                  onClick={addTodoHandler}
-                >
+                <button className={classes["plus"]} onClick={addTodoHandler}>
                   더하기
                 </button>
               </div>

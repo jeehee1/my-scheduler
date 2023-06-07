@@ -4,6 +4,7 @@ import Title from "../layout/Title";
 import { useContext, useEffect, useRef, useState } from "react";
 import { JSX } from "react/jsx-runtime";
 import { ModeContext } from "../context/mode-context";
+import useHttp from "../hooks/use-http";
 
 const Diet = ({ diet }: { diet: { [key: string]: string } }) => {
   const modeCtx = useContext(ModeContext);
@@ -11,6 +12,8 @@ const Diet = ({ diet }: { diet: { [key: string]: string } }) => {
   const lunchRef = useRef<HTMLInputElement>(null);
   const dinnerRef = useRef<HTMLInputElement>(null);
   const snacksRef = useRef<HTMLInputElement>(null);
+
+  const { sendRequest, loading, error, data, identifier, extra } = useHttp();
 
   const type = ["breakfast", "lunch", "dinner", "snacks"];
   const [dietList, setDietList] = useState<JSX.Element>();
@@ -20,22 +23,50 @@ const Diet = ({ diet }: { diet: { [key: string]: string } }) => {
   }>();
   let showDiet: JSX.Element;
   const [editDietMode, setEditDietMode] = useState<boolean>(false);
-  const fetchDiet = async () => {
-    const response = await fetch(
-      "https://my-scheduler-9a484-default-rtdb.firebaseio.com/my-scheduler/2023-06-05/diet.json"
-    );
-    const data = await response.json();
-    if (data) {
-      setLoadedDiet({
-        id: Object.keys(data)[0],
-        diet: data[Object.keys(data)[0]],
-      });
-    }
-  };
 
   useEffect(() => {
-    fetchDiet();
-  }, []);
+    // fetchDiet();
+    console.log(process.env.REACT_APP_DATABASE_URL + "/2023-06-05/diet.json");
+    sendRequest(
+      process.env.REACT_APP_DATABASE_URL + "/2023-06-05/diet.json",
+      "GET",
+      null,
+      null,
+      "GET_DIET"
+    );
+  }, [sendRequest]);
+
+  useEffect(() => {
+    switch (identifier) {
+      case "GET_DIET":
+        if (!loading && data && !error) {
+          setLoadedDiet({
+            id: Object.keys(data)[0],
+            diet: data[Object.keys(data)[0]],
+          });
+        }
+        break;
+      case "SAVE_DIET":
+        if (!loading && data && !error) {
+          setLoadedDiet({
+            id: loadedDiet ? loadedDiet.id : Object.keys(data)[0],
+            diet: {
+              breakfast: extra.breakfast,
+              lunch: extra.lunch,
+              dinner: extra.dinner,
+              snacks: extra.snacks,
+            },
+          });
+          console.log(loadedDiet);
+          setEditDietMode(false);
+        }
+        break;
+      default:
+        break;
+    }
+
+    console.log(data, loading, error);
+  }, [data, loading, error, identifier]);
 
   useEffect(() => {
     if (!editDietMode) {
@@ -114,7 +145,7 @@ const Diet = ({ diet }: { diet: { [key: string]: string } }) => {
               defaultValue={loadedDiet && loadedDiet.diet.snacks}
             />
           </div>
-          <button className={classes['submit-btn']}>저장!</button>
+          <button className={classes["submit-btn"]}>저장!</button>
         </form>
       );
     }
@@ -124,42 +155,36 @@ const Diet = ({ diet }: { diet: { [key: string]: string } }) => {
 
   const submitDietHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const response = await fetch(
+    await sendRequest(
       loadedDiet
-        ? `https://my-scheduler-9a484-default-rtdb.firebaseio.com/my-scheduler/2023-06-05/diet/${loadedDiet.id}.json`
-        : "https://my-scheduler-9a484-default-rtdb.firebaseio.com/my-scheduler/2023-06-05/diet.json",
+        ? process.env.REACT_APP_DATABASE_URL +
+            `/2023-06-05/diet/${loadedDiet.id}.json`
+        : process.env.REACT_APP_DATABASE_URL + "/2023-06-05/diet.json",
+      loadedDiet ? "PUT" : "POST",
       {
-        method: loadedDiet ? "PUT" : "POST",
-        body: JSON.stringify({
-          breakfast: breakfastRef.current?.value,
-          lunch: lunchRef.current?.value,
-          dinner: dinnerRef.current?.value,
-          snacks: snacksRef.current?.value,
-        }),
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-    const data = await response.json();
-    console.log(data);
-
-    setLoadedDiet({
-      id: loadedDiet ? loadedDiet.id : Object.keys(data)[0],
-      diet: {
-        breakfast: breakfastRef.current?.value || "",
-        lunch: lunchRef.current?.value || "",
-        dinner: dinnerRef.current?.value || "",
-        snacks: snacksRef.current?.value || "",
+        breakfast: breakfastRef.current?.value,
+        lunch: lunchRef.current?.value,
+        dinner: dinnerRef.current?.value,
+        snacks: snacksRef.current?.value,
       },
-    });
-    console.log(loadedDiet);
-    setEditDietMode(false);
+      {
+        breakfast: breakfastRef.current?.value,
+        lunch: lunchRef.current?.value,
+        dinner: dinnerRef.current?.value,
+        snacks: snacksRef.current?.value,
+      },
+      "SAVE_DIET"
+    );
   };
 
   return (
     <>
       <Title>Diet Plan</Title>
       <div onClick={() => modeCtx.editMode && setEditDietMode(true)}>
-        <Card>{dietList}</Card>
+        <Card>
+          {!loading && dietList}
+          {loading && <p>Loading...</p>}
+        </Card>
       </div>
     </>
   );
