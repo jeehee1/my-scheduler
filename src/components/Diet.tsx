@@ -114,7 +114,7 @@ const Diet = ({ diet }: { diet: { [key: string]: string } }) => {
               defaultValue={loadedDiet && loadedDiet.diet.snacks}
             />
           </div>
-          <button>저장!</button>
+          <button className={classes['submit-btn']}>저장!</button>
         </form>
       );
     }
