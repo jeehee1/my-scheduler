@@ -58,7 +58,7 @@ const Todos = () => {
           todoList.push(
             <li key={i}>
               <>
-                <input
+                {!modeCtx.editMode&&<><input
                   type="checkbox"
                   id={`${loadedTodos.todos[i].todo}`}
                   className={classes.check}
@@ -67,7 +67,7 @@ const Todos = () => {
                   }}
                   checked={loadedTodos.todos[i].checked}
                 />
-                <label htmlFor={`${loadedTodos.todos[i].todo}`} />
+                <label htmlFor={`${loadedTodos.todos[i].todo}`} /></>}
                 <span
                   className={
                     loadedTodos.todos[i].checked
@@ -92,10 +92,10 @@ const Todos = () => {
       if (loadedTodos) {
         for (let i = 0; i < loadedTodos.todos.length; i++) {
           todoList.push(
-            <li key={i}>
-              {loadedTodos.todos[i].todo}
+            <li key={i} className={classes['edit-list']}>
+              <p>{loadedTodos.todos[i].todo}</p>
               <button
-                className={`${classes["todo-btn"]} ${classes.delete}`}
+                className={classes['delete-btn']}
                 onClick={() => deleteTodoHandler(i)}
               >
                 빼기
@@ -106,7 +106,7 @@ const Todos = () => {
       }
       setEditTodosList(todoList);
     }
-  }, [editTodosMode, loadedTodos]);
+  }, [editTodosMode, loadedTodos, modeCtx.editMode]);
 
   const deleteTodoHandler = (i: number) => {
     const newTodos = [...loadedTodos!.todos];
@@ -164,10 +164,10 @@ const Todos = () => {
         <Card>
           <div className={classes.todos}>
             {editTodosMode && (
-              <div>
+              <div className={classes['new-todo']}>
                 <input type="text" ref={todoRef} />
                 <button
-                  className={classes["todo-btn"]}
+                  className={classes["plus"]}
                   onClick={addTodoHandler}
                 >
                   더하기

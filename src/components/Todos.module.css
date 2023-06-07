@@ -15,54 +15,52 @@
   display: inline-flex;
   justify-content: start;
   align-items: center;
-  margin: 1rem 0;
+  margin: 0.3rem 0;
 }
 
-
-.input-todo {
-  font: inherit;
-  width: 80%;
-  border: solid 2px #6d6d6d8e;
-  padding: 0.2rem;
-}
-
-.todo-btn {
-  height: 1.6rem;
-  border: 1px solid #2b701d;
+.edit-list {
   margin: 0 auto;
-  border-radius: 4px;
-  background-color: #2e701d;
-  font:inherit;
-  font-size: 0.9rem;
-  color: white;
+  height: 1.4rem;
+  width: 100%;
 }
 
-.delete {
+.edit-list p{
+  width: 90%;
+}
+
+
+.delete-btn {
+  color: white;
+  border-radius: 4px;
+  margin: 0 auto;
   border: 1px solid #701d1d;
   background-color: #701d1d;
-
 }
 
-.todo-btn:hover{
+.delete-btn:hover {
   cursor:pointer;
-  background-color: #215f13;
-}
-
-.delete:hover {
   border:1px solid #6e0f0f;
   background-color: #6e0f0f;
 }
 
 .content {
+  margin: 0 auto;
   padding: 0 0.4rem;
   width: 20rem;
   border-bottom: solid 2px #6d6d6d8e;
 }
 
+.new-todo input {
+  box-sizing: border-box;
+  display: block;
+  padding: 0.2rem 0.5rem;
+  margin: 1rem 0;
+  font:inherit;
+  width: 100%;
+}
+
 .plus {
   margin: 0 auto;
-  width: 1.5rem;
-  height: 1.5rem;
   font-size:1rem;
   border: 3px solid #25390b;
   background-color: #25390b;
@@ -72,7 +70,7 @@
   border-radius: 4px;
 }
 
-.plus {
+.plus:hover {
   cursor:pointer;
 }
 
