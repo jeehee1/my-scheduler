@@ -64,9 +64,9 @@ const Scheduler = () => {
           <div className={classes["content-chunck"]}>
             <Todos/>
           </div>
-          {/* <div className={classes["content-chunck"]}>
+          <div className={classes["content-chunck"]}>
             <Diet diet={storedData.diet} />
-          </div> */}
+          </div>
         </div>
       </div>
     </>
