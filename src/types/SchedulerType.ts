@@ -1,7 +1,7 @@
 export type typeSchedule = {
-  id: number;
-  startTime: number;
-  endTime: number;
+  id: string;
+  startTime: string;
+  endTime: string;
   schedule: string;
   color: string;
 };
@@ -12,7 +12,7 @@ export type typeDiet = {
   dinner: string;
   snacks: string;
 };
-export type typeGoal = {id: string, goal:string};
+export type typeGoal = { id: string; goal: string };
 
 export type typePlan = {
   schedules: typeSchedule[];

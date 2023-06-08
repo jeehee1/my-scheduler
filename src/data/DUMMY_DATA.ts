@@ -2,21 +2,18 @@ export const DUMMY_DATA = {
   date: new Date("2023-05-24"),
   schedules: {
     awegwafwe: {
-      id: 0,
       startTime: 9.4,
       endTime: 12.0,
       schedule: "Study",
       color: "yellow",
     },
     awgwarfwef: {
-      id: 1,
       startTime: 12.0,
       endTime: 12.4,
       schedule: "Lunch",
       color: "blue",
     },
     awefwargafew: {
-      id: 2,
       startTime: 13.0,
       endTime: 15.0,
       schedule: "Study",
