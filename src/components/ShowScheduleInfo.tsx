@@ -16,13 +16,7 @@ const ShowScheduleInfo = ({ info }: { info: typeSchedule | null }) => {
           onMouseLeave={() => setActiveInfo(false)}
         >
           <p className={classes.time}>
-            {`${info.startTime.substring(0, 2)}:${info.startTime.substring(
-              2,
-              4
-            )} ~ ${info.endTime.substring(0, 2)}:${info.endTime.substring(
-              2,
-              4
-            )}`}
+            {`${info.startTime} ~ ${info.endTime}`}
           </p>
           <p className={classes.schedule}>{info.schedule}</p>
         </div>

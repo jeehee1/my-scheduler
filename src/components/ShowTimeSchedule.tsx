@@ -7,16 +7,18 @@ import EditSchedules from "./EditSchedule";
 import { typeSchedule } from "../types/SchedulerType";
 
 const ShowTimeSchedule = ({
-  key,
   timeInfo,
   isEditing,
+  startEditing,
+  selectedTime,
 }: {
-  key: number;
   timeInfo: {
     time: number;
-    schedule: typeSchedule| null;
+    schedule: typeSchedule | null;
   };
   isEditing: boolean;
+  startEditing: (clickedTime: number) => void;
+  selectedTime: number;
 }) => {
   const modeCtx = useContext(ModeContext);
   const [showInfo, setShowInfo] = useState(false);
@@ -24,10 +26,6 @@ const ShowTimeSchedule = ({
     event.preventDefault();
     setShowInfo(true);
   };
-  console.log(timeInfo)
-  const [showEdit, setShowEdit] = useState(false);
-  const updateSchedulesHandler = (i: number) => {};
-  // console.log(timeInfo);
   return (
     <>
       {!isEditing && (
@@ -42,28 +40,22 @@ const ShowTimeSchedule = ({
               : undefined,
           }}
         >
-          {!modeCtx.editMode && showInfo && (
+          {!modeCtx.editMode && !isEditing && showInfo && (
             <ShowScheduleInfo info={timeInfo.schedule} />
           )}
         </td>
       )}
       {isEditing && (
         <td
-          onClick={() => setShowEdit(true)}
-          onMouseOver={showScheduleHandler}
-          onMouseLeave={() => {
-            setShowInfo(false);
+          onClick={() => {
+            startEditing(selectedTime);
           }}
           style={{
             backgroundColor: timeInfo.schedule
               ? timeInfo.schedule.color
               : undefined,
           }}
-        >
-          {/* {modeCtx.editMode && showInfo && (
-          <EditSchedules />
-        )} */}
-        </td>
+        ></td>
       )}
     </>
   );
