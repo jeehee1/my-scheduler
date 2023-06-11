@@ -1,3 +1,4 @@
+import classes from "./EditSchedule.module.css";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { typeSchedule } from "../types/SchedulerType";
 
@@ -179,11 +180,11 @@ const EditSchedules = ({
   };
 
   return (
-    <>
-      <div>
+    <div className={classes["edit-form"]}>
+      {updatingAble.isAble&&<div >
         <button>x</button>
         <form onSubmit={submitNewScheduleHandler}>
-          <div>
+          <div className={classes.time}>
             <label htmlFor="start-time">시작 시간</label>
             <select
               value={startTime.time}
@@ -227,35 +228,37 @@ const EditSchedules = ({
               ))}
             </select>
           </div>
-          <div>
+          <div className={classes.schedule}>
             <label htmlFor="schedule">어떤 일을 하시겠어요?</label>
             <input type="text" id="schedule" ref={scheduleRef} />
           </div>
-          <label htmlFor="color">색상을 선택해주세요.</label>
-          <input
-            id="color"
-            type="color"
-            onChange={(e) => setColor(e.target.value)}
-          />
+          <div className={classes.color}>
+            <label htmlFor="color">색상을 선택해주세요.</label>
+            <input
+              id="color"
+              type="color"
+              onChange={(e) => setColor(e.target.value)}
+            />
+          </div>
           {updatingAble.isAble && <button>저장!</button>}
         </form>
-      </div>
+      </div>}
       {!updatingAble.isAble && (
-        <div>
+        <div className={classes.confirm}>
           <p>
             해당 시간에 이미 스케쥴이 존재합니다.
             <br />
             삭제 후 등록할까요?
           </p>
-          <ul>
+          <ul className={classes["existed-schedules"]}>
             {updatingAble.existedSchedules!.map((schedule) => (
               <li>
-                <p>{`${schedule.startTime} ~ ${schedule.endTime}`}</p>
-                <p>{schedule.schedule}</p>
+                <p className={classes['time-desc']}>{`${schedule.startTime} ~ ${schedule.endTime}`}</p>
+                <p className={classes['schedule-desc']}>{schedule.schedule}</p>
               </li>
             ))}
           </ul>
-          <button
+          <button className="normal-btn"
             onClick={() =>
               setUpdatingAble({ isAble: true, existedSchedules: null })
             }
@@ -263,11 +266,11 @@ const EditSchedules = ({
             다시 생각해볼래요.
           </button>
           <form onSubmit={deleteAndAddSchedule}>
-            <button>괜찮아요 등록해주세요.</button>
+            <button className="normal-btn">괜찮아요 등록해주세요.</button>
           </form>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

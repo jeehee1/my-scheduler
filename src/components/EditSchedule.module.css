@@ -1,0 +1,41 @@
+.edit-form {
+    margin-top: 2rem;
+    padding: 1rem;
+    border: 2px solid #827878;
+    border-radius: 4px;
+}
+
+.edit-form label {
+    display: block;
+    font:inherit;
+    margin-top: 1rem;
+}
+
+.time select {
+    font:inherit;
+    padding: 0 1rem;
+}
+
+.schedule input{
+    width: 80%;
+}
+
+.color {
+    margin-bottom: 2rem;
+}
+
+.existed-schedules {
+    list-style: none;
+    padding: 0;
+}
+.existed-schedules li {
+    margin-bottom: 0.5rem;
+}
+
+.existed-schedules p {
+    margin: 0;
+}
+
+.time-desc {
+    font-weight: bold;
+}

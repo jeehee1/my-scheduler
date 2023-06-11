@@ -169,23 +169,28 @@ const Schedules = () => {
       <Title>Schedules</Title>
       <div onClick={() => modeCtx.editMode && setEditSchedulesMode(true)}>
         <Card>
-          {editSchedulesMode && <p>표를 클릭해서 시간을 선택해주세요.</p>}
-          <table className={classes.table}>
-            <thead>
-              <tr className={classes.min}>
-                <th></th>
-                {showMinute}
-              </tr>
-            </thead>
-            <tbody className={classes["table-body"]}>{tableBody}</tbody>
-          </table>
-          {editSchedulesMode && updatingSchedule?.editing && (
-            <EditSchedules
-              loadedSchedules={loadedSchedules || null}
-              timeNum={updatingSchedule.time}
-              addSchedule={addScheduleHandler}
-              deleteSchedule={deleteScheduleHandler}
-            />
+          {loading && <p>Loading...</p>}
+          {!loading && (
+            <>
+              {editSchedulesMode && <p>표를 클릭해서 시간을 선택해주세요.</p>}
+              <table className={classes.table}>
+                <thead>
+                  <tr className={classes.min}>
+                    <th></th>
+                    {showMinute}
+                  </tr>
+                </thead>
+                <tbody className={classes["table-body"]}>{tableBody}</tbody>
+              </table>
+              {editSchedulesMode && updatingSchedule?.editing && (
+                <EditSchedules
+                  loadedSchedules={loadedSchedules || null}
+                  timeNum={updatingSchedule.time}
+                  addSchedule={addScheduleHandler}
+                  deleteSchedule={deleteScheduleHandler}
+                />
+              )}
+            </>
           )}
         </Card>
       </div>
