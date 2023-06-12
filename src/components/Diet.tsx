@@ -6,7 +6,7 @@ import { JSX } from "react/jsx-runtime";
 import { ModeContext } from "../context/mode-context";
 import useHttp from "../hooks/use-http";
 
-const Diet = ({ diet }: { diet: { [key: string]: string } }) => {
+const Diet = () => {
   const modeCtx = useContext(ModeContext);
   const breakfastRef = useRef<HTMLInputElement>(null);
   const lunchRef = useRef<HTMLInputElement>(null);

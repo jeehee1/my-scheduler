@@ -17,18 +17,6 @@ const defaultEditingState = {
 
 const Scheduler = () => {
   const modeCtx = useContext(ModeContext);
-  const [storedData, setStoredData] = useState(DUMMY_DATA);
-  const [editing, setEditing] = useState<{
-    editingTodos: boolean;
-    editingGoal: boolean;
-    editingSchedules: boolean;
-    editingDiet: boolean;
-  }>({
-    editingTodos: false,
-    editingGoal: false,
-    editingSchedules: false,
-    editingDiet: false,
-  });
 
   return (
     <>
@@ -53,20 +41,20 @@ const Scheduler = () => {
       </div>
       <div className={classes.content}>
         <div className={classes["column"]}>
-          {/* <div className={classes["content-chunck"]}>
-            <Goal goal={storedData.goal} />
-          </div> */}
+          <div className={classes["content-chunck"]}>
+            <Goal />
+          </div>
           <div className={classes["content-chunck"]}>
             <Schedules />
           </div>
         </div>
         <div className={classes["column"]}>
-          {/* <div className={classes["content-chunck"]}>
+          <div className={classes["content-chunck"]}>
             <Todos/>
-          </div> */}
-          {/* <div className={classes["content-chunck"]}>
-            <Diet diet={storedData.diet} />
-          </div> */}
+          </div>
+          <div className={classes["content-chunck"]}>
+            <Diet />
+          </div>
         </div>
       </div>
     </>

@@ -181,68 +181,70 @@ const EditSchedules = ({
 
   return (
     <div className={classes["edit-form"]}>
-      {updatingAble.isAble&&<div >
-        <button>x</button>
-        <form onSubmit={submitNewScheduleHandler}>
-          <div className={classes.time}>
-            <label htmlFor="start-time">시작 시간</label>
-            <select
-              value={startTime.time}
-              onChange={(e) =>
-                setStartTime({ ...startTime, time: e.target.value })
-              }
-            >
-              {timeArray.timeArr.map((time) => (
-                <option value={time}>{time}</option>
-              ))}
-            </select>
-            <select
-              value={startTime.min}
-              onChange={(e) =>
-                setStartTime({ ...startTime, min: e.target.value })
-              }
-            >
-              {timeArray.minArr.map((min) => (
-                <option value={min}>{min}</option>
-              ))}
-            </select>
-            <label htmlFor="start-time">종료 시간</label>
-            <select
-              value={endTime.time}
-              onChange={(e) =>
-                setEndTime({ ...startTime, time: e.target.value })
-              }
-            >
-              {timeArray.timeArr.map((time) => (
-                <option value={time}>{time}</option>
-              ))}
-            </select>
-            <select
-              value={endTime.min}
-              onChange={(e) =>
-                setEndTime({ ...startTime, min: e.target.value })
-              }
-            >
-              {timeArray.minArr.map((min) => (
-                <option value={min}>{min}</option>
-              ))}
-            </select>
-          </div>
-          <div className={classes.schedule}>
-            <label htmlFor="schedule">어떤 일을 하시겠어요?</label>
-            <input type="text" id="schedule" ref={scheduleRef} />
-          </div>
-          <div className={classes.color}>
-            <label htmlFor="color">색상을 선택해주세요.</label>
-            <input
-              id="color"
-              type="color"
-              onChange={(e) => setColor(e.target.value)}
-            />
-          </div>
-          {updatingAble.isAble && <button>저장!</button>}
-        </form>
-      </div>}
+      {updatingAble.isAble && (
+        <div>
+          <button>x</button>
+          <form onSubmit={submitNewScheduleHandler}>
+            <div className={classes.time}>
+              <label htmlFor="start-time">시작 시간</label>
+              <select
+                value={startTime.time}
+                onChange={(e) =>
+                  setStartTime({ ...startTime, time: e.target.value })
+                }
+              >
+                {timeArray.timeArr.map((time) => (
+                  <option value={time}>{time}</option>
+                ))}
+              </select>
+              <select
+                value={startTime.min}
+                onChange={(e) =>
+                  setStartTime({ ...startTime, min: e.target.value })
+                }
+              >
+                {timeArray.minArr.map((min) => (
+                  <option value={min}>{min}</option>
+                ))}
+              </select>
+              <label htmlFor="start-time">종료 시간</label>
+              <select
+                value={endTime.time}
+                onChange={(e) =>
+                  setEndTime({ ...startTime, time: e.target.value })
+                }
+              >
+                {timeArray.timeArr.map((time) => (
+                  <option value={time}>{time}</option>
+                ))}
+              </select>
+              <select
+                value={endTime.min}
+                onChange={(e) =>
+                  setEndTime({ ...startTime, min: e.target.value })
+                }
+              >
+                {timeArray.minArr.map((min) => (
+                  <option value={min}>{min}</option>
+                ))}
+              </select>
+            </div>
+            <div className={classes.schedule}>
+              <label htmlFor="schedule">어떤 일을 하시겠어요?</label>
+              <input type="text" id="schedule" ref={scheduleRef} />
+            </div>
+            <div className={classes.color}>
+              <label htmlFor="color">색상을 선택해주세요.</label>
+              <input
+                id="color"
+                type="color"
+                onChange={(e) => setColor(e.target.value)}
+              />
+            </div>
+            {updatingAble.isAble && <button>저장!</button>}
+          </form>
+        </div>
+      )}
       {!updatingAble.isAble && (
         <div className={classes.confirm}>
           <p>
@@ -253,12 +255,15 @@ const EditSchedules = ({
           <ul className={classes["existed-schedules"]}>
             {updatingAble.existedSchedules!.map((schedule) => (
               <li>
-                <p className={classes['time-desc']}>{`${schedule.startTime} ~ ${schedule.endTime}`}</p>
-                <p className={classes['schedule-desc']}>{schedule.schedule}</p>
+                <p
+                  className={classes["time-desc"]}
+                >{`${schedule.startTime} ~ ${schedule.endTime}`}</p>
+                <p className={classes["schedule-desc"]}>{schedule.schedule}</p>
               </li>
             ))}
           </ul>
-          <button className="normal-btn"
+          <button
+            className="normal-btn"
             onClick={() =>
               setUpdatingAble({ isAble: true, existedSchedules: null })
             }
@@ -275,3 +280,4 @@ const EditSchedules = ({
 };
 
 export default EditSchedules;
+

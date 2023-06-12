@@ -6,7 +6,7 @@ import { ModeContext } from "../context/mode-context";
 import { typeGoal } from "../types/SchedulerType";
 import useHttp from "../hooks/use-http";
 
-const Goal = ({ goal }: { goal: string }) => {
+const Goal = () => {
   const modeCtx = useContext(ModeContext);
   const { sendRequest, identifier, loading, error, data, extra } = useHttp();
   const goalRef = useRef<HTMLTextAreaElement>(null);
