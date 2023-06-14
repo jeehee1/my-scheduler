@@ -40,7 +40,6 @@ const useHttp = () => {
         body: body ? JSON.stringify(body) : null,
         headers: { "Content-Type": "application/json" },
       });
-      console.log("connect to data");
       if (!response.ok) {
         const data = await response.json();
         setHttpState({
@@ -54,7 +53,6 @@ const useHttp = () => {
         return;
       }
       const data = await response.json();
-      console.log("got data");
       setHttpState({
         extra: manipulatedData,
         loading: false,

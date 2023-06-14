@@ -5,9 +5,11 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { JSX } from "react/jsx-runtime";
 import { ModeContext } from "../context/mode-context";
 import useHttp from "../hooks/use-http";
+import { DateContext } from "../context/date-context";
 
 const Diet = () => {
   const modeCtx = useContext(ModeContext);
+  const dateCtx = useContext(DateContext);
   const breakfastRef = useRef<HTMLInputElement>(null);
   const lunchRef = useRef<HTMLInputElement>(null);
   const dinnerRef = useRef<HTMLInputElement>(null);
@@ -15,39 +17,45 @@ const Diet = () => {
 
   const { sendRequest, loading, error, data, identifier, extra } = useHttp();
 
-  const type = ["breakfast", "lunch", "dinner", "snacks"];
   const [dietList, setDietList] = useState<JSX.Element>();
   const [loadedDiet, setLoadedDiet] = useState<{
     id: string;
     diet: { [key: string]: string };
-  }>();
+  } | null>();
   let showDiet: JSX.Element;
   const [editDietMode, setEditDietMode] = useState<boolean>(false);
+  console.log(loadedDiet);
 
   useEffect(() => {
-    // fetchDiet();
-    console.log(process.env.REACT_APP_DATABASE_URL + "/2023-06-05/diet.json");
+    console.log("get");
     sendRequest(
-      process.env.REACT_APP_DATABASE_URL + "/2023-06-05/diet.json",
+      process.env.REACT_APP_DATABASE_URL + `/${dateCtx.selectedDate}/diet.json`,
       "GET",
       null,
       null,
       "GET_DIET"
     );
-  }, [sendRequest]);
+  }, [dateCtx.selectedDate]);
 
   useEffect(() => {
     switch (identifier) {
       case "GET_DIET":
-        if (!loading && data && !error) {
-          setLoadedDiet({
-            id: Object.keys(data)[0],
-            diet: data[Object.keys(data)[0]],
-          });
+        console.log();
+        console.log("data: "+data)
+        if (!loading && !error) {
+          console.log(data);
+          setLoadedDiet(
+            data
+              ? {
+                  id: Object.keys(data)[0],
+                  diet: data[Object.keys(data)[0]],
+                }
+              : null
+          );
         }
         break;
       case "SAVE_DIET":
-        if (!loading && data && !error) {
+        if (!loading && !error) {
           setLoadedDiet({
             id: loadedDiet ? loadedDiet.id : Object.keys(data)[0],
             diet: {
@@ -57,15 +65,12 @@ const Diet = () => {
               snacks: extra.snacks,
             },
           });
-          console.log(loadedDiet);
           setEditDietMode(false);
         }
         break;
       default:
         break;
     }
-
-    console.log(data, loading, error);
   }, [data, loading, error, identifier]);
 
   useEffect(() => {
@@ -109,7 +114,7 @@ const Diet = () => {
               type="text"
               ref={breakfastRef}
               id="breakfast"
-              defaultValue={loadedDiet && loadedDiet.diet.breakfast}
+              defaultValue={loadedDiet ? loadedDiet.diet.breakfast : ""}
             />
           </div>
           <div className={classes.diet}>
@@ -120,7 +125,7 @@ const Diet = () => {
               type="text"
               ref={lunchRef}
               id="lunch"
-              defaultValue={loadedDiet && loadedDiet.diet.lunch}
+              defaultValue={loadedDiet ? loadedDiet.diet.lunch : ""}
             />
           </div>
           <div className={classes.diet}>
@@ -131,7 +136,7 @@ const Diet = () => {
               type="text"
               ref={dinnerRef}
               id="dinner"
-              defaultValue={loadedDiet && loadedDiet.diet.dinner}
+              defaultValue={loadedDiet ? loadedDiet.diet.dinner : ""}
             />
           </div>
           <div className={classes.diet}>
@@ -142,7 +147,7 @@ const Diet = () => {
               type="text"
               ref={snacksRef}
               id="snacks"
-              defaultValue={loadedDiet && loadedDiet.diet.snacks}
+              defaultValue={loadedDiet ? loadedDiet.diet.snacks : ""}
             />
           </div>
           <button className={classes["submit-btn"]}>저장!</button>
@@ -153,13 +158,14 @@ const Diet = () => {
     setDietList(showDiet);
   }, [loadedDiet, editDietMode]);
 
-  const submitDietHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+  const submitDietHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     await sendRequest(
       loadedDiet
         ? process.env.REACT_APP_DATABASE_URL +
-            `/2023-06-05/diet/${loadedDiet.id}.json`
-        : process.env.REACT_APP_DATABASE_URL + "/2023-06-05/diet.json",
+            `/${dateCtx.selectedDate}/diet/${loadedDiet.id}.json`
+        : process.env.REACT_APP_DATABASE_URL +
+            `/${dateCtx.selectedDate}/diet.json`,
       loadedDiet ? "PUT" : "POST",
       {
         breakfast: breakfastRef.current?.value,
