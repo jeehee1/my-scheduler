@@ -3,9 +3,8 @@ import Diet from "../components/Diet";
 import Goal from "../components/Goal";
 import Schedules from "../components/Schedules";
 import Todos from "../components/Todos";
-import { useContext, useEffect, useReducer, useState } from "react";
+import { useContext } from "react";
 import { ModeContext } from "../context/mode-context";
-import { DUMMY_DATA } from "../data/DUMMY_DATA";
 import EditMessage from "../layout/EditMessage";
 
 const defaultEditingState = {

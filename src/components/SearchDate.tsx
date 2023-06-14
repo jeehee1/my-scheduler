@@ -1,8 +1,9 @@
 import classes from "./SearchDate.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
-import { useState } from "react";
-import { getMonth, getYear } from "date-fns";
+import { useContext, useState } from "react";
+import { format, getMonth, getYear } from "date-fns";
+import { DateContext } from "../context/date-context";
 
 const YEARS = Array.from({ length: 30 }, (v, i) => getYear(new Date()) - 3 + i);
 
@@ -23,10 +24,16 @@ const MONTHS = [
 
 const SearchDate = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  console.log(selectedDate)
+
+  const dateCtx = useContext(DateContext);
+
+  const searchDateHandler = (event: React.FormEvent) => {
+    event.preventDefault();
+    dateCtx.changeDate(format(selectedDate, "yyyy-MM-dd"));
+  };
 
   return (
-    <form>
+    <form onSubmit={searchDateHandler}>
       <div className={classes["search-date"]}>
         <DatePicker
           className={classes["date-picker"]}
