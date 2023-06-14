@@ -5,32 +5,34 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { ModeContext } from "../context/mode-context";
 import { typeGoal } from "../types/SchedulerType";
 import useHttp from "../hooks/use-http";
+import { DateContext } from "../context/date-context";
 
 const Goal = () => {
   const modeCtx = useContext(ModeContext);
+  const dateCtx = useContext(DateContext);
   const { sendRequest, identifier, loading, error, data, extra } = useHttp();
   const goalRef = useRef<HTMLTextAreaElement>(null);
-  const [loadedGoal, setLoadedGoal] = useState<typeGoal>();
+  const [loadedGoal, setLoadedGoal] = useState<typeGoal|null>();
   const [editGoalMode, setEditGoalMode] = useState<boolean>(false);
 
   useEffect(() => {
     sendRequest(
-      process.env.REACT_APP_DATABASE_URL + "/2023-06-05/goal.json",
+      process.env.REACT_APP_DATABASE_URL + `/${dateCtx.selectedDate}/goal.json`,
       "GET",
       null,
       null,
       "GET_GOAL"
     );
-  }, [sendRequest]);
+  }, [sendRequest, dateCtx.selectedDate]);
 
   useEffect(() => {
     switch (identifier) {
       case "GET_GOAL":
-        if (data && !loading && !error) {
-          setLoadedGoal({
+        if (!loading && !error) {
+          setLoadedGoal(data?{
             id: Object.keys(data)[0],
             goal: data[Object.keys(data)[0]],
-          });
+          }:null);
         }
         break;
       case "SAVE_GOAL":
@@ -54,15 +56,13 @@ const Goal = () => {
       sendRequest(
         loadedGoal
           ? process.env.REACT_APP_DATABASE_URL +
-              `/2023-06-05/goal/${loadedGoal.id}.json`
-          : process.env.REACT_APP_DATABASE_URL + "/2023-06-05/goal.json",
+              `/${dateCtx.selectedDate}/goal/${loadedGoal.id}.json`
+          : process.env.REACT_APP_DATABASE_URL + `/${dateCtx.selectedDate}/goal.json`,
         loadedGoal ? "PUT" : "POST",
         newGoal,
         newGoal,
         "SAVE_GOAL"
       );
-    } else {
-      alert("목표를 입력해주세요.");
     }
   };
 

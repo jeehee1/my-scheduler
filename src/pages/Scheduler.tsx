@@ -40,9 +40,9 @@ const Scheduler = () => {
       </div>
       <div className={classes.content}>
         <div className={classes["column"]}>
-          {/* <div className={classes["content-chunck"]}>
+          <div className={classes["content-chunck"]}>
             <Goal />
-          </div> */}
+          </div>
           {/* <div className={classes["content-chunck"]}>
             <Schedules />
           </div> */}
@@ -51,9 +51,9 @@ const Scheduler = () => {
           {/* <div className={classes["content-chunck"]}>
             <Todos/>
           </div> */}
-          <div className={classes["content-chunck"]}>
+          {/* <div className={classes["content-chunck"]}>
             <Diet />
-          </div>
+          </div> */}
         </div>
       </div>
     </>
