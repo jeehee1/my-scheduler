@@ -19,7 +19,7 @@ const Schedules = () => {
   let showMinute = [];
 
   // 로드된 스케쥴 저장
-  const [loadedSchedules, setLoadedSchedules] = useState<typeSchedule[]>();
+  const [loadedSchedules, setLoadedSchedules] = useState<typeSchedule[]|null>();
 
   // 스케쥴 업데이트 정보 - 수정중, 등록할 스케쥴과 겹치는 스케쥴, 클릭한 시간, 등록 가능여부
   const [updatingSchedule, setUpdatingSchedule] = useState<{
@@ -52,12 +52,16 @@ const Schedules = () => {
     switch (identifier) {
       case "GET_SCHEDULES":
         console.log("GET SCHEDULES");
-        if (!loading && data && !error) {
-          let schedulesArray = [];
-          for (const key in data) {
-            schedulesArray.push({ id: key, ...data[key] });
+        if (!loading && !error) {
+          if (data) {
+            let schedulesArray = [];
+            for (const key in data) {
+              schedulesArray.push({ id: key, ...data[key] });
+            }
+            setLoadedSchedules(schedulesArray);
+          } else {
+            setLoadedSchedules(null);
           }
-          setLoadedSchedules(schedulesArray);
         }
         break;
       case "ADD_SCHEDULE":
