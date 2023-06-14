@@ -57,22 +57,17 @@ const EditSchedules = ({
     min: "",
   });
   const [color, setColor] = useState<string>("");
-  const scheduleRef = useRef<HTMLInputElement>(null);
+  const [scheduleInput, setScheduleInput] = useState<string>("");
+
   const [updatingAble, setUpdatingAble] = useState<{
     existedSchedules: typeSchedule[] | null;
     isAble: boolean;
   }>({ existedSchedules: null, isAble: true });
-  console.log(startTime);
-  console.log(endTime);
-  console.log(color);
-  console.log(scheduleRef.current?.value);
 
   // form submit할 때 데이터 정리하여 상위 컴포넌트의 스케쥴 업데이트 함수 실행
-  const submitNewScheduleHandler = (
-    event: React.FormEvent<HTMLFormElement>
-  ) => {
+  const submitNewScheduleHandler = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("clicked!");
+    console.log("submit!");
 
     const startTimeNum =
       parseInt(startTime.time) * 100 +
@@ -83,15 +78,6 @@ const EditSchedules = ({
       parseInt(endTime.time) * 100 +
       parseInt(endTime.min.length === 1 ? endTime.min + "0" : endTime.min);
     let duplicatedSchedules = [];
-
-    console.log(startTimeNum);
-    console.log(endTimeNum);
-    console.log(
-      parseInt(
-        loadedSchedules![0].startTime.slice(0, 2) +
-          loadedSchedules![0].startTime.slice(3, 5)
-      )
-    );
 
     // 시간이 중첩되는 경우
     if (loadedSchedules) {
@@ -128,8 +114,6 @@ const EditSchedules = ({
         i++;
       }
     }
-    console.log(duplicatedSchedules);
-    console.log(updatingAble.isAble);
     // 시간이 중첩되면 삭제메시지 표시
     if (duplicatedSchedules.length) {
       setUpdatingAble({ isAble: false, existedSchedules: duplicatedSchedules });
@@ -149,7 +133,7 @@ const EditSchedules = ({
         startTime: newStartTime,
         endTime: newEndTime,
         color: color,
-        schedule: scheduleRef.current!.value,
+        schedule: scheduleInput,
       });
     }
   };
@@ -175,7 +159,7 @@ const EditSchedules = ({
       startTime: newStartTime,
       endTime: newEndTime,
       color: color,
-      schedule: scheduleRef.current!.value,
+      schedule: scheduleInput,
     });
   };
 
@@ -231,7 +215,11 @@ const EditSchedules = ({
             </div>
             <div className={classes.schedule}>
               <label htmlFor="schedule">어떤 일을 하시겠어요?</label>
-              <input type="text" id="schedule" ref={scheduleRef} />
+              <input
+                type="text"
+                id="schedule"
+                onChange={(event) => setScheduleInput(event.target.value)}
+              />
             </div>
             <div className={classes.color}>
               <label htmlFor="color">색상을 선택해주세요.</label>
@@ -280,4 +268,3 @@ const EditSchedules = ({
 };
 
 export default EditSchedules;
-

@@ -7,15 +7,16 @@ import { ModeContext } from "../context/mode-context";
 import { typeSchedule } from "../types/SchedulerType";
 import useHttp from "../hooks/use-http";
 import EditSchedules from "./EditSchedule";
+import { DateContext } from "../context/date-context";
 
 const Schedules = () => {
   const modeCtx = useContext(ModeContext);
+  const dateCtx = useContext(DateContext);
   const [editSchedulesMode, setEditSchedulesMode] = useState<boolean>(false);
   const { sendRequest, error, loading, data, extra, identifier } = useHttp();
   let tableBody = [];
   const minArray = [0, 10, 20, 30, 40, 50];
   let showMinute = [];
-  console.log(modeCtx.editMode);
 
   // 로드된 스케쥴 저장
   const [loadedSchedules, setLoadedSchedules] = useState<typeSchedule[]>();
@@ -37,13 +38,14 @@ const Schedules = () => {
   // 페이지 로드 시 저장된 스케쥴 불러오기
   useEffect(() => {
     sendRequest(
-      process.env.REACT_APP_DATABASE_URL + "/2023-06-05/schedules.json",
+      process.env.REACT_APP_DATABASE_URL +
+        `/${dateCtx.selectedDate}/schedules.json`,
       "GET",
       null,
       null,
       "GET_SCHEDULES"
     );
-  }, []);
+  }, [dateCtx.selectedDate]);
 
   // 케이스에 따른 loadedSchedule 변화 저장
   useEffect(() => {
@@ -72,7 +74,8 @@ const Schedules = () => {
       case "DELETE_SCHEDULE":
         console.log("DELETE_SCHEDULE");
         console.log(data, extra);
-        if (!loading && data && !error) {
+        if (!loading && !error) {
+          console.log(loadedSchedules);
           setLoadedSchedules((loadedSchedules) =>
             loadedSchedules?.filter((schedule) => schedule.id !== extra)
           );
@@ -82,6 +85,7 @@ const Schedules = () => {
         break;
     }
   }, [data, identifier, error, loading, extra]);
+  console.log(loadedSchedules);
 
   // 스케쥴 업데이트
   const addScheduleHandler = (newSchedule: {
@@ -90,8 +94,10 @@ const Schedules = () => {
     color: string;
     schedule: string;
   }) => {
+    console.log("AddSchedule");
     sendRequest(
-      process.env.REACT_APP_DATABASE_URL + "/2023-06-05/schedules.json",
+      process.env.REACT_APP_DATABASE_URL +
+        `/${dateCtx.selectedDate}/schedules.json`,
       "POST",
       newSchedule,
       newSchedule,
@@ -106,7 +112,7 @@ const Schedules = () => {
       for (let i = 0; i < deletingSchedules.length; i++) {
         sendRequest(
           process.env.REACT_APP_DATABASE_URL +
-            `/2023-06-05/schedules/${deletingSchedules[i]}.json`,
+            `/${dateCtx.selectedDate}/schedules/${deletingSchedules[i]}.json`,
           "DELETE",
           null,
           deletingSchedules[i],
@@ -115,6 +121,27 @@ const Schedules = () => {
       }
     }
   };
+
+  // const delAddScheduleHandler = (
+  //   deleteIds: string[],
+  //   newSchedule: {
+  //     startTime: string;
+  //     endTime: string;
+  //     color: string;
+  //     schedule: string;
+  //   }
+  // ) => {
+  //   for (let i = 0; i < deleteIds.length; i++) {
+  //     sendRequest(
+  //       process.env.REACT_APP_DATABASE_URL +
+  //         `/${dateCtx.selectedDate}/schedules/${deleteIds[i]}.json`,
+  //       "DELETE",
+  //       null,
+  //       deleteIds[i],
+  //       "DELETEANDUPDATE"
+  //     );
+  //   }
+  // };
 
   // 스케쥴 수정 시작 - 마우스 클릭 시간 셋팅
   const startEditingHandler = (clickedTime: number) =>
@@ -141,20 +168,21 @@ const Schedules = () => {
             selectedTime={time * 100 + min}
             timeInfo={{
               time: time * 100 + min,
-              schedule:
-                loadedSchedules?.find(
-                  (schedule) =>
-                    parseInt(
-                      schedule.startTime.slice(0, 2) +
-                        schedule.startTime.slice(3, 5)
-                    ) <=
-                      time * 100 + min &&
-                    parseInt(
-                      schedule.endTime.slice(0, 2) +
-                        schedule.endTime.slice(3, 5)
-                    ) >
-                      time * 100 + min
-                ) || null,
+              schedule: loadedSchedules
+                ? loadedSchedules.find(
+                    (schedule) =>
+                      parseInt(
+                        schedule.startTime.slice(0, 2) +
+                          schedule.startTime.slice(3, 5)
+                      ) <=
+                        time * 100 + min &&
+                      parseInt(
+                        schedule.endTime.slice(0, 2) +
+                          schedule.endTime.slice(3, 5)
+                      ) >
+                        time * 100 + min
+                  ) || null
+                : null,
             }}
             isEditing={editSchedulesMode}
             startEditing={startEditingHandler}

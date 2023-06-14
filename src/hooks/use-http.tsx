@@ -1,21 +1,5 @@
 import { useCallback, useReducer, useState } from "react";
 
-// const httpReducer = (
-//   state: { loading: boolean; error: string; data: any },
-//   action: { type: string; responseData: any; errorMessage: string }
-// ) => {
-//   switch (action.type) {
-//     case "SEND":
-//       return { loading: true, error: null, data: null };
-//     case "RESPONSE":
-//       return { ...state, loading: false, data: action.responseData };
-//     case "ERROR":
-//       return { ...state, loading: false, error: action.errorMessage };
-//     default:
-//       throw new Error("Error occured - http connection error");
-//   }
-// };
-
 const useHttp = () => {
   const [httpState, setHttpState] = useState<{
     loading: boolean;
