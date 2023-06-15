@@ -121,6 +121,7 @@ const Diet = () => {
               ref={breakfastRef}
               id="breakfast"
               defaultValue={loadedDiet ? loadedDiet.diet.breakfast : ""}
+              required
             />
           </div>
           <div className={classes.diet}>
@@ -132,6 +133,7 @@ const Diet = () => {
               ref={lunchRef}
               id="lunch"
               defaultValue={loadedDiet ? loadedDiet.diet.lunch : ""}
+              required
             />
           </div>
           <div className={classes.diet}>
@@ -143,6 +145,7 @@ const Diet = () => {
               ref={dinnerRef}
               id="dinner"
               defaultValue={loadedDiet ? loadedDiet.diet.dinner : ""}
+              required
             />
           </div>
           <div className={classes.diet}>
@@ -154,17 +157,9 @@ const Diet = () => {
               ref={snacksRef}
               id="snacks"
               defaultValue={loadedDiet ? loadedDiet.diet.snacks : ""}
+              required
             />
           </div>
-          <button
-            type="button"
-            className="normal-btn cancel-btn"
-            onClick={() => {
-              setEditDietMode(false);
-            }}
-          >
-            돌아가기
-          </button>
           <button className="normal-btn">저장!</button>
         </form>
       );
@@ -207,6 +202,17 @@ const Diet = () => {
           {loading && <p>Loading...</p>}
         </Card>
       </div>
+      {editDietMode && (
+        <button
+          type="button"
+          className="normal-btn cancel-btn"
+          onClick={() => {
+            setEditDietMode(false);
+          }}
+        >
+          돌아가기
+        </button>
+      )}
     </>
   );
 };
