@@ -95,15 +95,18 @@ const Todos = () => {
           todoList.push(
             <li key={i}>
               <>
-                {!modeCtx.editMode &&<><input
-                  type="checkbox"
-                  id={`${loadedTodos.todos[i].todo}`}
-                  className={classes.check}
-                  onChange={() => changeClickedHandler(i)}
-                  checked={loadedTodos.todos[i].checked}
-                />
-                <label htmlFor={`${loadedTodos.todos[i].todo}`} />
-                </>}
+                {!modeCtx.editMode && (
+                  <>
+                    <input
+                      type="checkbox"
+                      id={`${loadedTodos.todos[i].todo}`}
+                      className={classes.check}
+                      onChange={() => changeClickedHandler(i)}
+                      checked={loadedTodos.todos[i].checked}
+                    />
+                    <label htmlFor={`${loadedTodos.todos[i].todo}`} />
+                  </>
+                )}
                 <span
                   className={
                     loadedTodos.todos[i].checked
@@ -178,6 +181,10 @@ const Todos = () => {
 
   // todo 추가하기
   const addTodoHandler = () => {
+    if (!todoRef.current?.value) {
+      alert("todo를 입력해주세요.");
+      return;
+    }
     if (loadedTodos) {
       setLoadedTodos({
         id: loadedTodos.id,
@@ -206,24 +213,29 @@ const Todos = () => {
           <div className={classes.todos}>
             {editTodosMode && (
               <div className={classes["new-todo"]}>
-                <input type="text" ref={todoRef} />
+                <input type="text" ref={todoRef} required />
                 <button className={classes["plus"]} onClick={addTodoHandler}>
-                  더하기
+                  +
                 </button>
               </div>
             )}
             <ul>{todosList}</ul>
-
             {editTodosMode && (
-              <div>
-                <form onSubmit={saveTodosHandler}>
-                  <button className={classes["submit-btn"]}>저장!</button>
-                </form>
-              </div>
+              <form onSubmit={saveTodosHandler}>
+                <button className={classes["submit-btn"]}>저장!</button>
+              </form>
             )}
           </div>
         </Card>
       </div>
+      {editTodosMode && (
+        <button
+          className="normal-btn cancel-btn"
+          onClick={() => setEditTodosMode(false)}
+        >
+          돌아가기
+        </button>
+      )}
     </>
   );
 };

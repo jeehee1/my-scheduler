@@ -25,7 +25,8 @@
 }
 
 .edit-list p{
-  width: 90%;
+  width: 80%;
+  border-bottom: 3px solid #929290;
 }
 
 
@@ -60,7 +61,7 @@
 }
 
 .plus {
-  margin: 0 auto;
+  margin: 0 auto 2rem;
   font-size:1rem;
   border: 3px solid #25390b;
   background-color: #25390b;
