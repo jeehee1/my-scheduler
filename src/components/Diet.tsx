@@ -150,7 +150,8 @@ const Diet = () => {
               defaultValue={loadedDiet ? loadedDiet.diet.snacks : ""}
             />
           </div>
-          <button className={classes["submit-btn"]}>저장!</button>
+          <button className="normal-btn cancel-btn" onClick={() => setEditDietMode(false)}>돌아가기</button>
+          <button className="normal-btn">저장!</button>
         </form>
       );
     }
