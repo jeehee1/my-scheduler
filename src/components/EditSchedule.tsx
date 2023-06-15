@@ -81,6 +81,18 @@ const EditSchedules = ({
       parseInt(endTime.min.length === 1 ? endTime.min + "0" : endTime.min);
     let duplicatedSchedules = [];
 
+    // 시작시간이 종료시간보다 클 경우
+    if(startTimeNum>=endTimeNum){
+      alert("시작시간이 종료시간보다 작아야합니다.");
+      return;
+    }
+
+    // 색상 입력이 안된경우
+    if(!color){
+      alert("색상을 선택해주세요.")
+      return;
+    }
+
     // 시간이 중첩되는 경우
     if (loadedSchedules) {
       let i = 0;
@@ -165,6 +177,8 @@ const EditSchedules = ({
     });
   };
 
+  console.log(startTime.time+startTime.min)
+  console.log(endTime.time+endTime.min)
   return (
     <div className={classes["edit-form"]}>
       {updatingAble.isAble && (
@@ -197,7 +211,7 @@ const EditSchedules = ({
               <select
                 value={endTime.time}
                 onChange={(e) =>
-                  setEndTime({ ...startTime, time: e.target.value })
+                  setEndTime({ ...endTime, time: e.target.value })
                 }
               >
                 {timeArray.timeArr.map((time) => (
@@ -207,7 +221,7 @@ const EditSchedules = ({
               <select
                 value={endTime.min}
                 onChange={(e) =>
-                  setEndTime({ ...startTime, min: e.target.value })
+                  setEndTime({ ...endTime, min: e.target.value })
                 }
               >
                 {timeArray.minArr.map((min) => (
@@ -221,6 +235,7 @@ const EditSchedules = ({
                 type="text"
                 id="schedule"
                 onChange={(event) => setScheduleInput(event.target.value)}
+                required
               />
             </div>
             <div className={classes.color}>
