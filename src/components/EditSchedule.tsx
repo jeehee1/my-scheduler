@@ -7,6 +7,7 @@ const EditSchedules = ({
   timeNum,
   addSchedule,
   deleteSchedule,
+  cancelEdit,
 }: {
   loadedSchedules: typeSchedule[] | null;
   timeNum: number;
@@ -17,6 +18,7 @@ const EditSchedules = ({
     schedule: string;
   }) => void;
   deleteSchedule: (scheduleIds: string[]) => void;
+  cancelEdit: () => void;
 }) => {
   // 시간 선택 input을 위한 배열 생성
   const [timeArray, setTimeArray] = useState<{
@@ -167,7 +169,7 @@ const EditSchedules = ({
     <div className={classes["edit-form"]}>
       {updatingAble.isAble && (
         <div>
-          <button>x</button>
+          <button onClick={cancelEdit}>x</button>
           <form onSubmit={submitNewScheduleHandler}>
             <div className={classes.time}>
               <label htmlFor="start-time">시작 시간</label>

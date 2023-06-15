@@ -19,7 +19,9 @@ const Schedules = () => {
   let showMinute = [];
 
   // 로드된 스케쥴 저장
-  const [loadedSchedules, setLoadedSchedules] = useState<typeSchedule[]|null>();
+  const [loadedSchedules, setLoadedSchedules] = useState<
+    typeSchedule[] | null
+  >();
 
   // 스케쥴 업데이트 정보 - 수정중, 등록할 스케쥴과 겹치는 스케쥴, 클릭한 시간, 등록 가능여부
   const [updatingSchedule, setUpdatingSchedule] = useState<{
@@ -126,27 +128,6 @@ const Schedules = () => {
     }
   };
 
-  // const delAddScheduleHandler = (
-  //   deleteIds: string[],
-  //   newSchedule: {
-  //     startTime: string;
-  //     endTime: string;
-  //     color: string;
-  //     schedule: string;
-  //   }
-  // ) => {
-  //   for (let i = 0; i < deleteIds.length; i++) {
-  //     sendRequest(
-  //       process.env.REACT_APP_DATABASE_URL +
-  //         `/${dateCtx.selectedDate}/schedules/${deleteIds[i]}.json`,
-  //       "DELETE",
-  //       null,
-  //       deleteIds[i],
-  //       "DELETEANDUPDATE"
-  //     );
-  //   }
-  // };
-
   // 스케쥴 수정 시작 - 마우스 클릭 시간 셋팅
   const startEditingHandler = (clickedTime: number) =>
     setUpdatingSchedule({
@@ -169,6 +150,7 @@ const Schedules = () => {
         </th>
         {minArray.map((min) => (
           <ShowTimeSchedule
+            key={time * 100 + min}
             selectedTime={time * 100 + min}
             timeInfo={{
               time: time * 100 + min,
@@ -220,6 +202,10 @@ const Schedules = () => {
                   timeNum={updatingSchedule.time}
                   addSchedule={addScheduleHandler}
                   deleteSchedule={deleteScheduleHandler}
+                  cancelEdit={() => {
+                    setEditSchedulesMode(false);
+                    setUpdatingSchedule({ editing: false, time: 0 });
+                  }}
                 />
               )}
             </>

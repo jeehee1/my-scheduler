@@ -119,7 +119,7 @@ const Todos = () => {
         }
         setTodosList(todoList);
       } else {
-        todoList.push(<li>아직 등록된 Todo가 없어요.</li>);
+        todoList.push(<p>아직 등록된 Todo가 없습니다.</p>);
       }
     } else if (editTodosMode) {
       // todo리스트 에딧 모드
