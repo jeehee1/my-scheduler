@@ -27,6 +27,12 @@ const Diet = () => {
   console.log(loadedDiet);
 
   useEffect(() => {
+    if (!modeCtx.editMode) {
+      setEditDietMode(false);
+    }
+  }, [modeCtx.editMode]);
+
+  useEffect(() => {
     console.log("get");
     sendRequest(
       process.env.REACT_APP_DATABASE_URL + `/${dateCtx.selectedDate}/diet.json`,
@@ -41,7 +47,7 @@ const Diet = () => {
     switch (identifier) {
       case "GET_DIET":
         console.log();
-        console.log("data: "+data)
+        console.log("data: " + data);
         if (!loading && !error) {
           console.log(data);
           setLoadedDiet(
@@ -150,7 +156,15 @@ const Diet = () => {
               defaultValue={loadedDiet ? loadedDiet.diet.snacks : ""}
             />
           </div>
-          <button className="normal-btn cancel-btn" onClick={() => setEditDietMode(false)}>돌아가기</button>
+          <button
+            type="button"
+            className="normal-btn cancel-btn"
+            onClick={() => {
+              setEditDietMode(false);
+            }}
+          >
+            돌아가기
+          </button>
           <button className="normal-btn">저장!</button>
         </form>
       );

@@ -6,15 +6,14 @@ import { ModeContext } from "../context/mode-context";
 import { typeGoal } from "../types/SchedulerType";
 import useHttp from "../hooks/use-http";
 import { DateContext } from "../context/date-context";
+import EditGoal from "./EditGoal";
 
 const Goal = () => {
   const modeCtx = useContext(ModeContext);
   const dateCtx = useContext(DateContext);
   const { sendRequest, identifier, loading, error, data, extra } = useHttp();
-  const goalRef = useRef<HTMLTextAreaElement>(null);
   const [loadedGoal, setLoadedGoal] = useState<typeGoal | null>();
   const [editGoalMode, setEditGoalMode] = useState<boolean>(false);
-  console.log(editGoalMode);
 
   useEffect(() => {
     if (!modeCtx.editMode) {
@@ -59,52 +58,36 @@ const Goal = () => {
         break;
     }
   }, [loading, identifier, data, extra, error]);
-  console.log(loadedGoal);
 
-  const updateGoalHandler = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const updateGoalHandler = (newGoal: string) => {
     console.log("edit goal");
-    const newGoal = goalRef.current?.value;
-    if (newGoal) {
-      sendRequest(
-        loadedGoal
-          ? process.env.REACT_APP_DATABASE_URL +
-              `/${dateCtx.selectedDate}/goal/${loadedGoal.id}.json`
-          : process.env.REACT_APP_DATABASE_URL +
-              `/${dateCtx.selectedDate}/goal.json`,
-        loadedGoal ? "PUT" : "POST",
-        newGoal,
-        newGoal,
-        "SAVE_GOAL"
-      );
-    }
+    sendRequest(
+      loadedGoal
+        ? process.env.REACT_APP_DATABASE_URL +
+            `/${dateCtx.selectedDate}/goal/${loadedGoal.id}.json`
+        : process.env.REACT_APP_DATABASE_URL +
+            `/${dateCtx.selectedDate}/goal.json`,
+      loadedGoal ? "PUT" : "POST",
+      newGoal,
+      newGoal,
+      "SAVE_GOAL"
+    );
   };
 
   return (
     <>
       <Title>Goal</Title>
+
       <div onClick={() => modeCtx.editMode && setEditGoalMode(true)}>
         <Card>
           {!loading && (
             <div className={classes.goal}>
               <span>Today's Goal</span>
               {editGoalMode && (
-                <form onSubmit={updateGoalHandler}>
-                  <textarea
-                    id="goal"
-                    defaultValue={loadedGoal?.goal}
-                    ref={goalRef}
-                  />
-                  <button
-                    className={`normal-btn cancel-btn`}
-                    onClick={() => setEditGoalMode(false)}
-                  >
-                    돌아가기
-                  </button>
-                  <button type="submit" className="normal-btn">
-                    저장!
-                  </button>
-                </form>
+                <EditGoal
+                  goal={loadedGoal?.goal || null}
+                  updateGoal={updateGoalHandler}
+                />
               )}
               {!editGoalMode && (
                 <p>
@@ -118,6 +101,14 @@ const Goal = () => {
           {loading && <p>Loading...</p>}
         </Card>
       </div>
+      {editGoalMode && (
+        <button
+          className="normal-btn cancel-btn"
+          onClick={() => setEditGoalMode(false)}
+        >
+          돌아가기
+        </button>
+      )}
     </>
   );
 };

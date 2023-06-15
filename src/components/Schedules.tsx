@@ -203,7 +203,6 @@ const Schedules = () => {
                   addSchedule={addScheduleHandler}
                   deleteSchedule={deleteScheduleHandler}
                   cancelEdit={() => {
-                    setEditSchedulesMode(false);
                     setUpdatingSchedule({ editing: false, time: 0 });
                   }}
                 />
