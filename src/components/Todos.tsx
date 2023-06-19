@@ -209,7 +209,7 @@ const Todos = () => {
           modeCtx.editMode && setEditTodosMode(true);
         }}
       >
-        <Card>
+        <Card editting={editTodosMode}>
           <div className={classes.todos}>
             {editTodosMode && (
               <div className={classes["new-todo"]}>

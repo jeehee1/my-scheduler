@@ -182,7 +182,7 @@ const Schedules = () => {
     <>
       <Title>Schedules</Title>
       <div onClick={() => modeCtx.editMode && setEditSchedulesMode(true)}>
-        <Card>
+        <Card editting={editSchedulesMode}>
           {loading && <p>Loading...</p>}
           {!loading && (
             <>

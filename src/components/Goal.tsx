@@ -79,7 +79,7 @@ const Goal = () => {
       <Title>Goal</Title>
 
       <div onClick={() => modeCtx.editMode && setEditGoalMode(true)}>
-        <Card>
+        <Card editting={editGoalMode}>
           {!loading && (
             <div className={classes.goal}>
               <span>Today's Goal</span>

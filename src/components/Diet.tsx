@@ -197,7 +197,7 @@ const Diet = () => {
     <>
       <Title>Diet Plan</Title>
       <div onClick={() => modeCtx.editMode && setEditDietMode(true)}>
-        <Card>
+        <Card editting={editDietMode}>
           {!loading && dietList}
           {loading && <p>Loading...</p>}
         </Card>
