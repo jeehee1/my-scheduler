@@ -13,10 +13,16 @@ const Schedules = () => {
   const modeCtx = useContext(ModeContext);
   const dateCtx = useContext(DateContext);
   const [editSchedulesMode, setEditSchedulesMode] = useState<boolean>(false);
-  const { sendRequest, error, loading, data, extra, identifier } = useHttp();
-  let tableBody = [];
+  const {
+    sendRequest,
+    sendMultipleRequest,
+    error,
+    loading,
+    data,
+    extra,
+    identifier,
+  } = useHttp();
   const minArray = [0, 10, 20, 30, 40, 50];
-  let showMinute = [];
 
   // 로드된 스케쥴 저장
   const [loadedSchedules, setLoadedSchedules] = useState<
@@ -51,6 +57,10 @@ const Schedules = () => {
 
   // 케이스에 따른 loadedSchedule 변화 저장
   useEffect(() => {
+    if (error) {
+      console.log(error);
+      return;
+    }
     switch (identifier) {
       case "GET_SCHEDULES":
         console.log("GET SCHEDULES");
@@ -69,7 +79,7 @@ const Schedules = () => {
       case "ADD_SCHEDULE":
         console.log("ADD_SCHEDULE");
         console.log(data, extra);
-        if (!loading && data && !error) {
+        if (!loading && !error) {
           setLoadedSchedules(
             loadedSchedules
               ? [...loadedSchedules, { id: data.name, ...extra }]
@@ -83,8 +93,19 @@ const Schedules = () => {
         if (!loading && !error) {
           console.log(loadedSchedules);
           setLoadedSchedules((loadedSchedules) =>
-            loadedSchedules?.filter((schedule) => schedule.id !== extra)
+            loadedSchedules!.filter((schedule) => schedule.id !== extra)
           );
+        }
+        break;
+      case "MANIPULATE_SCHEDULE":
+        console.log(data, extra);
+        if (!loading && !error) {
+          const updatedSchedules = loadedSchedules?.filter(
+            (schedule) => !extra.deleteIds.includes(schedule.id)
+          );
+          updatedSchedules?.push({...extra.newSchedule, id: data[data.length-1].name})
+          console.log(updatedSchedules);
+          setLoadedSchedules(updatedSchedules);
         }
         break;
       default:
@@ -92,7 +113,6 @@ const Schedules = () => {
     }
   }, [data, identifier, error, loading, extra]);
   console.log(loadedSchedules);
-
   // 스케쥴 업데이트
   const addScheduleHandler = (newSchedule: {
     startTime: string;
@@ -128,6 +148,42 @@ const Schedules = () => {
     }
   };
 
+  //manipulatedData  = [{body: deleteId, method: "DELETE"}, {body: deleteId, method: "DELETE"}, {body: newSchedule, method: "POST"}]
+  const manipulateScheduleHandler = (
+    deleteIds: string[] | null,
+    newSchedule: {
+      startTime: string;
+      endTime: string;
+      color: string;
+      schedule: string;
+    }
+  ) => {
+    const updatingData = [];
+    if (deleteIds) {
+      for (const deleteId of deleteIds) {
+        updatingData.push({
+          url:
+            process.env.REACT_APP_DATABASE_URL +
+            `/${dateCtx.selectedDate}/schedules/${deleteId}.json`,
+          body: deleteId,
+          method: "DELETE",
+        });
+      }
+    }
+    updatingData.push({
+      url:
+        process.env.REACT_APP_DATABASE_URL +
+        `/${dateCtx.selectedDate}/schedules.json`,
+      body: newSchedule,
+      method: "POST",
+    });
+    sendMultipleRequest(
+      updatingData,
+      { deleteIds: deleteIds, newSchedule: newSchedule },
+      "MANIPULATE_SCHEDULE"
+    );
+  };
+
   // 스케쥴 수정 시작 - 마우스 클릭 시간 셋팅
   const startEditingHandler = (clickedTime: number) =>
     setUpdatingSchedule({
@@ -135,13 +191,18 @@ const Schedules = () => {
       time: clickedTime,
     });
 
-  for (let m = 0; m < 6; m++) {
-    showMinute.push(
-      <th key={minArray[m]}>
-        <div>{minArray[m] + 10}</div>
-      </th>
-    );
-  }
+  const showMinute: JSX.Element[] = [];
+  useEffect(() => {
+    for (let m = 0; m < 6; m++) {
+      showMinute.push(
+        <th key={minArray[m]}>
+          <div>{minArray[m] + 10}</div>
+        </th>
+      );
+    }
+  }, []);
+
+  const tableBody = [];
   for (let time = 6; time < 25; time++) {
     tableBody.push(
       <tr key={time}>
@@ -200,8 +261,9 @@ const Schedules = () => {
                 <EditSchedules
                   loadedSchedules={loadedSchedules || null}
                   timeNum={updatingSchedule.time}
-                  addSchedule={addScheduleHandler}
-                  deleteSchedule={deleteScheduleHandler}
+                  manipulateSchedule={manipulateScheduleHandler}
+                  // addSchedule={addScheduleHandler}
+                  // deleteSchedule={deleteScheduleHandler}
                   cancelEdit={() => {
                     setUpdatingSchedule({ editing: false, time: 0 });
                   }}

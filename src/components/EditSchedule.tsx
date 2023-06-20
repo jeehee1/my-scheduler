@@ -5,19 +5,27 @@ import { typeSchedule } from "../types/SchedulerType";
 const EditSchedules = ({
   loadedSchedules,
   timeNum,
-  addSchedule,
-  deleteSchedule,
+  manipulateSchedule,
   cancelEdit,
 }: {
   loadedSchedules: typeSchedule[] | null;
   timeNum: number;
-  addSchedule: (newSchedule: {
-    startTime: string;
-    endTime: string;
-    color: string;
-    schedule: string;
-  }) => void;
-  deleteSchedule: (scheduleIds: string[]) => void;
+  // addSchedule: (newSchedule: {
+  //   startTime: string;
+  //   endTime: string;
+  //   color: string;
+  //   schedule: string;
+  // }) => void;
+  // deleteSchedule: (scheduleIds: string[]) => void;
+  manipulateSchedule: (
+    deleteIds: string[] | null,
+    newSchedule: {
+      startTime: string;
+      endTime: string;
+      color: string;
+      schedule: string;
+    }
+  ) => void;
   cancelEdit: () => void;
 }) => {
   // 시간 선택 input을 위한 배열 생성
@@ -82,14 +90,14 @@ const EditSchedules = ({
     let duplicatedSchedules = [];
 
     // 시작시간이 종료시간보다 클 경우
-    if(startTimeNum>=endTimeNum){
+    if (startTimeNum >= endTimeNum) {
       alert("시작시간이 종료시간보다 작아야합니다.");
       return;
     }
 
     // 색상 입력이 안된경우
-    if(!color){
-      alert("색상을 선택해주세요.")
+    if (!color) {
+      alert("색상을 선택해주세요.");
       return;
     }
 
@@ -132,8 +140,6 @@ const EditSchedules = ({
     if (duplicatedSchedules.length) {
       setUpdatingAble({ isAble: false, existedSchedules: duplicatedSchedules });
     } else {
-      setUpdatingAble({ isAble: true, existedSchedules: null });
-
       // 중첩이 안될경우 스케쥴 등록 진행
       // 시간 데이터베이스 형식으로 변환
       const newStartTime =
@@ -143,12 +149,18 @@ const EditSchedules = ({
       const newEndTime =
         getTimeFormatted(endTime.time) + ":" + getTimeFormatted(endTime.min);
 
-      addSchedule({
+      manipulateSchedule(null, {
         startTime: newStartTime,
         endTime: newEndTime,
         color: color,
         schedule: scheduleInput,
       });
+      // addSchedule({
+      //   startTime: newStartTime,
+      //   endTime: newEndTime,
+      //   color: color,
+      //   schedule: scheduleInput,
+      // });
     }
   };
 
@@ -156,7 +168,8 @@ const EditSchedules = ({
     return time.length === 1 ? "0" + time : time;
   };
 
-  const deleteAndAddSchedule = () => {
+  const deleteAndAddSchedule = (event: FormEvent) => {
+    event.preventDefault();
     const newStartTime =
       getTimeFormatted(startTime.time) + ":" + getTimeFormatted(startTime.min);
     const newEndTime =
@@ -168,17 +181,25 @@ const EditSchedules = ({
         deleteIds.push(updatingAble.existedSchedules[i].id);
       }
     }
-    deleteSchedule(deleteIds);
-    addSchedule({
+    console.log("manipualteSchedule : deleteAndAddHandler");
+    manipulateSchedule(deleteIds, {
       startTime: newStartTime,
       endTime: newEndTime,
       color: color,
       schedule: scheduleInput,
     });
+    // deleteSchedule(deleteIds);
+    // addSchedule({
+    //   startTime: newStartTime,
+    //   endTime: newEndTime,
+    //   color: color,
+    //   schedule: scheduleInput,
+    // });
+    console.log("ADD scheduel");
   };
 
-  console.log(startTime.time+startTime.min)
-  console.log(endTime.time+endTime.min)
+  console.log(startTime.time + startTime.min);
+  console.log(endTime.time + endTime.min);
   return (
     <div className={classes["edit-form"]}>
       {updatingAble.isAble && (
@@ -188,6 +209,7 @@ const EditSchedules = ({
             <div className={classes.time}>
               <label htmlFor="start-time">시작 시간</label>
               <select
+                id="start-time"
                 value={startTime.time}
                 onChange={(e) =>
                   setStartTime({ ...startTime, time: e.target.value })
@@ -198,6 +220,7 @@ const EditSchedules = ({
                 ))}
               </select>
               <select
+                id="start-min"
                 value={startTime.min}
                 onChange={(e) =>
                   setStartTime({ ...startTime, min: e.target.value })
@@ -207,8 +230,9 @@ const EditSchedules = ({
                   <option value={min}>{min}</option>
                 ))}
               </select>
-              <label htmlFor="start-time">종료 시간</label>
+              <label htmlFor="end-time">종료 시간</label>
               <select
+                id="end-time"
                 value={endTime.time}
                 onChange={(e) =>
                   setEndTime({ ...endTime, time: e.target.value })
@@ -219,6 +243,7 @@ const EditSchedules = ({
                 ))}
               </select>
               <select
+                id="end-min"
                 value={endTime.min}
                 onChange={(e) =>
                   setEndTime({ ...endTime, min: e.target.value })

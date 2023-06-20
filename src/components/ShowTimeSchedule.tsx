@@ -20,6 +20,7 @@ const ShowTimeSchedule = ({
   startEditing: (clickedTime: number) => void;
   selectedTime: number;
 }) => {
+  timeInfo.schedule &&console.log(timeInfo)
   const modeCtx = useContext(ModeContext);
   const [showInfo, setShowInfo] = useState(false);
   const showScheduleHandler = (event: MouseEvent) => {
