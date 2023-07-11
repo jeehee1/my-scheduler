@@ -6,10 +6,6 @@ const Card = ({ children, editting }: { children: any , editting: boolean}) => {
   const modeCtx = useContext(ModeContext);
   const [isActive, setIsActive] = useState(false);
 
-  useEffect(() => {
-    setIsActive(true);
-  }, [modeCtx.editMode]);
-
   return (
     <>
       {modeCtx.editMode && (

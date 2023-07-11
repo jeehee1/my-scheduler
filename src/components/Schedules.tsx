@@ -99,13 +99,22 @@ const Schedules = () => {
         break;
       case "MANIPULATE_SCHEDULE":
         console.log(data, extra);
-        if (!loading && !error) {
+        if (!loading && !error && extra.deleteIds) {
           const updatedSchedules = loadedSchedules?.filter(
             (schedule) => !extra.deleteIds.includes(schedule.id)
           );
-          updatedSchedules?.push({...extra.newSchedule, id: data[data.length-1].name})
-          console.log(updatedSchedules);
+          updatedSchedules?.push({
+            ...extra.newSchedule,
+            id: data[data.length - 1].name,
+          });
           setLoadedSchedules(updatedSchedules);
+        } else if (!loading && !error && !extra.deleteIds) {
+          loadedSchedules
+            ? setLoadedSchedules([
+                ...loadedSchedules,
+                { ...extra.newSchedule, id: data[0].name },
+              ])
+            : setLoadedSchedules([{ ...extra.newSchedule, id: data[0].name }]);
         }
         break;
       default:
@@ -114,39 +123,39 @@ const Schedules = () => {
   }, [data, identifier, error, loading, extra]);
   console.log(loadedSchedules);
   // 스케쥴 업데이트
-  const addScheduleHandler = (newSchedule: {
-    startTime: string;
-    endTime: string;
-    color: string;
-    schedule: string;
-  }) => {
-    console.log("AddSchedule");
-    sendRequest(
-      process.env.REACT_APP_DATABASE_URL +
-        `/${dateCtx.selectedDate}/schedules.json`,
-      "POST",
-      newSchedule,
-      newSchedule,
-      "ADD_SCHEDULE"
-    );
-    setUpdatingSchedule({ editing: false, time: 0 });
-  };
+  // const addScheduleHandler = (newSchedule: {
+  //   startTime: string;
+  //   endTime: string;
+  //   color: string;
+  //   schedule: string;
+  // }) => {
+  //   console.log("AddSchedule");
+  //   sendRequest(
+  //     process.env.REACT_APP_DATABASE_URL +
+  //       `/${dateCtx.selectedDate}/schedules.json`,
+  //     "POST",
+  //     newSchedule,
+  //     newSchedule,
+  //     "ADD_SCHEDULE"
+  //   );
+  //   setUpdatingSchedule({ editing: false, time: 0 });
+  // };
 
   //스케쥴 삭제
-  const deleteScheduleHandler = (deletingSchedules: string[]) => {
-    if (deletingSchedules) {
-      for (let i = 0; i < deletingSchedules.length; i++) {
-        sendRequest(
-          process.env.REACT_APP_DATABASE_URL +
-            `/${dateCtx.selectedDate}/schedules/${deletingSchedules[i]}.json`,
-          "DELETE",
-          null,
-          deletingSchedules[i],
-          "DELETE_SCHEDULE"
-        );
-      }
-    }
-  };
+  // const deleteScheduleHandler = (deletingSchedules: string[]) => {
+  //   if (deletingSchedules) {
+  //     for (let i = 0; i < deletingSchedules.length; i++) {
+  //       sendRequest(
+  //         process.env.REACT_APP_DATABASE_URL +
+  //           `/${dateCtx.selectedDate}/schedules/${deletingSchedules[i]}.json`,
+  //         "DELETE",
+  //         null,
+  //         deletingSchedules[i],
+  //         "DELETE_SCHEDULE"
+  //       );
+  //     }
+  //   }
+  // };
 
   //manipulatedData  = [{body: deleteId, method: "DELETE"}, {body: deleteId, method: "DELETE"}, {body: newSchedule, method: "POST"}]
   const manipulateScheduleHandler = (

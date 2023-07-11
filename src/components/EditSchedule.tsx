@@ -137,9 +137,10 @@ const EditSchedules = ({
       }
     }
     // 시간이 중첩되면 삭제메시지 표시
-    if (duplicatedSchedules.length) {
+    if (duplicatedSchedules.length > 0) {
       setUpdatingAble({ isAble: false, existedSchedules: duplicatedSchedules });
     } else {
+      console.log("start updating")
       // 중첩이 안될경우 스케쥴 등록 진행
       // 시간 데이터베이스 형식으로 변환
       const newStartTime =
@@ -181,7 +182,7 @@ const EditSchedules = ({
         deleteIds.push(updatingAble.existedSchedules[i].id);
       }
     }
-    console.log("manipualteSchedule : deleteAndAddHandler");
+    console.log("ADD scheduel");
     manipulateSchedule(deleteIds, {
       startTime: newStartTime,
       endTime: newEndTime,
@@ -195,7 +196,6 @@ const EditSchedules = ({
     //   color: color,
     //   schedule: scheduleInput,
     // });
-    console.log("ADD scheduel");
   };
 
   console.log(startTime.time + startTime.min);
@@ -269,6 +269,7 @@ const EditSchedules = ({
                 id="color"
                 type="color"
                 onChange={(e) => setColor(e.target.value)}
+                required
               />
             </div>
             {updatingAble.isAble && <button>저장!</button>}
