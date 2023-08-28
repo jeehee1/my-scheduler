@@ -2,10 +2,10 @@ import classes from "./Scheduler.module.css";
 import Diet from "../components/Diet";
 import Goal from "../components/Goal";
 import Schedules from "../components/Schedules";
-import Todos from "../components/Todos";
 import { useContext } from "react";
 import { ModeContext } from "../context/mode-context";
 import EditMessage from "../layout/EditMessage";
+import Todos from "../components/Todos";
 
 const defaultEditingState = {
   editingTodos: false,
@@ -49,7 +49,7 @@ const Scheduler = () => {
         </div>
         <div className={classes["column"]}>
           <div className={classes["content-chunck"]}>
-            <Todos/>
+            <Todos />
           </div>
           <div className={classes["content-chunck"]}>
             <Diet />

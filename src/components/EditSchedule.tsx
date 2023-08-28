@@ -10,13 +10,6 @@ const EditSchedules = ({
 }: {
   loadedSchedules: typeSchedule[] | null;
   timeNum: number;
-  // addSchedule: (newSchedule: {
-  //   startTime: string;
-  //   endTime: string;
-  //   color: string;
-  //   schedule: string;
-  // }) => void;
-  // deleteSchedule: (scheduleIds: string[]) => void;
   manipulateSchedule: (
     deleteIds: string[] | null,
     newSchedule: {
@@ -156,12 +149,6 @@ const EditSchedules = ({
         color: color,
         schedule: scheduleInput,
       });
-      // addSchedule({
-      //   startTime: newStartTime,
-      //   endTime: newEndTime,
-      //   color: color,
-      //   schedule: scheduleInput,
-      // });
     }
   };
 
@@ -189,13 +176,6 @@ const EditSchedules = ({
       color: color,
       schedule: scheduleInput,
     });
-    // deleteSchedule(deleteIds);
-    // addSchedule({
-    //   startTime: newStartTime,
-    //   endTime: newEndTime,
-    //   color: color,
-    //   schedule: scheduleInput,
-    // });
   };
 
   console.log(startTime.time + startTime.min);
