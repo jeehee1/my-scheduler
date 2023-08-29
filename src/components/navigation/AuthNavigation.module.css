@@ -1,0 +1,43 @@
+.auth {
+  display: flex;
+  justify-content: end;
+  gap: 1rem;
+  margin: 1rem;
+}
+
+.auth button {
+    border-radius: 4px;
+    font: inherit;
+    font-weight: bold;
+    color: #323232;
+    padding: 0.2rem 0.4rem;
+    box-shadow: 1px 1px 4px 2px rgba(0, 0, 0, 0.2);
+}
+
+.auth button:hover,
+.auth button:active {
+  cursor: pointer;
+}
+
+.auth .join {
+    border: 1px solid #f4d31a;
+    background-color: #f4d31a;
+}
+
+.auth .join:hover,
+.auth .join:active {
+  border: 1px solid #cfb317;
+  background-color: #cfb317;
+}
+
+.auth .login {
+    color: #f4eded;
+    border: 1px solid #713590;
+    background-color: #713590;
+}
+
+.auth .login:hover,
+.auth .login:active {
+    background-color: #652e81;
+    border: 1px solid #652e81;
+}
