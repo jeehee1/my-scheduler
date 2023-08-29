@@ -1,5 +1,5 @@
 import classes from "./EditSchedule.module.css";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { typeSchedule } from "../types/SchedulerType";
 
 const EditSchedules = ({
@@ -133,7 +133,7 @@ const EditSchedules = ({
     if (duplicatedSchedules.length > 0) {
       setUpdatingAble({ isAble: false, existedSchedules: duplicatedSchedules });
     } else {
-      console.log("start updating")
+      console.log("start updating");
       // 중첩이 안될경우 스케쥴 등록 진행
       // 시간 데이터베이스 형식으로 변환
       const newStartTime =
@@ -149,6 +149,7 @@ const EditSchedules = ({
         color: color,
         schedule: scheduleInput,
       });
+      cancelEdit();
     }
   };
 
@@ -176,6 +177,7 @@ const EditSchedules = ({
       color: color,
       schedule: scheduleInput,
     });
+    cancelEdit();
   };
 
   console.log(startTime.time + startTime.min);

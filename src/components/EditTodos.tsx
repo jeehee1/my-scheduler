@@ -1,5 +1,5 @@
 import classes from "./Todos.module.css";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import useHttp from "../hooks/use-http";
 import { typeTodo } from "../types/SchedulerType";
 import { DateContext } from "../context/date-context";
@@ -14,7 +14,7 @@ const EditTodos = () => {
     id: string | null;
     todos: typeTodo[];
   } | null>();
-  const todoRef = useRef<HTMLInputElement>(null);
+  const [todoInput, setTodoInput] = useState<string>("");
   const { sendRequest, data, error, loading, extra, identifier } = useHttp();
 
   useEffect(() => {
@@ -28,13 +28,6 @@ const EditTodos = () => {
               }
             : null;
           setLoadedTodos(todosData);
-        }
-        break;
-      case "CHECK_TODO":
-        console.log(data);
-
-        if (data && !loading && !error) {
-          setLoadedTodos({ id: loadedTodos!.id, todos: extra });
         }
         break;
       case "SAVE_TODOS":
@@ -125,23 +118,22 @@ const EditTodos = () => {
 
   // todo 추가하기
   const addTodoHandler = () => {
-    if (!todoRef.current?.value) {
+    if (todoInput.length < 1) {
       alert("todo를 입력해주세요.");
       return;
     }
     if (loadedTodos) {
       setLoadedTodos({
         id: loadedTodos.id,
-        todos: [
-          ...loadedTodos.todos,
-          { todo: todoRef.current?.value || "", checked: false },
-        ],
+        todos: [...loadedTodos.todos, { todo: todoInput, checked: false }],
       });
+      setTodoInput("");
     } else {
       setLoadedTodos({
         id: null,
-        todos: [{ todo: todoRef.current?.value || "", checked: false }],
+        todos: [{ todo: todoInput, checked: false }],
       });
+      setTodoInput("");
     }
   };
 
@@ -165,9 +157,7 @@ const EditTodos = () => {
     }
     setEditTodosMode(false);
   };
-
-  if (!editTodosMode) {
-  }
+  console.log(todoInput);
 
   return (
     <>
@@ -180,7 +170,13 @@ const EditTodos = () => {
           <div className={classes.todos}>
             {editTodosMode && (
               <div className={classes["new-todo"]}>
-                <input type="text" ref={todoRef} required />
+                <input
+                  type="text"
+                  onChange={(todo) => setTodoInput(todo.target.value)}
+                  value={todoInput}
+                  required
+                />
+                <p>{todoInput}</p>
                 <button className={classes["plus"]} onClick={addTodoHandler}>
                   +
                 </button>
