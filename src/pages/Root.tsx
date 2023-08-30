@@ -1,21 +1,22 @@
-import "./App.css";
+import { Outlet } from "react-router-dom";
 import SearchDate from "../components/SearchDate";
 import ModeContextProvider from "../context/mode-context";
-import Scheduler from "./Scheduler";
 import AuthNavigation from "../components/navigation/AuthNavigation";
+import DateContextProvider from "../context/date-context";
 
 function RootLayout() {
   return (
-    <ModeContextProvider>
-      <div className="App">
-        <main>
-          <div>
+    <DateContextProvider>
+      <ModeContextProvider>
+        <div className="App">
+          <main>
+            <AuthNavigation />
             <SearchDate />
-          </div>
-          <Scheduler />
-        </main>
-      </div>
-    </ModeContextProvider>
+            <Outlet />
+          </main>
+        </div>
+      </ModeContextProvider>
+    </DateContextProvider>
   );
 }
 
