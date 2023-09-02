@@ -4,12 +4,9 @@ import {
   useParams,
 } from "react-router-dom";
 import "./App.css";
-import SearchDate from "./components/SearchDate";
-import AuthNavigation from "./components/navigation/AuthNavigation";
-import DateContextProvider from "./context/date-context";
-import ModeContextProvider from "./context/mode-context";
 import Scheduler from "./pages/Scheduler";
 import RootLayout from "./pages/Root";
+import Authentication from "./pages/Authentication";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +16,14 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <Authentication />,
+      },
+      {
+        path: "auth",
+        element: <Authentication />,
+      },
+      {
+        path: "schedule",
         element: <Scheduler />,
       },
     ],

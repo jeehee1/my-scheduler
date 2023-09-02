@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { ModeContext } from "../context/mode-context";
 import EditMessage from "../layout/EditMessage";
 import Todos from "../components/Todos";
+import SearchDate from "../components/SearchDate";
 
 const defaultEditingState = {
   editingTodos: false,
@@ -19,6 +20,7 @@ const Scheduler = () => {
 
   return (
     <>
+      <SearchDate />
       {modeCtx.editMode && (
         <button
           className={`${classes["edit-btn"]} ${classes.cancel}`}
