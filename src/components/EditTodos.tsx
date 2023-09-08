@@ -47,7 +47,7 @@ const EditTodos = () => {
   useEffect(() => {
     sendRequest(
       process.env.REACT_APP_DATABASE_URL +
-        `/${dateCtx.selectedDate}/todos.json`,
+        `/my-scheduler/${dateCtx.selectedDate}/todos.json`,
       "GET",
       null,
       null,
@@ -144,9 +144,9 @@ const EditTodos = () => {
       sendRequest(
         loadedTodos.id
           ? process.env.REACT_APP_DATABASE_URL +
-              `/${dateCtx.selectedDate}/todos/${loadedTodos.id}.json`
+              `/my-scheduler/${dateCtx.selectedDate}/todos/${loadedTodos.id}.json`
           : process.env.REACT_APP_DATABASE_URL +
-              `/${dateCtx.selectedDate}/todos.json`,
+              `/my-scheduler/${dateCtx.selectedDate}/todos.json`,
         loadedTodos.id ? "PUT" : "POST",
         loadedTodos.todos,
         loadedTodos.todos,

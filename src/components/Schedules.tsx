@@ -47,7 +47,7 @@ const Schedules = () => {
   useEffect(() => {
     sendRequest(
       process.env.REACT_APP_DATABASE_URL +
-        `/${dateCtx.selectedDate}/schedules.json`,
+        `/my-scheduler/${dateCtx.selectedDate}/schedules.json`,
       "GET",
       null,
       null,
@@ -173,7 +173,7 @@ const Schedules = () => {
         updatingData.push({
           url:
             process.env.REACT_APP_DATABASE_URL +
-            `/${dateCtx.selectedDate}/schedules/${deleteId}.json`,
+            `/my-scheduler/${dateCtx.selectedDate}/schedules/${deleteId}.json`,
           body: deleteId,
           method: "DELETE",
         });
@@ -182,7 +182,7 @@ const Schedules = () => {
     updatingData.push({
       url:
         process.env.REACT_APP_DATABASE_URL +
-        `/${dateCtx.selectedDate}/schedules.json`,
+        `/my-scheduler/${dateCtx.selectedDate}/schedules.json`,
       body: newSchedule,
       method: "POST",
     });

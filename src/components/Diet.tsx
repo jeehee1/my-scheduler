@@ -35,7 +35,7 @@ const Diet = () => {
   useEffect(() => {
     console.log("get");
     sendRequest(
-      process.env.REACT_APP_DATABASE_URL + `/${dateCtx.selectedDate}/diet.json`,
+      process.env.REACT_APP_DATABASE_URL + `/my-scheduler/${dateCtx.selectedDate}/diet.json`,
       "GET",
       null,
       null,
@@ -173,9 +173,9 @@ const Diet = () => {
     await sendRequest(
       loadedDiet
         ? process.env.REACT_APP_DATABASE_URL +
-            `/${dateCtx.selectedDate}/diet/${loadedDiet.id}.json`
+            `/my-scheduler/${dateCtx.selectedDate}/diet/${loadedDiet.id}.json`
         : process.env.REACT_APP_DATABASE_URL +
-            `/${dateCtx.selectedDate}/diet.json`,
+            `/my-scheduler/${dateCtx.selectedDate}/diet.json`,
       loadedDiet ? "PUT" : "POST",
       {
         breakfast: breakfastRef.current?.value,

@@ -23,7 +23,7 @@ const Goal = () => {
 
   useEffect(() => {
     sendRequest(
-      process.env.REACT_APP_DATABASE_URL + `/${dateCtx.selectedDate}/goal.json`,
+      process.env.REACT_APP_DATABASE_URL + `/my-scheduler/${dateCtx.selectedDate}/goal.json`,
       "GET",
       null,
       null,
@@ -64,9 +64,9 @@ const Goal = () => {
     sendRequest(
       loadedGoal
         ? process.env.REACT_APP_DATABASE_URL +
-            `/${dateCtx.selectedDate}/goal/${loadedGoal.id}.json`
+            `/my-scheduler/${dateCtx.selectedDate}/goal/${loadedGoal.id}.json`
         : process.env.REACT_APP_DATABASE_URL +
-            `/${dateCtx.selectedDate}/goal.json`,
+            `/my-scheduler/${dateCtx.selectedDate}/goal.json`,
       loadedGoal ? "PUT" : "POST",
       newGoal,
       newGoal,
