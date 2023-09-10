@@ -7,7 +7,7 @@ import { ModeContext } from "../context/mode-context";
 import useHttp from "../hooks/use-http";
 import { DateContext } from "../context/date-context";
 
-const Diet = () => {
+const Diet = ({ user }: { user: string }) => {
   const modeCtx = useContext(ModeContext);
   const dateCtx = useContext(DateContext);
   const breakfastRef = useRef<HTMLInputElement>(null);
@@ -35,7 +35,8 @@ const Diet = () => {
   useEffect(() => {
     console.log("get");
     sendRequest(
-      process.env.REACT_APP_DATABASE_URL + `/my-scheduler/${dateCtx.selectedDate}/diet.json`,
+      process.env.REACT_APP_DATABASE_URL +
+        `/my-scheduler/${user}/${dateCtx.selectedDate}/diet.json`,
       "GET",
       null,
       null,
@@ -173,9 +174,9 @@ const Diet = () => {
     await sendRequest(
       loadedDiet
         ? process.env.REACT_APP_DATABASE_URL +
-            `/my-scheduler/${dateCtx.selectedDate}/diet/${loadedDiet.id}.json`
+            `/my-scheduler/${user}/${dateCtx.selectedDate}/diet/${loadedDiet.id}.json`
         : process.env.REACT_APP_DATABASE_URL +
-            `/my-scheduler/${dateCtx.selectedDate}/diet.json`,
+            `/my-scheduler//${user}/${dateCtx.selectedDate}/diet.json`,
       loadedDiet ? "PUT" : "POST",
       {
         breakfast: breakfastRef.current?.value,

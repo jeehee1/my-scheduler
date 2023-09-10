@@ -5,7 +5,7 @@ import useHttp from "../hooks/use-http";
 import { DateContext } from "../context/date-context";
 import Card from "../layout/Card";
 
-const ShowTodos = () => {
+const ShowTodos = ({ user }: { user: string }) => {
   const dateCtx = useContext(DateContext);
   const [loadedTodos, setLoadedTodos] = useState<{
     id: string | null;
@@ -51,7 +51,7 @@ const ShowTodos = () => {
   useEffect(() => {
     sendRequest(
       process.env.REACT_APP_DATABASE_URL +
-        `/my-scheduler/${dateCtx.selectedDate}/todos.json`,
+        `/my-scheduler/${user}/${dateCtx.selectedDate}/todos.json`,
       "GET",
       null,
       null,
@@ -68,7 +68,9 @@ const ShowTodos = () => {
     });
     sendRequest(
       process.env.REACT_APP_DATABASE_URL +
-        `/my-scheduler/${dateCtx.selectedDate}/todos/${loadedTodos!.id}.json`,
+        `/my-scheduler/${user}/${dateCtx.selectedDate}/todos/${
+          loadedTodos!.id
+        }.json`,
       "PUT",
       checkedTodos,
       checkedTodos,

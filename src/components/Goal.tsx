@@ -8,7 +8,7 @@ import useHttp from "../hooks/use-http";
 import { DateContext } from "../context/date-context";
 import EditGoal from "./EditGoal";
 
-const Goal = () => {
+const Goal = ({ user }: { user: string }) => {
   const modeCtx = useContext(ModeContext);
   const dateCtx = useContext(DateContext);
   const { sendRequest, identifier, loading, error, data, extra } = useHttp();
@@ -23,7 +23,8 @@ const Goal = () => {
 
   useEffect(() => {
     sendRequest(
-      process.env.REACT_APP_DATABASE_URL + `/my-scheduler/${dateCtx.selectedDate}/goal.json`,
+      process.env.REACT_APP_DATABASE_URL +
+        `/my-scheduler/${user}/${dateCtx.selectedDate}/goal.json`,
       "GET",
       null,
       null,
@@ -64,9 +65,9 @@ const Goal = () => {
     sendRequest(
       loadedGoal
         ? process.env.REACT_APP_DATABASE_URL +
-            `/my-scheduler/${dateCtx.selectedDate}/goal/${loadedGoal.id}.json`
+            `/my-scheduler/${user}/${dateCtx.selectedDate}/goal/${loadedGoal.id}.json`
         : process.env.REACT_APP_DATABASE_URL +
-            `/my-scheduler/${dateCtx.selectedDate}/goal.json`,
+            `/my-scheduler/${user}/${dateCtx.selectedDate}/goal.json`,
       loadedGoal ? "PUT" : "POST",
       newGoal,
       newGoal,

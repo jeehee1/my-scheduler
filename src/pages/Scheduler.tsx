@@ -7,6 +7,7 @@ import { ModeContext } from "../context/mode-context";
 import EditMessage from "../layout/EditMessage";
 import Todos from "../components/Todos";
 import SearchDate from "../components/SearchDate";
+import { useRouteLoaderData } from "react-router-dom";
 
 const defaultEditingState = {
   editingTodos: false,
@@ -17,6 +18,8 @@ const defaultEditingState = {
 
 const Scheduler = () => {
   const modeCtx = useContext(ModeContext);
+  const userToken = useRouteLoaderData('root')|| "";
+  const validToken = userToken.toString();
 
   return (
     <>
@@ -43,18 +46,18 @@ const Scheduler = () => {
       <div className={classes.content}>
         <div className={classes["column"]}>
           <div className={classes["content-chunck"]}>
-            <Goal />
+            <Goal user={validToken}/>
           </div>
           <div className={classes["content-chunck"]}>
-            <Schedules />
+            <Schedules user={validToken}/>
           </div>
         </div>
         <div className={classes["column"]}>
           <div className={classes["content-chunck"]}>
-            <Todos />
+            <Todos user={validToken}/>
           </div>
           <div className={classes["content-chunck"]}>
-            <Diet />
+            <Diet user={validToken}/>
           </div>
         </div>
       </div>

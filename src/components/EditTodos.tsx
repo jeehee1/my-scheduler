@@ -5,7 +5,7 @@ import { typeTodo } from "../types/SchedulerType";
 import { DateContext } from "../context/date-context";
 import Card from "../layout/Card";
 
-const EditTodos = () => {
+const EditTodos = ({user}:{user:string}) => {
   const [editTodosMode, setEditTodosMode] = useState<boolean>(false);
   const dateCtx = useContext(DateContext);
   const [todosList, setTodosList] = useState<JSX.Element[]>([]);
@@ -47,7 +47,7 @@ const EditTodos = () => {
   useEffect(() => {
     sendRequest(
       process.env.REACT_APP_DATABASE_URL +
-        `/my-scheduler/${dateCtx.selectedDate}/todos.json`,
+        `/my-scheduler/${user}/${dateCtx.selectedDate}/todos.json`,
       "GET",
       null,
       null,
@@ -144,9 +144,9 @@ const EditTodos = () => {
       sendRequest(
         loadedTodos.id
           ? process.env.REACT_APP_DATABASE_URL +
-              `/my-scheduler/${dateCtx.selectedDate}/todos/${loadedTodos.id}.json`
+              `/my-scheduler/${user}/${dateCtx.selectedDate}/todos/${loadedTodos.id}.json`
           : process.env.REACT_APP_DATABASE_URL +
-              `/my-scheduler/${dateCtx.selectedDate}/todos.json`,
+              `/my-scheduler/${user}/${dateCtx.selectedDate}/todos.json`,
         loadedTodos.id ? "PUT" : "POST",
         loadedTodos.todos,
         loadedTodos.todos,

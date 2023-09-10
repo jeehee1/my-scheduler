@@ -9,7 +9,7 @@ import useHttp from "../hooks/use-http";
 import EditSchedules from "./EditSchedule";
 import { DateContext } from "../context/date-context";
 
-const Schedules = () => {
+const Schedules = ({user}:{user:string}) => {
   const modeCtx = useContext(ModeContext);
   const dateCtx = useContext(DateContext);
   const [editSchedulesMode, setEditSchedulesMode] = useState<boolean>(false);
@@ -47,7 +47,7 @@ const Schedules = () => {
   useEffect(() => {
     sendRequest(
       process.env.REACT_APP_DATABASE_URL +
-        `/my-scheduler/${dateCtx.selectedDate}/schedules.json`,
+        `/my-scheduler/${user}/${dateCtx.selectedDate}/schedules.json`,
       "GET",
       null,
       null,
@@ -173,7 +173,7 @@ const Schedules = () => {
         updatingData.push({
           url:
             process.env.REACT_APP_DATABASE_URL +
-            `/my-scheduler/${dateCtx.selectedDate}/schedules/${deleteId}.json`,
+            `/my-scheduler/${user}/${dateCtx.selectedDate}/schedules/${deleteId}.json`,
           body: deleteId,
           method: "DELETE",
         });
@@ -182,7 +182,7 @@ const Schedules = () => {
     updatingData.push({
       url:
         process.env.REACT_APP_DATABASE_URL +
-        `/my-scheduler/${dateCtx.selectedDate}/schedules.json`,
+        `/my-scheduler/${user}/${dateCtx.selectedDate}/schedules.json`,
       body: newSchedule,
       method: "POST",
     });
