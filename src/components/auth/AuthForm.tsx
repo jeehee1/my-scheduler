@@ -1,8 +1,14 @@
 import classes from "./AuthForm.module.css";
-import { NavLink, Form, useSearchParams } from "react-router-dom";
+import {
+  NavLink,
+  Form,
+  useSearchParams,
+  useActionData,
+} from "react-router-dom";
 
 const AuthForm = () => {
   const [searchParams] = useSearchParams();
+  const error:any  = useActionData();
   const isLogin = searchParams.get("mode") === "login";
 
   return (
@@ -17,11 +23,14 @@ const AuthForm = () => {
           <label htmlFor="pwd">비밀번호</label>
           <input id="pwd" name="pwd" type="password" />
         </div>
-        <div className={classes['navi-btns']}>
+        {error && <p>잘못된 입력입니다</p>}
+        <div className={classes["navi-btns"]}>
           <NavLink to={isLogin ? "/auth?mode=signup" : "/auth?mode=login"}>
             {isLogin ? "회원이 아니신가요?" : "회원이신가요?"}
           </NavLink>
-          <button className={classes['auth-btn']}>{isLogin ? "로그인" : "가입하기"}</button>
+          <button className={classes["auth-btn"]}>
+            {isLogin ? "로그인" : "가입하기"}
+          </button>
         </div>
       </Form>
     </div>
