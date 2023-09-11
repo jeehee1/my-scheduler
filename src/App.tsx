@@ -4,12 +4,12 @@ import {
   useParams,
 } from "react-router-dom";
 import "./App.css";
-import Scheduler from "./pages/Scheduler";
 import RootLayout from "./pages/Root";
 import Authentication from "./pages/Authentication";
 import { action as authAction } from "./pages/Authentication";
 import { action as logoutAction } from "./pages/Logout";
 import { tokenLoader } from "./utils/auth";
+import ScheduleLayout from "./pages/ScheduleLayout";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
       },
       {
         path: "schedules",
-        element: <Scheduler />,
+        element: <ScheduleLayout />,
       },
       {
         path: "auth",

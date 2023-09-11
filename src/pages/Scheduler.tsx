@@ -8,6 +8,7 @@ import EditMessage from "../layout/EditMessage";
 import Todos from "../components/Todos";
 import SearchDate from "../components/SearchDate";
 import { useRouteLoaderData } from "react-router-dom";
+import TypeNavigation from "../components/navigation/TypeNavigation";
 
 const defaultEditingState = {
   editingTodos: false,
@@ -18,7 +19,7 @@ const defaultEditingState = {
 
 const Scheduler = () => {
   const modeCtx = useContext(ModeContext);
-  const userToken = useRouteLoaderData('root')|| "";
+  const userToken = useRouteLoaderData("root") || "";
   const validToken = userToken.toString();
 
   return (
@@ -46,18 +47,18 @@ const Scheduler = () => {
       <div className={classes.content}>
         <div className={classes["column"]}>
           <div className={classes["content-chunck"]}>
-            <Goal user={validToken}/>
+            <Goal user={validToken} />
           </div>
           <div className={classes["content-chunck"]}>
-            <Schedules user={validToken}/>
+            <Schedules user={validToken} />
           </div>
         </div>
         <div className={classes["column"]}>
           <div className={classes["content-chunck"]}>
-            <Todos user={validToken}/>
+            <Todos user={validToken} />
           </div>
           <div className={classes["content-chunck"]}>
-            <Diet user={validToken}/>
+            <Diet user={validToken} />
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import AuthNavigation from "../components/navigation/AuthNavigation";
 import DateContextProvider from "../context/date-context";
 import { useEffect } from "react";
 import { getTokenDuration } from "../utils/auth";
+import TypeNavigation from "../components/navigation/TypeNavigation";
 
 function RootLayout() {
   const token = useLoaderData();
