@@ -29,6 +29,7 @@ function RootLayout() {
         <div className="App">
           <main>
             <AuthNavigation />
+            <TypeNavigation />
             <Outlet />
           </main>
         </div>

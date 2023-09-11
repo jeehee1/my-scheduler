@@ -9,7 +9,7 @@ import Authentication from "./pages/Authentication";
 import { action as authAction } from "./pages/Authentication";
 import { action as logoutAction } from "./pages/Logout";
 import { tokenLoader } from "./utils/auth";
-import ScheduleLayout from "./pages/ScheduleLayout";
+import Scheduler from "./pages/Scheduler";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +24,15 @@ const router = createBrowserRouter([
       },
       {
         path: "schedules",
-        element: <ScheduleLayout />,
+        children: [
+          {
+            path: "daily",
+            element: <Scheduler />,
+          },{
+            path: 'monthly',
+            element: <p>월별 스케쥴 입니다.</p>
+          }
+        ],
       },
       {
         path: "auth",

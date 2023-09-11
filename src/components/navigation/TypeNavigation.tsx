@@ -10,7 +10,7 @@ const TypeNavigation = () => {
             className={({ isActive }) =>
               isActive ? classes.active : undefined
             }
-            to={"/schedules?type=monthly"}
+            to={"/schedules/monthly"}
           >
             Monthly
           </NavLink>
@@ -20,7 +20,7 @@ const TypeNavigation = () => {
             className={({ isActive }) =>
               isActive ? classes.active : undefined
             }
-            to={"/schedules?type=daily"}
+            to={"/schedules/daily"}
           >
             Daily
           </NavLink>

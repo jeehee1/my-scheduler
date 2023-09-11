@@ -1,22 +1,29 @@
+.type-nav {
+  padding-bottom: 2rem;
+}
+
 .type-nav ul {
   display: flex;
   list-style: none;
   justify-content: center;
   padding: 0;
+  font: inherit;
+  font-size: 1.2rem;
+  font-weight: bold;
   gap: 2rem;
 }
 
 .monthly a {
-  font: inherit;
-  font-weight: bold;
-  text-decoration: none;
   color: #555555;
-  border-bottom: solid 3px #555555;
+  text-decoration: none;
 }
 
 .daily a {
-  font: inherit;
-  font-weight: bold;
-  text-decoration: none;
   color: #555555;
+  text-decoration: none;
+}
+
+.active {
+  padding: 0.1rem;
+  border-bottom: solid 4px #713590;
 }
