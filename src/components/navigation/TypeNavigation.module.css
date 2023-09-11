@@ -1,0 +1,22 @@
+.type-nav ul {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  padding: 0;
+  gap: 2rem;
+}
+
+.monthly a {
+  font: inherit;
+  font-weight: bold;
+  text-decoration: none;
+  color: #555555;
+  border-bottom: solid 3px #555555;
+}
+
+.daily a {
+  font: inherit;
+  font-weight: bold;
+  text-decoration: none;
+  color: #555555;
+}

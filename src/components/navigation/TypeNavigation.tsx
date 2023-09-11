@@ -1,14 +1,29 @@
+import classes from "./TypeNavigation.module.css";
 import { NavLink } from "react-router-dom";
 
 const TypeNavigation = () => {
   return (
-    <div>
+    <div className={classes["type-nav"]}>
       <ul>
-        <li>
-          <NavLink to={"/schedules?type=monthly"}>월별</NavLink>
+        <li className={classes.monthly}>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? classes.active : undefined
+            }
+            to={"/schedules?type=monthly"}
+          >
+            Monthly
+          </NavLink>
         </li>
-        <li>
-          <NavLink to={"/schedules?type=daily"}>일별</NavLink>
+        <li className={classes.daily}>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? classes.active : undefined
+            }
+            to={"/schedules?type=daily"}
+          >
+            Daily
+          </NavLink>
         </li>
       </ul>
     </div>
