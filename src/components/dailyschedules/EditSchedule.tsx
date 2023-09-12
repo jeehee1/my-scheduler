@@ -1,6 +1,6 @@
-import classes from "./EditSchedule.module.css";
+import classes from "./Todos.module.css";
 import { FormEvent, useEffect, useState } from "react";
-import { typeSchedule } from "../types/SchedulerType";
+import { typeSchedule } from "../../types/SchedulerType";
 
 const EditSchedules = ({
   loadedSchedules,

@@ -15,18 +15,19 @@
   position: relative;
   display: inline-flex;
   justify-content: start;
-  align-items: center;
+  align-items: start;
   margin: 0.3rem 0;
 }
 
 .edit-list {
-  margin: 0 auto;
-  height: 1.4rem;
+  margin: 0.2rem auto;
+  gap: 1rem;
   width: 100%;
 }
 
 .edit-list p{
   width: 80%;
+  margin: 0;
   border-bottom: 3px solid #929290;
 }
 
@@ -88,7 +89,7 @@
 }
 
 .check + label {
-  display: inline-block;
+  display: inline-flex;
   border: solid 3px #25390b;
   border-radius: 4px;
   margin-right: 2rem;

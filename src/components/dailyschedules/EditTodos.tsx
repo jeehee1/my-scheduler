@@ -1,9 +1,9 @@
 import classes from "./Todos.module.css";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import useHttp from "../hooks/use-http";
-import { typeTodo } from "../types/SchedulerType";
-import { DateContext } from "../context/date-context";
-import Card from "../layout/Card";
+import useHttp from "../../hooks/use-http";
+import { typeTodo } from "../../types/SchedulerType";
+import { DateContext } from "../../context/date-context";
+import Card from "../../layout/Card";
 
 const EditTodos = ({user}:{user:string}) => {
   const [editTodosMode, setEditTodosMode] = useState<boolean>(false);
@@ -176,7 +176,6 @@ const EditTodos = ({user}:{user:string}) => {
                   value={todoInput}
                   required
                 />
-                <p>{todoInput}</p>
                 <button className={classes["plus"]} onClick={addTodoHandler}>
                   +
                 </button>

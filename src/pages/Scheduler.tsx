@@ -1,14 +1,13 @@
 import classes from "./Scheduler.module.css";
-import Diet from "../components/Diet";
-import Goal from "../components/Goal";
-import Schedules from "../components/Schedules";
+import Diet from "../components/dailyschedules/Diet";
+import Goal from "../components/dailyschedules/Goal";
+import Schedules from "../components/dailyschedules/Schedules";
 import { useContext } from "react";
 import { ModeContext } from "../context/mode-context";
 import EditMessage from "../layout/EditMessage";
-import Todos from "../components/Todos";
-import SearchDate from "../components/SearchDate";
+import Todos from "../components/dailyschedules/Todos";
+import SearchDate from "../components/dailyschedules/SearchDate";
 import { useRouteLoaderData } from "react-router-dom";
-import TypeNavigation from "../components/navigation/TypeNavigation";
 
 const defaultEditingState = {
   editingTodos: false,

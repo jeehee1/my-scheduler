@@ -1,9 +1,9 @@
 import classes from "./Todos.module.css";
 import { useContext, useEffect, useState } from "react";
-import { typeTodo } from "../types/SchedulerType";
-import useHttp from "../hooks/use-http";
-import { DateContext } from "../context/date-context";
-import Card from "../layout/Card";
+import { typeTodo } from "../../types/SchedulerType";
+import useHttp from "../../hooks/use-http";
+import { DateContext } from "../../context/date-context";
+import Card from "../../layout/Card";
 
 const ShowTodos = ({ user }: { user: string }) => {
   const dateCtx = useContext(DateContext);

@@ -1,11 +1,11 @@
 import classes from "./Goal.module.css";
-import Card from "../layout/Card";
-import Title from "../layout/Title";
+import Card from "../../layout/Card";
+import Title from "../../layout/Title";
 import { useContext, useEffect, useRef, useState } from "react";
-import { ModeContext } from "../context/mode-context";
-import { typeGoal } from "../types/SchedulerType";
-import useHttp from "../hooks/use-http";
-import { DateContext } from "../context/date-context";
+import { ModeContext } from "../../context/mode-context";
+import { typeGoal } from "../../types/SchedulerType";
+import useHttp from "../../hooks/use-http";
+import { DateContext } from "../../context/date-context";
 import EditGoal from "./EditGoal";
 
 const Goal = ({ user }: { user: string }) => {

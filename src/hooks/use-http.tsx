@@ -1,4 +1,4 @@
-import { useCallback, useReducer, useState } from "react";
+import { useCallback, useState } from "react";
 
 const useHttp = () => {
   const [httpState, setHttpState] = useState<{

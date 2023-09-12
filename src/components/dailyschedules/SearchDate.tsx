@@ -3,7 +3,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { useContext, useState } from "react";
 import { format, getMonth, getYear } from "date-fns";
-import { DateContext } from "../context/date-context";
+import { DateContext } from "../../context/date-context";
 
 const YEARS = Array.from({ length: 30 }, (v, i) => getYear(new Date()) - 3 + i);
 

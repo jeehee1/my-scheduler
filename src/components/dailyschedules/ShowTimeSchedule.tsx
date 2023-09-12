@@ -2,9 +2,9 @@
 
 import { MouseEvent, useContext, useState } from "react";
 import ShowScheduleInfo from "./ShowScheduleInfo";
-import { ModeContext } from "../context/mode-context";
+import { ModeContext } from "../../context/mode-context";
 import EditSchedules from "./EditSchedule";
-import { typeSchedule } from "../types/SchedulerType";
+import { typeSchedule } from "../../types/SchedulerType";
 
 const ShowTimeSchedule = ({
   timeInfo,

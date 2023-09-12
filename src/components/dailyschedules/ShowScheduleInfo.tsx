@@ -1,6 +1,6 @@
 import { useState } from "react";
 import classes from "./ShowScheduleInfo.module.css";
-import { typeSchedule } from "../types/SchedulerType";
+import { typeSchedule } from "../../types/SchedulerType";
 
 const ShowScheduleInfo = ({ info }: { info: typeSchedule | null }) => {
   const [activeInfo, setActiveInfo] = useState(false);

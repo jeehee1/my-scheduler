@@ -1,13 +1,13 @@
 import classes from "./Schedules.module.css";
 import ShowTimeSchedule from "./ShowTimeSchedule";
-import Card from "../layout/Card";
-import Title from "../layout/Title";
+import Card from "../../layout/Card";
+import Title from "../../layout/Title";
 import { useContext, useEffect, useState } from "react";
-import { ModeContext } from "../context/mode-context";
-import { typeSchedule } from "../types/SchedulerType";
-import useHttp from "../hooks/use-http";
+import { ModeContext } from "../../context/mode-context";
+import { typeSchedule } from "../../types/SchedulerType";
+import useHttp from "../../hooks/use-http";
 import EditSchedules from "./EditSchedule";
-import { DateContext } from "../context/date-context";
+import { DateContext } from "../../context/date-context";
 
 const Schedules = ({user}:{user:string}) => {
   const modeCtx = useContext(ModeContext);

@@ -1,11 +1,11 @@
 import classes from "./Diet.module.css";
-import Card from "../layout/Card";
-import Title from "../layout/Title";
+import Card from "../../layout/Card";
+import Title from "../../layout/Title";
 import { useContext, useEffect, useRef, useState } from "react";
 import { JSX } from "react/jsx-runtime";
-import { ModeContext } from "../context/mode-context";
-import useHttp from "../hooks/use-http";
-import { DateContext } from "../context/date-context";
+import { ModeContext } from "../../context/mode-context";
+import useHttp from "../../hooks/use-http";
+import { DateContext } from "../../context/date-context";
 
 const Diet = ({ user }: { user: string }) => {
   const modeCtx = useContext(ModeContext);
