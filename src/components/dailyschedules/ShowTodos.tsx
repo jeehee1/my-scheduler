@@ -13,11 +13,14 @@ const ShowTodos = ({ user }: { user: string }) => {
   } | null>();
   const [todosList, setTodosList] = useState<JSX.Element[]>([]);
   const { sendRequest, data, error, loading, extra, identifier } = useHttp();
+  console.log(todosList);
+  console.log(loadedTodos);
 
   useEffect(() => {
     switch (identifier) {
       case "GET_TODOS":
-        if (!loading && !error) {
+        if (data && !loading && !error) {
+          console.log(data)
           const todosData = data
             ? {
                 id: Object.keys(data)[0],
@@ -28,25 +31,15 @@ const ShowTodos = ({ user }: { user: string }) => {
         }
         break;
       case "CHECK_TODO":
-        console.log(data);
-
         if (data && !loading && !error) {
           setLoadedTodos({ id: loadedTodos!.id, todos: extra });
-        }
-        break;
-      case "SAVE_TODOS":
-        if (data && !loading && !error) {
-          const todosData = {
-            id: loadedTodos ? loadedTodos.id : data,
-            todos: extra,
-          };
-          setLoadedTodos(todosData);
         }
         break;
       default:
         break;
     }
   }, [data, identifier, loading, extra]);
+  console.log(data);
 
   useEffect(() => {
     sendRequest(
@@ -115,6 +108,7 @@ const ShowTodos = ({ user }: { user: string }) => {
     }
     setTodosList(todoList);
   }, [loadedTodos]);
+
   return (
     <div>
       <Card editting={false}>
