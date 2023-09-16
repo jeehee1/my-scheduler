@@ -1,3 +1,5 @@
+import classes from './ShowError.module.css'
+
 const ShowError = ({
   title,
   children,
@@ -6,7 +8,7 @@ const ShowError = ({
   children: JSX.Element;
 }) => {
   return (
-    <div>
+    <div className={classes.error}>
       <h1>{title}</h1>
       {children}
     </div>
