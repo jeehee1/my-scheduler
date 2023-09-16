@@ -35,7 +35,7 @@ const Goal = ({ user }: { user: string }) => {
   useEffect(() => {
     switch (identifier) {
       case "GET_GOAL":
-        if (!loading && !error) {
+        if (!loading && !loading && !error) {
           setLoadedGoal(
             data
               ? {
@@ -81,7 +81,7 @@ const Goal = ({ user }: { user: string }) => {
 
       <div onClick={() => modeCtx.editMode && setEditGoalMode(true)}>
         <Card editting={editGoalMode}>
-          {!loading && (
+          {!loading && !error && (
             <div className={classes.goal}>
               <span>Today's Goal</span>
               {editGoalMode && (
@@ -99,7 +99,8 @@ const Goal = ({ user }: { user: string }) => {
               )}
             </div>
           )}
-          {loading && <p>Loading...</p>}
+          {loading&& error && <p>Loading...</p>}
+          {error && <p>데이터를 불러올 수 없습니다</p>}
         </Card>
       </div>
       {editGoalMode && (

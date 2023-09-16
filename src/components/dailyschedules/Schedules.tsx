@@ -253,8 +253,8 @@ const Schedules = ({user}:{user:string}) => {
       <Title>Schedules</Title>
       <div onClick={() => modeCtx.editMode && setEditSchedulesMode(true)}>
         <Card editting={editSchedulesMode}>
-          {loading && <p>Loading...</p>}
-          {!loading && (
+          {loading && !error && <p>Loading...</p>}
+          {!loading && !error && (
             <>
               {editSchedulesMode && <p>표를 클릭해서 시간을 선택해주세요.</p>}
               <table className={classes.table}>
@@ -280,6 +280,7 @@ const Schedules = ({user}:{user:string}) => {
               )}
             </>
           )}
+          {error && <p>데이터를 불러올 수 없습니다</p>}
         </Card>
       </div>
     </>

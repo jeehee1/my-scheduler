@@ -4,10 +4,10 @@ const useHttp = () => {
   const [httpState, setHttpState] = useState<{
     loading: boolean;
     data: any;
-    error: string | null;
+    error: boolean;
     identifier: string;
     extra: any;
-  }>({ loading: false, data: null, error: null, identifier: "", extra: null });
+  }>({ loading: false, data: null, error: false, identifier: "", extra: null });
 
   const sendRequest = useCallback(
     async (
@@ -19,31 +19,42 @@ const useHttp = () => {
     ) => {
       setHttpState({ ...httpState, loading: true });
       console.log("send request");
-      const response = await fetch(url, {
-        method: method,
-        body: body ? JSON.stringify(body) : null,
-        headers: { "Content-Type": "application/json" },
-      });
-      if (!response.ok) {
+      try {
+        const response = await fetch(url, {
+          method: method,
+          body: body ? JSON.stringify(body) : null,
+          headers: { "Content-Type": "application/json" },
+        });
+        if (!response.ok) {
+          const data = await response.json();
+          setHttpState({
+            ...httpState,
+            loading: false,
+            data: data.error
+              ? data.error.message
+              : "Something went wrong - reponse is not ok",
+            error: true,
+          });
+          return;
+        }
         const data = await response.json();
         setHttpState({
-          ...httpState,
+          extra: manipulatedData,
           loading: false,
-          data: null,
-          error: data.error
-            ? data.error.message
-            : "Something went wrong - reponse is not ok",
+          data: data,
+          error: false,
+          identifier: identifier,
+        });
+      } catch (err) {
+        setHttpState({
+          extra: manipulatedData,
+          loading: false,
+          data: err,
+          error: true,
+          identifier: identifier,
         });
         return;
       }
-      const data = await response.json();
-      setHttpState({
-        extra: manipulatedData,
-        loading: false,
-        data: data,
-        error: null,
-        identifier: identifier,
-      });
     },
     []
   );
@@ -52,11 +63,9 @@ const useHttp = () => {
     updateData: { body: any; method: string; url: string }[],
     manipulatedData: any,
     identifier: string
-  ) =>
-    //manipulatedData  = {body: deleteId, method: "DELETE"}, {body: deleteId, method: "DELETE"}, {body: newSchedule, method: "POST"}
-
-    {
-      const dataArr = [];
+  ) => {
+    const dataArr = [];
+    try {
       for (const m of updateData) {
         const response = await fetch(m.url, {
           method: m.method,
@@ -68,24 +77,34 @@ const useHttp = () => {
           setHttpState({
             ...httpState,
             loading: false,
-            data: null,
-            error: data.error
+            data: data.error
               ? data.error.message
               : "Something went wrong - reponse is not ok",
+            error: true,
           });
           return;
         }
-        const data  = await response.json();
+        const data = await response.json();
         dataArr.push(data);
+        setHttpState({
+          extra: manipulatedData,
+          loading: false,
+          data: dataArr,
+          error: false,
+          identifier: identifier,
+        });
       }
+    } catch (err) {
       setHttpState({
-        extra: manipulatedData,
+        extra: null,
         loading: false,
-        data: dataArr,
-        error: null,
-        identifier: identifier
-      })
-    };
+        data: err,
+        error: true,
+        identifier: identifier,
+      });
+      return;
+    }
+  };
 
   return {
     loading: httpState.loading,
@@ -94,7 +113,7 @@ const useHttp = () => {
     identifier: httpState.identifier,
     extra: httpState.extra,
     sendRequest: sendRequest,
-    sendMultipleRequest: sendMultipleRequest
+    sendMultipleRequest: sendMultipleRequest,
   };
 };
 

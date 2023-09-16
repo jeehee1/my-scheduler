@@ -45,7 +45,7 @@ export const action = async ({ request }: { request: Request }) => {
     expiration.setHours(expiration.getHours() + 1);
     localStorage.setItem("expiration", expiration.toISOString());
 
-    return redirect("/schedules");
+    return redirect("/schedules/daily");
   } catch (e) {
     return e;
   }

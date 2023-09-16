@@ -197,27 +197,31 @@ const EditTodos = ({ user }: { user: string }) => {
         }}
       >
         <Card editting={editTodosMode}>
-          <div className={classes.todos}>
-            {editTodosMode && (
-              <div className={classes["new-todo"]}>
-                <input
-                  type="text"
-                  onChange={(todo) => setTodoInput(todo.target.value)}
-                  value={todoInput}
-                  required
-                />
-                <button className={classes["plus"]} onClick={addTodoHandler}>
-                  +
-                </button>
-              </div>
-            )}
-            <ul>{todosList}</ul>
-            {editTodosMode && (
-              <form onSubmit={saveTodosHandler}>
-                <button className={classes["submit-btn"]}>저장!</button>
-              </form>
-            )}
-          </div>
+          {loading && !error && <p>Loading...</p>}
+          {!loading && !error && (
+            <div className={classes.todos}>
+              {editTodosMode && (
+                <div className={classes["new-todo"]}>
+                  <input
+                    type="text"
+                    onChange={(todo) => setTodoInput(todo.target.value)}
+                    value={todoInput}
+                    required
+                  />
+                  <button className={classes["plus"]} onClick={addTodoHandler}>
+                    +
+                  </button>
+                </div>
+              )}
+              <ul>{todosList}</ul>
+              {editTodosMode && (
+                <form onSubmit={saveTodosHandler}>
+                  <button className={classes["submit-btn"]}>저장!</button>
+                </form>
+              )}
+            </div>
+          )}
+          {error && <p>데이터를 불러올 수 없습니다</p>}
         </Card>
       </div>
       {editTodosMode && (

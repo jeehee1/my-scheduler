@@ -49,7 +49,7 @@ const Diet = ({ user }: { user: string }) => {
       case "GET_DIET":
         console.log();
         console.log("data: " + data);
-        if (!loading && !error) {
+        if (!loading && !loading && !error) {
           console.log(data);
           setLoadedDiet(
             data
@@ -62,7 +62,7 @@ const Diet = ({ user }: { user: string }) => {
         }
         break;
       case "SAVE_DIET":
-        if (!loading && !error) {
+        if (data && !loading && !error) {
           setLoadedDiet({
             id: loadedDiet ? loadedDiet.id : Object.keys(data)[0],
             diet: {
@@ -199,8 +199,9 @@ const Diet = ({ user }: { user: string }) => {
       <Title>Diet Plan</Title>
       <div onClick={() => modeCtx.editMode && setEditDietMode(true)}>
         <Card editting={editDietMode}>
-          {!loading && dietList}
-          {loading && <p>Loading...</p>}
+          {!loading && !error && dietList}
+          {loading && !error && <p>Loading...</p>}
+          {error && <p>데이터를 불러올 수 없습니다</p>}
         </Card>
       </div>
       {editDietMode && (

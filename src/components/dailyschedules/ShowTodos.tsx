@@ -19,8 +19,7 @@ const ShowTodos = ({ user }: { user: string }) => {
   useEffect(() => {
     switch (identifier) {
       case "GET_TODOS":
-        if (data && !loading && !error) {
-          console.log(data)
+        if (!loading && !error) {
           const todosData = data
             ? {
                 id: Object.keys(data)[0],
@@ -112,9 +111,13 @@ const ShowTodos = ({ user }: { user: string }) => {
   return (
     <div>
       <Card editting={false}>
-        <div className={classes.todos}>
-          <ul>{todosList}</ul>
-        </div>
+        {loading && !error && <p>Loading...</p>}
+        {!loading && !error && (
+          <div className={classes.todos}>
+            <ul>{todosList}</ul>
+          </div>
+        )}
+        {error && <p>데이터를 불러올 수 없습니다</p>}
       </Card>
     </div>
   );
