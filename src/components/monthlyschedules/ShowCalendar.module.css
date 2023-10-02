@@ -1,0 +1,31 @@
+.column {
+  display: inline-block;
+  margin: 0 2px;
+  flex-direction: row;
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+}
+
+.row {
+  display: flex;
+  margin: 0.2rem auto;
+  width: fit-content;
+  height: fit-content;
+}
+
+.date {
+  margin: 0.3rem auto;
+  font: inherit;
+  padding-bottom: 0.1rem;
+  width: 30px;
+  text-align: center;
+  border-radius: 50%;
+  background-color: #f4d31a;
+  color: #713590;
+  font-weight: 1000;
+}
+
+.today {
+  background-color: #f45f1a;
+}

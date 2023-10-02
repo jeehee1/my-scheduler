@@ -11,6 +11,7 @@ import { action as logoutAction } from "./pages/Logout";
 import { tokenLoader } from "./utils/auth";
 import Scheduler from "./pages/Scheduler";
 import ErrorPage from "./pages/Error";
+import Calendar from "./pages/Calendar";
 
 const router = createBrowserRouter([
   {
@@ -33,7 +34,7 @@ const router = createBrowserRouter([
           },
           {
             path: "monthly",
-            element: <p>월별 스케쥴 입니다.</p>,
+            element: <Calendar />,
           },
         ],
       },

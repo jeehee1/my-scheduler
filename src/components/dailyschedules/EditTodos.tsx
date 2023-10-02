@@ -19,7 +19,7 @@ const EditTodos = ({ user }: { user: string }) => {
   useEffect(() => {
     switch (identifier) {
       // todos는 id 키값에 todos 객체 배열로 저장된 상태
-      // ex) {"-Ne60vPqJEENlnBWHgTp":[{"checked":false,"todo":"gawefawe"},{"checked":false,"todo":"gwehtyheraef"},{"checked":false,"todo":"fwdqwQ"}]}
+      // ex) {"-Ne60vPqJEENlnBWHgTp":[{"checked": false,"todo":"gawefawe"},{"checked":false,"todo":"gwehtyheraef"},{"checked":false,"todo":"fwdqwQ"}]}
       case "GET_TODOS":
         if (!loading && !error) {
           const todosData = data
