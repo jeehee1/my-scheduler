@@ -3,6 +3,7 @@ import classes from "./ShowCalendar.module.css";
 import { DUMMY_MONTHLY_DATA } from "../../data/DUMMY_MONTHLY_DATA";
 import { MonthContext } from "../../context/month-context";
 import ShowCalendarDetail from "./ShowCalendarDetail";
+import ShowDate from "./ShowDate";
 
 const date = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"];
 
@@ -57,7 +58,6 @@ const ShowCalendar = () => {
     };
   }[] = [];
 
-
   // 스케쥴 정보를 캘린더 Num과 매핑하여 calendarData 배열로 변환
   for (let schedule = 0; schedule < SEARCHED_DUMMY_DATA.length; schedule++) {
     const number =
@@ -109,7 +109,15 @@ const ShowCalendar = () => {
   }
   // }
 
-  return <div>{calendarComp}</div>;
+  return (
+    <>
+      <div className={classes['selected-month']}>
+        <h1>{`${monthCtx.searchMonth.year} / ${monthCtx.searchMonth.month}`}</h1>
+      </div>
+      <ShowDate/>
+      <div>{calendarComp}</div>;
+    </>
+  );
 };
 
 export default ShowCalendar;

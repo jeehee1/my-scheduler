@@ -13,9 +13,6 @@ const Calendar = () => {
     <>
       <div>
         <SearchMonth />
-        <h3>{monthCtx.searchMonth.year}</h3>
-        <h3>{monthCtx.searchMonth.month}</h3>
-        <ShowDate />
         <ShowCalendar />
       </div>
     </>

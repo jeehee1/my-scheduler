@@ -1,4 +1,5 @@
-import { FormEvent, useContext, useState } from "react";
+import classes from "./SearchMonth.module.css";
+import { useContext, useState } from "react";
 import Select from "react-select";
 import { SingleValue, ActionMeta } from "react-select/dist/declarations/src";
 import { MonthContext } from "../../context/month-context";
@@ -48,30 +49,32 @@ const SearchMonth = () => {
   return (
     <div>
       <form onSubmit={searchMonthSubmitHandler}>
-        <label htmlFor="month"></label>
-        <Select
-          defaultValue={selectedYear}
-          onChange={(
-            newValue: SingleValue<{ value: number; label: string }>,
-            actionMeta: ActionMeta<{ value: number; label: string }>
-          ) => {
-            setSelectedYear(newValue);
-          }}
-          options={yearOptions}
-        />
-        <Select
-          defaultValue={selectedMonth}
-          onChange={(
-            newValue: SingleValue<{ value: number; label: string }>,
-            actionMeta: ActionMeta<{ value: number; label: string }>
-          ) => {
-            setSelectedMonth(newValue);
-          }}
-          options={monthOptions}
-        />
-
-        {/* Search 버튼 클릭시 context의 월 변경하고 해당 월의 달력 불러오기 */}
-        <button>Search</button>
+        <div className={classes.select}>
+          <Select
+            className={classes["year-select"]}
+            defaultValue={selectedYear}
+            onChange={(
+              newValue: SingleValue<{ value: number; label: string }>,
+              actionMeta: ActionMeta<{ value: number; label: string }>
+            ) => {
+              setSelectedYear(newValue);
+            }}
+            options={yearOptions}
+          />
+          <Select
+            className={classes["month-select"]}
+            defaultValue={selectedMonth}
+            onChange={(
+              newValue: SingleValue<{ value: number; label: string }>,
+              actionMeta: ActionMeta<{ value: number; label: string }>
+            ) => {
+              setSelectedMonth(newValue);
+            }}
+            options={monthOptions}
+          />
+          {/* Search 버튼 클릭시 context의 월 변경하고 해당 월의 달력 불러오기 */}
+          <button className={classes["search-btn"]}>Search</button>
+        </div>
       </form>
     </div>
   );

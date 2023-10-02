@@ -1,6 +1,14 @@
-.date {
-  display: inline-flex;
+.dates {
   margin: 0 auto;
+  display: flex;
+  width: fit-content
+}
+
+.date {
+  color: #713590;
+  font-weight: bold;
+  display: inline-block;
+  margin: 0.3rem;
   width: 100px;
   height: 20px;
 }

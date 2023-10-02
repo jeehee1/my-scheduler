@@ -18,7 +18,7 @@ const ShowDate = () => {
     );
   }
 
-  return <div>{displayedDate}</div>;
+  return <div className={classes.dates}>{displayedDate}</div>;
 };
 
 export default ShowDate;

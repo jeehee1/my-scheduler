@@ -1,21 +1,27 @@
+.selected-month {
+  margin: 4rem 0 2rem 0;
+}
+
 .column {
   display: inline-block;
-  margin: 0 2px;
+  background-color: #eeecec;
+  margin: 0 0.3rem;
   flex-direction: row;
   width: 100px;
   height: 100px;
-  border: 1px solid black;
+  box-shadow: 3px 3px 2px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
 }
 
 .row {
   display: flex;
-  margin: 0.2rem auto;
+  margin: 0.3rem auto;
   width: fit-content;
   height: fit-content;
 }
 
 .date {
-  margin: 0.3rem auto;
+  margin: 0.4rem auto;
   font: inherit;
   padding-bottom: 0.1rem;
   width: 30px;
