@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import classes from "./ShowCalendar.module.css";
 import { DUMMY_MONTHLY_DATA } from "../../data/DUMMY_MONTHLY_DATA";
 import { MonthContext } from "../../context/month-context";
@@ -9,6 +9,7 @@ const date = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"];
 
 const ShowCalendar = () => {
   const monthCtx = useContext(MonthContext);
+
   const SEARCHED_DUMMY_DATA =
     DUMMY_MONTHLY_DATA.filter(
       (data) =>
@@ -80,7 +81,7 @@ const ShowCalendar = () => {
     for (let c = 0; c < 7; c++) {
       calendarRow.push(
         <div className={classes.column} key={"c" + c}>
-          {/* 캘린더 칸의 num = r * 7 + c */}
+          {/* 캘린더 칸의 일 표시 및 오늘 날짜 표시 */}
           {r * 7 + c - startNum + 1 > 0 &&
           r * 7 + c - startNum + 1 <= lastDate.getDate() ? (
             <div
@@ -111,10 +112,10 @@ const ShowCalendar = () => {
 
   return (
     <>
-      <div className={classes['selected-month']}>
+      <div className={classes["selected-month"]}>
         <h1>{`${monthCtx.searchMonth.year} / ${monthCtx.searchMonth.month}`}</h1>
       </div>
-      <ShowDate/>
+      <ShowDate />
       <div>{calendarComp}</div>;
     </>
   );
