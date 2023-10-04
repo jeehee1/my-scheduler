@@ -23,11 +23,19 @@ export const DUMMY_MONTHLY_DATA: MonthlySchedules[] = [
     location: "",
     members: [],
   },
+  
   {
     id: "03",
     date: "2023-10-05",
     schedule: "과제",
     location: "학교",
     members: ["조원1", "조원2", "조원3"],
+  },
+  {
+    id: "04",
+    date: "2023-10-05",
+    schedule: "중간고사",
+    location: "학교",
+    members: ["친구1", "친구2"],
   },
 ];

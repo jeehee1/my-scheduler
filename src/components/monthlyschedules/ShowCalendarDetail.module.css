@@ -1,0 +1,72 @@
+.schedule {
+  color: white;
+  background-color: blueviolet;
+  text-align: center;
+  font-size: 0.3rem;
+  font-weight: 600;
+  overflow: hidden;
+  height: 1rem;
+}
+
+.schedule:hover {
+    cursor: pointer;
+    background-color: #713590;
+}
+
+.detail {
+  box-shadow: 2px 1px 4px 2px rgba(0, 0, 0, 0.25);
+  font-weight: bold;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  margin: 0.2rem 2rem;
+  padding: 0.5rem 1rem;
+  position: absolute;
+  z-index: 30;
+  background-color: white;
+}
+
+.close-btn {
+  display: flex;
+  justify-content: end;
+}
+
+.close-btn button {
+  border-radius: 4px;
+  border: none;
+  font-weight: bold;
+}
+
+.close-btn button:hover {
+  cursor: pointer;
+  background-color: #a0a0a0;
+  color: white;
+}
+
+.date {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.content {
+  font-weight: bold;
+}
+
+.location {
+  font-size: 0.8rem;
+  margin: 0 auto;
+  padding: 0.1rem;
+  width: fit-content;
+  color: #fff;
+  border-radius: 4px;
+  background-color: #edca04;
+}
+
+.members span {
+  font-size: 0.6rem;
+  margin: 0 0.2rem;
+  padding: 0.1rem;
+  font-weight: 500;
+  color: white;
+  border-radius: 4px;
+  background-color: #713590;
+}

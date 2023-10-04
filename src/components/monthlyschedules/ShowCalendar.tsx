@@ -96,9 +96,7 @@ const ShowCalendar = () => {
             </div>
           ) : null}
           {/* 해당 일의 스케쥴 정보 컴포넌트 */}
-          <ShowCalendarDetail
-            schedules={calendarData.filter((data) => data.calNum === r * 7 + c)}
-          />
+          {calendarData.filter((data) => data.calNum === r*7+c).map((schedule) => <ShowCalendarDetail schedule={schedule}/>)}
         </div>
       );
     }

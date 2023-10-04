@@ -1,9 +1,10 @@
+import classes from "./ShowCalendarDetail.module.css";
 import { useState } from "react";
 
 const ShowCalendarDetail = ({
-  schedules,
+  schedule,
 }: {
-  schedules: {
+  schedule: {
     calNum: number;
     schedule: {
       id: string;
@@ -12,36 +13,37 @@ const ShowCalendarDetail = ({
       location: string;
       members: string[];
     };
-  }[];
+  };
 }) => {
   const [showDetails, setShowDetails] = useState(false);
   return (
     <>
-      {schedules.map((data) => (
-        <>
-          <div
-            onClick={() => {
-              setShowDetails(true);
-            }}
-          >
-            {data.schedule.schedule}
-          </div>
-          {/* 스케쥴 디테일 팝업 박스 */}
-          {showDetails && (
-            <div style={{ position: "absolute", zIndex: "200", backgroundColor: "white"}}>
+      <>
+        <div
+          className={classes.schedule}
+          onClick={() => {
+            setShowDetails(true);
+          }}
+        >
+          {schedule.schedule.schedule}
+        </div>
+        {/* 스케쥴 디테일 팝업 박스 */}
+        {showDetails && (
+          <div className={classes.detail}>
+            <div className={classes["close-btn"]}>
               <button onClick={() => setShowDetails(false)}>x</button>
-              <h3>{data.schedule.date}</h3>
-              <p>{data.schedule.schedule}</p>
-              <p>{data.schedule.location}</p>
-              <p>
-                {data.schedule.members.map((member) => (
-                  <span>{member}</span>
-                ))}
-              </p>
             </div>
-          )}
-        </>
-      ))}
+            <p className={classes.date}>{schedule.schedule.date}</p>
+            <p className={classes.content}>{schedule.schedule.schedule}</p>
+            <p className={classes.location}>{schedule.schedule.location}</p>
+            <p className={classes.members}>
+              {schedule.schedule.members.map((member) => (
+                <span>{member}</span>
+              ))}
+            </p>
+          </div>
+        )}
+      </>
     </>
   );
 };
