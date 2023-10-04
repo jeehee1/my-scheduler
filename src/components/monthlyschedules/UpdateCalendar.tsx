@@ -1,3 +1,4 @@
+import classes from "./UpdateCalendar.module.css";
 import { useRef, useState } from "react";
 import {
   monthOptions,
@@ -18,23 +19,29 @@ const UpdateCalendar = () => {
   const locationRef = useRef<HTMLInputElement>(null);
   const membersRef = useRef<HTMLInputElement>(null);
 
-  const submitScheduleHandler = (event:React.FormEvent) => {
+  const submitScheduleHandler = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(selectedDate)
-    console.log(scheduleRef.current?.value)
-    console.log(locationRef.current?.value)
-    console.log(membersRef.current?.value)
-  }
+    console.log(selectedDate);
+    console.log(scheduleRef.current?.value);
+    console.log(locationRef.current?.value);
+    console.log(membersRef.current?.value);
+  };
 
   return (
     <div>
-      <button onClick={() => setIsUpdating(true)}>스케쥴 추가하기</button>
+      <div className={classes["add-btn"]}>
+        <button className="purple-btn" onClick={() => setIsUpdating(true)}>
+          스케쥴 추가하기
+        </button>
+      </div>
       {isUpdating && (
-        <div>
+        <div className={classes["monthly-form"]}>
           <form onSubmit={submitScheduleHandler}>
             {/* 년월일 선택 */}
             <div>
+              <label>날짜를 선택해주세요</label>
               <Select
+                className={classes.select}
                 options={yearOptions}
                 onChange={(
                   newValue: SingleValue<{ value: number; label: string }>
@@ -47,6 +54,7 @@ const UpdateCalendar = () => {
                 }}
               />
               <Select
+                className={classes.select}
                 options={monthOptions}
                 onChange={(
                   newValue: SingleValue<{ value: number; label: string }>
@@ -60,6 +68,7 @@ const UpdateCalendar = () => {
               />
               {selectedDate.year !== 0 && selectedDate.month !== 0 && (
                 <Select
+                  className={classes.select}
                   options={getDateOptions(
                     selectedDate.year,
                     selectedDate.month
@@ -78,7 +87,7 @@ const UpdateCalendar = () => {
             </div>
             <div>
               <label htmlFor="schedule">스케쥴 내용</label>
-              <input id="schedule" type="text" ref={scheduleRef}/>
+              <input id="schedule" type="text" ref={scheduleRef} />
             </div>
             <div>
               <label htmlFor="location">장소</label>
@@ -86,11 +95,21 @@ const UpdateCalendar = () => {
             </div>
             <div>
               <label htmlFor="with">with</label>
-              <input id="with" type="text" placeholder=",로 구분해주세요" ref={membersRef}/>
+              <input
+                id="with"
+                type="text"
+                placeholder=",로 구분해주세요"
+                ref={membersRef}
+              />
             </div>
             <div>
-              <button>저장하기</button>
-              <button onClick={() => setIsUpdating(false)}>닫기</button>
+              <button className="purple-btn">저장하기</button>
+              <button
+                className="yellow-btn"
+                onClick={() => setIsUpdating(false)}
+              >
+                닫기
+              </button>
             </div>
           </form>
         </div>
