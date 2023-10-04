@@ -3,20 +3,7 @@ import { useContext, useState } from "react";
 import Select from "react-select";
 import { SingleValue, ActionMeta } from "react-select/dist/declarations/src";
 import { MonthContext } from "../../context/month-context";
-
-type SelectOptionType = { label: string; value: number };
-
-const yearOptions = [{ value: 0, label: "년도를 선택해주세요" }];
-const monthOptions: [{ value: number; label: string }] = [
-  { value: 0, label: "월을 선택해주세요" },
-];
-
-for (let y = 0; y < 30; y++) {
-  yearOptions.push({ value: 2020 + y, label: `${2020 + y}년` });
-}
-for (let m = 0; m < 12; m++) {
-  monthOptions.push({ value: m + 1, label: `${m + 1}월` });
-}
+import { yearOptions, monthOptions } from "../../utils/dateInfo";
 
 const SearchMonth = () => {
   const monthCtx = useContext(MonthContext);

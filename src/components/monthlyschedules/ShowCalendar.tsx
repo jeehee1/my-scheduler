@@ -5,8 +5,6 @@ import { MonthContext } from "../../context/month-context";
 import ShowCalendarDetail from "./ShowCalendarDetail";
 import ShowDate from "./ShowDate";
 
-const date = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"];
-
 const ShowCalendar = () => {
   const monthCtx = useContext(MonthContext);
 
