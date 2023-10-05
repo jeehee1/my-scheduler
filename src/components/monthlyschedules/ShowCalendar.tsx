@@ -3,7 +3,7 @@ import classes from "./ShowCalendar.module.css";
 import { DUMMY_MONTHLY_DATA } from "../../data/DUMMY_MONTHLY_DATA";
 import { MonthContext } from "../../context/month-context";
 import ShowCalendarDetail from "./ShowCalendarDetail";
-import ShowDate from "./ShowDate";
+import ShowDay from "./ShowDay";
 
 const ShowCalendar = () => {
   const monthCtx = useContext(MonthContext);
@@ -111,7 +111,7 @@ const ShowCalendar = () => {
       <div className={classes["selected-month"]}>
         <h1>{`${monthCtx.searchMonth.year} / ${monthCtx.searchMonth.month}`}</h1>
       </div>
-      <ShowDate />
+      <ShowDay />
       <div>{calendarComp}</div>;
     </>
   );

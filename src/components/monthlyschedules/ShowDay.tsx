@@ -1,7 +1,7 @@
-import classes from "./ShowDate.module.css";
+import classes from "./ShowDay.module.css";
 import { day } from "../../utils/dateInfo";
 
-const ShowDate = () => {
+const ShowDay = () => {
 
   const displayedDate = [];
 
@@ -16,4 +16,4 @@ const ShowDate = () => {
   return <div className={classes.dates}>{displayedDate}</div>;
 };
 
-export default ShowDate;
+export default ShowDay;
