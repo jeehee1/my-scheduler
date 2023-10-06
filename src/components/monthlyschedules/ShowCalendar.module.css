@@ -13,6 +13,31 @@
   border-radius: 4px;
 }
 
+.schedules {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  height: 60px;
+  overflow-y: auto;
+}
+
+.schedules::-webkit-scrollbar {
+  width: 10px;
+}
+
+.schedules::-webkit-scrollbar-thumb {
+  background-color: #606060;
+  box-shadow: 0 1px 5px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+.schedules::-webkit-scrollbar-track {
+  background-color: #cecece;
+  border-radius: 8px;
+}
+
 .row {
   display: flex;
   margin: 0.3rem auto;

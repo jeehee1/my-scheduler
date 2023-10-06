@@ -1,10 +1,10 @@
 .schedule {
   color: white;
   background-color: blueviolet;
+  border-radius: 4px;
   text-align: center;
   font-size: 0.3rem;
   font-weight: 600;
-  overflow: hidden;
   height: 1rem;
 }
 
