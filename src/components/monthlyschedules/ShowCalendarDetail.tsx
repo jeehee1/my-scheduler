@@ -36,7 +36,7 @@ const ShowCalendarDetail = ({
           <p className={classes.content}>{schedule.schedule.schedule}</p>
           <p className={classes.location}>{schedule.schedule.location}</p>
           <p className={classes.members}>
-            {schedule.schedule.members.map((member) => (
+            {schedule.schedule.members?.map((member) => (
               <span>{member}</span>
             ))}
           </p>

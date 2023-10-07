@@ -4,17 +4,59 @@ import { DUMMY_MONTHLY_DATA } from "../../data/DUMMY_MONTHLY_DATA";
 import { MonthContext } from "../../context/month-context";
 import ShowCalendarDetail from "./ShowCalendarDetail";
 import ShowDay from "./ShowDay";
+import useHttp from "../../hooks/use-http";
 
 const ShowCalendar = () => {
   const monthCtx = useContext(MonthContext);
+  const [loadedSchedules, setLoadedSchedules] = useState<
+    {
+      id: string;
+      date: string;
+      schedule: string;
+      location: string;
+      members: [string];
+    }[]
+  >([]);
+  const { loading, error, sendRequest, data, identifier, extra } = useHttp();
 
-  const SEARCHED_DUMMY_DATA =
-    DUMMY_MONTHLY_DATA.filter(
-      (data) =>
-        new Date(data.date).getMonth() === monthCtx.searchMonth.month - 1
-    ) || null;
+  useEffect(() => {
+    sendRequest(
+      process.env.REACT_APP_DATABASE_URL +
+        `/monthly/${monthCtx.searchMonth.year}-${
+          monthCtx.searchMonth.month < 10
+            ? "0" + monthCtx.searchMonth.month
+            : monthCtx.searchMonth.month
+        }.json`,
+      "GET",
+      null,
+      null,
+      "GET_MONTHLY_SCHEDULES"
+    );
+    console.log(
+      process.env.REACT_APP_DATABASE_URL +
+        `/monthly/${monthCtx.searchMonth.year}-${
+          monthCtx.searchMonth.month < 10
+            ? "0" + monthCtx.searchMonth.month
+            : monthCtx.searchMonth.month < 10
+        }.json`
+    );
+  }, [monthCtx.searchMonth]);
 
-  console.log(SEARCHED_DUMMY_DATA);
+  useEffect(() => {
+    if (identifier === "GET_MONTHLY_SCHEDULES") {
+      const transformedSchedules: {
+        id: string;
+        date: string;
+        schedule: string;
+        location: string;
+        members: [string];
+      }[] = [];
+      for (const key in data) {
+        transformedSchedules.push({ id: key, ...data[key] });
+      }
+      setLoadedSchedules(transformedSchedules);
+    }
+  }, [data, identifier]);
 
   // 해당 월의 캘린더 시작 startNum
   const startMonth = new Date(
@@ -58,17 +100,19 @@ const ShowCalendar = () => {
   }[] = [];
 
   // 스케쥴 정보를 캘린더 Num과 매핑하여 calendarData 배열로 변환
-  for (let schedule = 0; schedule < SEARCHED_DUMMY_DATA.length; schedule++) {
+  for (let schedule = 0; schedule < loadedSchedules.length; schedule++) {
     const number =
-      new Date(SEARCHED_DUMMY_DATA[schedule].date).getDate() + startNum - 1;
+      new Date(loadedSchedules[schedule].date).getDate() + startNum - 1;
     calendarData.push({
       calNum: number,
       schedule: {
-        ...SEARCHED_DUMMY_DATA[schedule],
-        id: SEARCHED_DUMMY_DATA[schedule].id + number,
+        ...loadedSchedules[schedule],
+        id: loadedSchedules[schedule].id + number,
       },
     });
   }
+
+  console.log(calendarData)
 
   // 화면에 표시되는 캘린더 calendarComp
   const calendarComp = [];
