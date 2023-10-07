@@ -7,8 +7,12 @@ import {
 } from "../../utils/dateInfo";
 import Select from "react-select";
 import { SingleValue } from "react-select";
+import useHttp from "../../hooks/use-http";
+import { monthlySchedule } from "../../types/SchedulerType";
 
 const UpdateCalendar = () => {
+  const { loading, error, sendRequest, extra } = useHttp();
+  const [formMessage, setFormMessage] = useState<String>();
   const [isUpdating, setIsUpdating] = useState(false);
   const [selectedDate, setSelectedDate] = useState({
     year: 0,
@@ -19,12 +23,56 @@ const UpdateCalendar = () => {
   const locationRef = useRef<HTMLInputElement>(null);
   const membersRef = useRef<HTMLInputElement>(null);
 
-  const submitScheduleHandler = (event: React.FormEvent) => {
+  const submitScheduleHandler = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(selectedDate);
-    console.log(scheduleRef.current?.value);
-    console.log(locationRef.current?.value);
-    console.log(membersRef.current?.value);
+
+    if (
+      selectedDate.date === 0 ||
+      selectedDate.month === 0 ||
+      selectedDate.year === 0
+    ) {
+      setFormMessage("날짜를 입력해주세요");
+      return;
+    } else if (scheduleRef.current?.value === "") {
+      setFormMessage("스케쥴을 입력해주세요");
+      return;
+    } else if (locationRef.current?.value === "") {
+      setFormMessage("장소를 입력해주세요");
+      return;
+    } else {
+      setFormMessage("");
+
+      const newDate = `${selectedDate.year}-${
+        selectedDate.month < 10 ? "0" + selectedDate.month : selectedDate.month
+      }-${
+        selectedDate.date < 10 ? "0" + selectedDate.date : selectedDate.date
+      }`;
+      const newMembers = membersRef.current!.value
+        ? membersRef.current!.value.split(",").map((member) => member.trim())
+        : [];
+      console.log(newDate);
+
+      const newSchedule: monthlySchedule = {
+        date: newDate,
+        schedule: scheduleRef.current!.value,
+        location: locationRef.current!.value,
+        members: newMembers,
+      };
+      console.log(newSchedule);
+      console.log(
+        process.env.REACT_APP_DATABASE_URL +
+          `/monthly/${newDate.slice(0, 7)}.json`
+      );
+      await sendRequest(
+        process.env.REACT_APP_DATABASE_URL +
+          `/monthly/${newDate.slice(0, 7)}.json`,
+        "POST",
+        newSchedule,
+        newSchedule,
+        "UPDATE_SCHEDULE"
+      );
+      console.log("request sucess");
+    }
   };
 
   return (
@@ -102,6 +150,7 @@ const UpdateCalendar = () => {
                 ref={membersRef}
               />
             </div>
+            <p>{formMessage}</p>
             <div>
               <button className="purple-btn">저장하기</button>
               <button

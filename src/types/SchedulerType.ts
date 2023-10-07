@@ -20,3 +20,10 @@ export type typePlan = {
   diet: typeDiet;
   goal: typeGoal;
 };
+
+export type monthlySchedule = {
+  date: string;
+  schedule: string;
+  location: string;
+  members: string[];
+};
