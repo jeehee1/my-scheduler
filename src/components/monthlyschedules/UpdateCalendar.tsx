@@ -1,5 +1,5 @@
 import classes from "./UpdateCalendar.module.css";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   monthOptions,
   yearOptions,
@@ -10,8 +10,12 @@ import { SingleValue } from "react-select";
 import useHttp from "../../hooks/use-http";
 import { monthlySchedule } from "../../types/SchedulerType";
 
-const UpdateCalendar = () => {
-  const { loading, error, sendRequest, extra } = useHttp();
+const UpdateCalendar = ({
+  updateSchedules,
+}: {
+  updateSchedules: (id: string, schedule: monthlySchedule) => void;
+}) => {
+  const { loading, error, data, sendRequest, extra, identifier } = useHttp();
   const [formMessage, setFormMessage] = useState<String>();
   const [isUpdating, setIsUpdating] = useState(false);
   const [selectedDate, setSelectedDate] = useState({
@@ -71,9 +75,17 @@ const UpdateCalendar = () => {
         newSchedule,
         "UPDATE_SCHEDULE"
       );
-      console.log("request sucess");
+      setIsUpdating(false);
     }
+    console.log("1")
   };
+
+  useEffect(() => {
+    if (identifier === "UPDATE_SCHEDULE") {
+      console.log("2")
+      updateSchedules(data.name, { ...extra });
+    }
+  }, [data, identifier]);
 
   return (
     <div>

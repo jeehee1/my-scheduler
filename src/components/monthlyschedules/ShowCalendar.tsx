@@ -1,62 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import classes from "./ShowCalendar.module.css";
-import { DUMMY_MONTHLY_DATA } from "../../data/DUMMY_MONTHLY_DATA";
 import { MonthContext } from "../../context/month-context";
 import ShowCalendarDetail from "./ShowCalendarDetail";
 import ShowDay from "./ShowDay";
-import useHttp from "../../hooks/use-http";
 
-const ShowCalendar = () => {
+const ShowCalendar = ({schedules}: {schedules:{
+  id: string;
+  date: string;
+  schedule: string;
+  location: string;
+  members: string[];
+}[]}) => {
   const monthCtx = useContext(MonthContext);
-  const [loadedSchedules, setLoadedSchedules] = useState<
-    {
-      id: string;
-      date: string;
-      schedule: string;
-      location: string;
-      members: [string];
-    }[]
-  >([]);
-  const { loading, error, sendRequest, data, identifier, extra } = useHttp();
-
-  useEffect(() => {
-    sendRequest(
-      process.env.REACT_APP_DATABASE_URL +
-        `/monthly/${monthCtx.searchMonth.year}-${
-          monthCtx.searchMonth.month < 10
-            ? "0" + monthCtx.searchMonth.month
-            : monthCtx.searchMonth.month
-        }.json`,
-      "GET",
-      null,
-      null,
-      "GET_MONTHLY_SCHEDULES"
-    );
-    console.log(
-      process.env.REACT_APP_DATABASE_URL +
-        `/monthly/${monthCtx.searchMonth.year}-${
-          monthCtx.searchMonth.month < 10
-            ? "0" + monthCtx.searchMonth.month
-            : monthCtx.searchMonth.month < 10
-        }.json`
-    );
-  }, [monthCtx.searchMonth]);
-
-  useEffect(() => {
-    if (identifier === "GET_MONTHLY_SCHEDULES") {
-      const transformedSchedules: {
-        id: string;
-        date: string;
-        schedule: string;
-        location: string;
-        members: [string];
-      }[] = [];
-      for (const key in data) {
-        transformedSchedules.push({ id: key, ...data[key] });
-      }
-      setLoadedSchedules(transformedSchedules);
-    }
-  }, [data, identifier]);
 
   // 해당 월의 캘린더 시작 startNum
   const startMonth = new Date(
@@ -100,19 +55,19 @@ const ShowCalendar = () => {
   }[] = [];
 
   // 스케쥴 정보를 캘린더 Num과 매핑하여 calendarData 배열로 변환
-  for (let schedule = 0; schedule < loadedSchedules.length; schedule++) {
+  for (let schedule = 0; schedule < schedules.length; schedule++) {
     const number =
-      new Date(loadedSchedules[schedule].date).getDate() + startNum - 1;
+      new Date(schedules[schedule].date).getDate() + startNum - 1;
     calendarData.push({
       calNum: number,
       schedule: {
-        ...loadedSchedules[schedule],
-        id: loadedSchedules[schedule].id + number,
+        ...schedules[schedule],
+        id: schedules[schedule].id + number,
       },
     });
   }
 
-  console.log(calendarData)
+  console.log(calendarData);
 
   // 화면에 표시되는 캘린더 calendarComp
   const calendarComp = [];
@@ -142,7 +97,7 @@ const ShowCalendar = () => {
             {calendarData
               .filter((data) => data.calNum === r * 7 + c)
               .map((schedule) => (
-                <ShowCalendarDetail schedule={schedule} />
+                <ShowCalendarDetail schedule={schedule}/>
               ))}
           </div>
         </div>
