@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import SearchMonth from "../components/monthlyschedules/SearchMonth";
 import { MonthContext } from "../context/month-context";
 import ShowCalendar from "../components/monthlyschedules/ShowCalendar";
@@ -42,12 +42,17 @@ const Calendar = () => {
         date: string;
         schedule: string;
         location: string;
-        members: [string];
+        members: string[];
       }[] = [];
       for (const key in data) {
         transformedSchedules.push({ id: key, ...data[key] });
       }
       setLoadedSchedules(transformedSchedules);
+    }
+    if (identifier === "DELETE_MONTHLY_SCHEDULE") {
+      setLoadedSchedules(
+        loadedSchedules.filter((schedule) => schedule.id !== extra)
+      );
     }
   }, [data, identifier]);
 
@@ -58,12 +63,36 @@ const Calendar = () => {
     setLoadedSchedules([...loadedSchedules, { id: id, ...schedule }]);
   };
 
+  // 스케쥴 삭제 핸들러
+  const deleteMonthlyScheduleHandler = useCallback(
+    (id: string) => {
+      sendRequest(
+        process.env.REACT_APP_DATABASE_URL +
+          `/monthly/${monthCtx.searchMonth.year}-${
+            monthCtx.searchMonth.month < 10
+              ? "0" + monthCtx.searchMonth.month
+              : monthCtx.searchMonth.month
+          }/${id}.json`,
+        "DELETE",
+        null,
+        id,
+        "DELETE_MONTHLY_SCHEDULE"
+      );
+    },
+    [sendRequest, process.env.REACT_APP_DATABASE_URL, monthCtx.searchMonth]
+  );
+
   return (
     <>
       <div>
         <SearchMonth />
-        <UpdateCalendar updateSchedules = {updateMonthlyScheduleHandler}/>
-        {loadedSchedules.length > 0 && <ShowCalendar schedules={loadedSchedules} />}
+        <UpdateCalendar updateSchedules={updateMonthlyScheduleHandler} />
+        {loadedSchedules.length > 0 && (
+          <ShowCalendar
+            schedules={loadedSchedules}
+            deleteSchedule={deleteMonthlyScheduleHandler}
+          />
+        )}
       </div>
     </>
   );

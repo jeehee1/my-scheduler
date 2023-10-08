@@ -62,11 +62,6 @@ const UpdateCalendar = ({
         location: locationRef.current!.value,
         members: newMembers,
       };
-      console.log(newSchedule);
-      console.log(
-        process.env.REACT_APP_DATABASE_URL +
-          `/monthly/${newDate.slice(0, 7)}.json`
-      );
       await sendRequest(
         process.env.REACT_APP_DATABASE_URL +
           `/monthly/${newDate.slice(0, 7)}.json`,
@@ -77,12 +72,10 @@ const UpdateCalendar = ({
       );
       setIsUpdating(false);
     }
-    console.log("1")
   };
 
   useEffect(() => {
     if (identifier === "UPDATE_SCHEDULE") {
-      console.log("2")
       updateSchedules(data.name, { ...extra });
     }
   }, [data, identifier]);

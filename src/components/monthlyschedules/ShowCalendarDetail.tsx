@@ -3,6 +3,7 @@ import { useState } from "react";
 
 const ShowCalendarDetail = ({
   schedule,
+  deleteSchedule,
 }: {
   schedule: {
     calNum: number;
@@ -14,6 +15,7 @@ const ShowCalendarDetail = ({
       members: string[];
     };
   };
+  deleteSchedule: (id: string) => void;
 }) => {
   const [showDetails, setShowDetails] = useState(false);
   return (
@@ -40,6 +42,16 @@ const ShowCalendarDetail = ({
               <span>{member}</span>
             ))}
           </p>
+          <div>
+            <button>수정</button>
+            <button
+              onClick={() => {
+                deleteSchedule(schedule.schedule.id);
+              }}
+            >
+              삭제
+            </button>
+          </div>
         </div>
       )}
     </>

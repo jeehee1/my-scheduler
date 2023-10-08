@@ -4,13 +4,19 @@ import { MonthContext } from "../../context/month-context";
 import ShowCalendarDetail from "./ShowCalendarDetail";
 import ShowDay from "./ShowDay";
 
-const ShowCalendar = ({schedules}: {schedules:{
-  id: string;
-  date: string;
-  schedule: string;
-  location: string;
-  members: string[];
-}[]}) => {
+const ShowCalendar = ({
+  schedules,
+  deleteSchedule,
+}: {
+  schedules: {
+    id: string;
+    date: string;
+    schedule: string;
+    location: string;
+    members: string[];
+  }[];
+  deleteSchedule: (id: string) => void;
+}) => {
   const monthCtx = useContext(MonthContext);
 
   // 해당 월의 캘린더 시작 startNum
@@ -56,18 +62,15 @@ const ShowCalendar = ({schedules}: {schedules:{
 
   // 스케쥴 정보를 캘린더 Num과 매핑하여 calendarData 배열로 변환
   for (let schedule = 0; schedule < schedules.length; schedule++) {
-    const number =
-      new Date(schedules[schedule].date).getDate() + startNum - 1;
+    const number = new Date(schedules[schedule].date).getDate() + startNum - 1;
     calendarData.push({
       calNum: number,
       schedule: {
         ...schedules[schedule],
-        id: schedules[schedule].id + number,
+        id: schedules[schedule].id,
       },
     });
   }
-
-  console.log(calendarData);
 
   // 화면에 표시되는 캘린더 calendarComp
   const calendarComp = [];
@@ -97,7 +100,10 @@ const ShowCalendar = ({schedules}: {schedules:{
             {calendarData
               .filter((data) => data.calNum === r * 7 + c)
               .map((schedule) => (
-                <ShowCalendarDetail schedule={schedule}/>
+                <ShowCalendarDetail
+                  schedule={schedule}
+                  deleteSchedule={deleteSchedule}
+                />
               ))}
           </div>
         </div>
@@ -109,7 +115,6 @@ const ShowCalendar = ({schedules}: {schedules:{
       </div>
     );
   }
-  // }
 
   return (
     <>
