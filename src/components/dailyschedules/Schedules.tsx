@@ -122,42 +122,6 @@ const Schedules = ({user}:{user:string}) => {
     }
   }, [data, identifier, error, loading, extra]);
   console.log(loadedSchedules);
-  // 스케쥴 업데이트
-  // const addScheduleHandler = (newSchedule: {
-  //   startTime: string;
-  //   endTime: string;
-  //   color: string;
-  //   schedule: string;
-  // }) => {
-  //   console.log("AddSchedule");
-  //   sendRequest(
-  //     process.env.REACT_APP_DATABASE_URL +
-  //       `/${dateCtx.selectedDate}/schedules.json`,
-  //     "POST",
-  //     newSchedule,
-  //     newSchedule,
-  //     "ADD_SCHEDULE"
-  //   );
-  //   setUpdatingSchedule({ editing: false, time: 0 });
-  // };
-
-  //스케쥴 삭제
-  // const deleteScheduleHandler = (deletingSchedules: string[]) => {
-  //   if (deletingSchedules) {
-  //     for (let i = 0; i < deletingSchedules.length; i++) {
-  //       sendRequest(
-  //         process.env.REACT_APP_DATABASE_URL +
-  //           `/${dateCtx.selectedDate}/schedules/${deletingSchedules[i]}.json`,
-  //         "DELETE",
-  //         null,
-  //         deletingSchedules[i],
-  //         "DELETE_SCHEDULE"
-  //       );
-  //     }
-  //   }
-  // };
-
-  //manipulatedData  = [{body: deleteId, method: "DELETE"}, {body: deleteId, method: "DELETE"}, {body: newSchedule, method: "POST"}]
   const manipulateScheduleHandler = (
     deleteIds: string[] | null,
     newSchedule: {

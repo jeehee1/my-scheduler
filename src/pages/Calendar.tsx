@@ -27,7 +27,7 @@ const Calendar = () => {
   useEffect(() => {
     sendRequest(
       process.env.REACT_APP_DATABASE_URL +
-        `/monthly/${monthCtx.searchMonth.year}-${
+        `/monthly/${validToken}/${monthCtx.searchMonth.year}-${
           monthCtx.searchMonth.month < 10
             ? "0" + monthCtx.searchMonth.month
             : monthCtx.searchMonth.month
@@ -77,7 +77,8 @@ const Calendar = () => {
     newSchedule: monthlySchedule
   ) => {
     sendRequest(
-      process.env.REACT_APP_DATABASE_URL + `/monthly/${yearMonth}.json`,
+      process.env.REACT_APP_DATABASE_URL +
+        `/monthly/${validToken}/${yearMonth}.json`,
       "POST",
       newSchedule,
       newSchedule,
@@ -90,7 +91,7 @@ const Calendar = () => {
     (id: string) => {
       sendRequest(
         process.env.REACT_APP_DATABASE_URL +
-          `/monthly/${monthCtx.searchMonth.year}-${
+          `/monthly/${validToken}/${monthCtx.searchMonth.year}-${
             monthCtx.searchMonth.month < 10
               ? "0" + monthCtx.searchMonth.month
               : monthCtx.searchMonth.month
@@ -111,7 +112,7 @@ const Calendar = () => {
       console.log(editedSchedule);
       sendRequest(
         process.env.REACT_APP_DATABASE_URL +
-          `/monthly/${monthCtx.searchMonth.year}-${
+          `/monthly/${validToken}/${monthCtx.searchMonth.year}-${
             monthCtx.searchMonth.month < 10
               ? "0" + monthCtx.searchMonth.month
               : monthCtx.searchMonth.month
@@ -130,7 +131,8 @@ const Calendar = () => {
       <div>
         <SearchMonth />
         <UpdateCalendar addSchedule={AddMonthlySchedule} />
-        {loadedSchedules.length > 0 && (
+        {(monthCtx.searchMonth.year !== 0 ||
+          monthCtx.searchMonth.month !== 0) && (
           <ShowCalendar
             schedules={loadedSchedules}
             deleteSchedule={deleteMonthlyScheduleHandler}
