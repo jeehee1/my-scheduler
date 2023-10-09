@@ -11,9 +11,9 @@ import useHttp from "../../hooks/use-http";
 import { monthlySchedule } from "../../types/SchedulerType";
 
 const UpdateCalendar = ({
-  updateSchedules,
+  addSchedule,
 }: {
-  updateSchedules: (id: string, schedule: monthlySchedule) => void;
+  addSchedule: (yearMonth: string, schedule: monthlySchedule) => void;
 }) => {
   const { loading, error, data, sendRequest, extra, identifier } = useHttp();
   const [formMessage, setFormMessage] = useState<String>();
@@ -62,21 +62,15 @@ const UpdateCalendar = ({
         location: locationRef.current!.value,
         members: newMembers,
       };
-      await sendRequest(
-        process.env.REACT_APP_DATABASE_URL +
-          `/monthly/${newDate.slice(0, 7)}.json`,
-        "POST",
-        newSchedule,
-        newSchedule,
-        "UPDATE_SCHEDULE"
-      );
+
+      addSchedule(newDate.slice(0, 7), newSchedule);
       setIsUpdating(false);
     }
   };
 
   useEffect(() => {
     if (identifier === "UPDATE_SCHEDULE") {
-      updateSchedules(data.name, { ...extra });
+      addSchedule(data.name, { ...extra });
     }
   }, [data, identifier]);
 

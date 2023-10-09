@@ -5,9 +5,13 @@ import ShowCalendar from "../components/monthlyschedules/ShowCalendar";
 import UpdateCalendar from "../components/monthlyschedules/UpdateCalendar";
 import useHttp from "../hooks/use-http";
 import { monthlySchedule } from "../types/SchedulerType";
+import { useRouteLoaderData } from "react-router-dom";
 
 const Calendar = () => {
   const monthCtx = useContext(MonthContext);
+  const userToken = useRouteLoaderData("root") || "";
+  const validToken = userToken.toString();
+
   const [loadedSchedules, setLoadedSchedules] = useState<
     {
       id: string;
@@ -35,6 +39,7 @@ const Calendar = () => {
     );
   }, [monthCtx.searchMonth]);
 
+  // CRUD 작업 후 state 변경으로 변경된 스케줄 반영
   useEffect(() => {
     if (identifier === "GET_MONTHLY_SCHEDULES") {
       const transformedSchedules: {
@@ -48,6 +53,9 @@ const Calendar = () => {
         transformedSchedules.push({ id: key, ...data[key] });
       }
       setLoadedSchedules(transformedSchedules);
+    }
+    if (identifier === "ADD_MONTHLY_SCHEDULE") {
+      setLoadedSchedules([...loadedSchedules, { id: data.name, ...extra }]);
     }
     if (identifier === "DELETE_MONTHLY_SCHEDULE") {
       setLoadedSchedules(
@@ -64,14 +72,17 @@ const Calendar = () => {
   }, [data, identifier, extra]);
   console.log(loadedSchedules);
 
-  const updateMonthlyScheduleHandler = (
-    id: string,
-    schedule: monthlySchedule
+  const AddMonthlySchedule = (
+    yearMonth: string,
+    newSchedule: monthlySchedule
   ) => {
-    setLoadedSchedules([
-      ...loadedSchedules,
-      { id: id, ...schedule },
-    ]);
+    sendRequest(
+      process.env.REACT_APP_DATABASE_URL + `/monthly/${yearMonth}.json`,
+      "POST",
+      newSchedule,
+      newSchedule,
+      "ADD_MONTHLY_SCHEDULE"
+    );
   };
 
   // 스케쥴 삭제 핸들러
@@ -118,7 +129,7 @@ const Calendar = () => {
     <>
       <div>
         <SearchMonth />
-        <UpdateCalendar updateSchedules={updateMonthlyScheduleHandler} />
+        <UpdateCalendar addSchedule={AddMonthlySchedule} />
         {loadedSchedules.length > 0 && (
           <ShowCalendar
             schedules={loadedSchedules}
