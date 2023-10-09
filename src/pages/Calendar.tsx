@@ -54,13 +54,24 @@ const Calendar = () => {
         loadedSchedules.filter((schedule) => schedule.id !== extra)
       );
     }
-  }, [data, identifier]);
+    if (identifier === "UPDATE_MONTHLY_SCHEDULE") {
+      const existedSchedules = loadedSchedules.filter(
+        (schedule) => schedule.id !== extra.id
+      );
+      const updatedSchedule = { id: extra.id, ...extra.editedSchedule };
+      setLoadedSchedules([...existedSchedules, updatedSchedule]);
+    }
+  }, [data, identifier, extra]);
+  console.log(loadedSchedules);
 
   const updateMonthlyScheduleHandler = (
     id: string,
     schedule: monthlySchedule
   ) => {
-    setLoadedSchedules([...loadedSchedules, { id: id, ...schedule }]);
+    setLoadedSchedules([
+      ...loadedSchedules,
+      { id: extra.id, ...extra.editedSchedule },
+    ]);
   };
 
   // 스케쥴 삭제 핸들러
@@ -82,6 +93,27 @@ const Calendar = () => {
     [sendRequest, process.env.REACT_APP_DATABASE_URL, monthCtx.searchMonth]
   );
 
+  // 기존 스케줄 수정 함수
+  const updateScheduleHandler = useCallback(
+    (id: string, editedSchedule: monthlySchedule) => {
+      console.log(id);
+      console.log(editedSchedule);
+      sendRequest(
+        process.env.REACT_APP_DATABASE_URL +
+          `/monthly/${monthCtx.searchMonth.year}-${
+            monthCtx.searchMonth.month < 10
+              ? "0" + monthCtx.searchMonth.month
+              : monthCtx.searchMonth.month
+          }/${id}.json`,
+        "PATCH",
+        editedSchedule,
+        { id: id, editedSchedule: editedSchedule },
+        "UPDATE_MONTHLY_SCHEDULE"
+      );
+    },
+    [sendRequest, process.env.REACT_APP_DATABASE_URL, monthCtx.searchMonth]
+  );
+
   return (
     <>
       <div>
@@ -91,6 +123,7 @@ const Calendar = () => {
           <ShowCalendar
             schedules={loadedSchedules}
             deleteSchedule={deleteMonthlyScheduleHandler}
+            updateSchedule={updateScheduleHandler}
           />
         )}
       </div>

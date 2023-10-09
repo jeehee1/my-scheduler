@@ -3,10 +3,12 @@ import classes from "./ShowCalendar.module.css";
 import { MonthContext } from "../../context/month-context";
 import ShowCalendarDetail from "./ShowCalendarDetail";
 import ShowDay from "./ShowDay";
+import { monthlySchedule } from "../../types/SchedulerType";
 
 const ShowCalendar = ({
   schedules,
   deleteSchedule,
+  updateSchedule,
 }: {
   schedules: {
     id: string;
@@ -16,6 +18,7 @@ const ShowCalendar = ({
     members: string[];
   }[];
   deleteSchedule: (id: string) => void;
+  updateSchedule: (id: string, schedule: monthlySchedule) => void;
 }) => {
   const monthCtx = useContext(MonthContext);
 
@@ -103,6 +106,7 @@ const ShowCalendar = ({
                 <ShowCalendarDetail
                   schedule={schedule}
                   deleteSchedule={deleteSchedule}
+                  updateSchedule={updateSchedule}
                 />
               ))}
           </div>

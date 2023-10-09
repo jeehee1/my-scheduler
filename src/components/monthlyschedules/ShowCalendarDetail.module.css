@@ -55,19 +55,42 @@
 .location {
   font-size: 0.8rem;
   margin: 0 auto;
-  padding: 0.1rem;
+  padding: 0.1rem 0.3rem;
   width: fit-content;
-  color: #fff;
   border-radius: 4px;
-  background-color: #edca04;
+  border: 2px solid #edca04;
+}
+
+.members {
+  margin: 0.5rem 0;
 }
 
 .members span {
   font-size: 0.6rem;
-  margin: 0 0.2rem;
-  padding: 0.1rem;
-  font-weight: 500;
-  color: white;
+  font-weight: bold;
+  margin: 0 0.1rem;
+  padding: 0.1rem 0.3rem;
   border-radius: 4px;
-  background-color: #713590;
+  border: 2px solid #713590;
+}
+
+.sm-btn {
+  font-size: 0.7rem;
+  height: 1.5rem;
+  margin: 1rem 0.3rem;
+}
+
+.monthly-update-form label {
+  display: block;
+  margin: 0.2rem 0 0.3rem 0;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.monthly-update-form input {
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #aaa;
+  width: 100px;
+  margin-bottom: 0.5rem;
 }
