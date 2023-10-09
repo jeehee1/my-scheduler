@@ -70,7 +70,7 @@ const Calendar = () => {
   ) => {
     setLoadedSchedules([
       ...loadedSchedules,
-      { id: extra.id, ...extra.editedSchedule },
+      { id: id, ...schedule },
     ]);
   };
 
