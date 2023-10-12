@@ -8,8 +8,8 @@ import {
 
 const AuthForm = () => {
   const [searchParams] = useSearchParams();
-  const error:any  = useActionData();
-  const isLogin = searchParams.get("mode") === "login";
+  const error: any = useActionData();
+  const isLogin = searchParams.get("mode") !== "signup";
 
   return (
     <div className={classes["login-form"]}>

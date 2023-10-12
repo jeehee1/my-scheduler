@@ -16,7 +16,6 @@ export const action = async ({ request }: { request: Request }) => {
     const mode = searchParams.get("mode") || "login";
 
     if (mode !== "login" && mode !== "signup") {
-      console.log("mode가 전달되지 않았습니다");
       return;
     }
 
