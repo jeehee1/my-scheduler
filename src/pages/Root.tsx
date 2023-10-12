@@ -8,7 +8,7 @@ import TypeNavigation from "../components/navigation/TypeNavigation";
 import MonthContextProvider from "../context/month-context";
 
 function RootLayout() {
-  const token = useLoaderData();
+  const token:any = useLoaderData();
   const submit = useSubmit();
   useEffect(() => {
     if (!token) {
@@ -31,7 +31,7 @@ function RootLayout() {
           <div className="App">
             <main>
               <AuthNavigation />
-              <TypeNavigation />
+              {token && <TypeNavigation />}
               <Outlet />
             </main>
           </div>

@@ -5,12 +5,13 @@ import ShowCalendar from "../components/monthlyschedules/ShowCalendar";
 import UpdateCalendar from "../components/monthlyschedules/UpdateCalendar";
 import useHttp from "../hooks/use-http";
 import { monthlySchedule } from "../types/SchedulerType";
-import { useRouteLoaderData } from "react-router-dom";
+import { Navigate, useRouteLoaderData } from "react-router-dom";
 
 const Calendar = () => {
   const monthCtx = useContext(MonthContext);
   const userToken = useRouteLoaderData("root") || "";
   const validToken = userToken.toString();
+
 
   const [loadedSchedules, setLoadedSchedules] = useState<
     {
@@ -125,6 +126,11 @@ const Calendar = () => {
     },
     [sendRequest, process.env.REACT_APP_DATABASE_URL, monthCtx.searchMonth]
   );
+
+  // 유효한 토큰이 없는 경울 로그인페이지로 이동
+  if(!validToken) {
+      return <Navigate to={'/auth?mode=login'}/>
+  }
 
   return (
     <>

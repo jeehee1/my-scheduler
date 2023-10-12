@@ -7,7 +7,7 @@ import { ModeContext } from "../context/mode-context";
 import EditMessage from "../layout/EditMessage";
 import Todos from "../components/dailyschedules/Todos";
 import SearchDate from "../components/dailyschedules/SearchDate";
-import { useRouteLoaderData } from "react-router-dom";
+import { Navigate, redirect, useNavigate, useRouteLoaderData } from "react-router-dom";
 
 const defaultEditingState = {
   editingTodos: false,
@@ -20,6 +20,9 @@ const Scheduler = () => {
   const modeCtx = useContext(ModeContext);
   const userToken = useRouteLoaderData("root") || "";
   const validToken = userToken.toString();
+  if (!validToken) {
+    return <Navigate to={'/auth?mode=login'}/>;
+  }
 
   return (
     <>
