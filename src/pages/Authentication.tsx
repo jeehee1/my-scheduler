@@ -1,5 +1,5 @@
 import AuthForm from "../components/auth/AuthForm";
-import { redirect } from "react-router-dom";
+import { json, redirect, useNavigate, useResolvedPath } from "react-router-dom";
 import {
   firebaseAuth,
   createUserWithEmailAndPassword,
@@ -16,7 +16,7 @@ export const action = async ({ request }: { request: Request }) => {
     const mode = searchParams.get("mode") || "login";
 
     if (mode !== "login" && mode !== "signup") {
-      return;
+      throw json({ message: "페이지를 찾을 수 없습니다" }, { status: 422 });
     }
 
     const data = await request.formData();

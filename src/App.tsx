@@ -1,7 +1,7 @@
 import {
   createBrowserRouter,
+  Navigate,
   RouterProvider,
-  useParams,
 } from "react-router-dom";
 import "./App.css";
 import RootLayout from "./pages/Root";
@@ -23,12 +23,13 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Authentication />,
+        element: <Navigate to={"/schedules/daily"} />,
       },
       {
         path: "schedules",
         children: [
           {
+            index: true,
             path: "daily",
             element: <Scheduler />,
           },
