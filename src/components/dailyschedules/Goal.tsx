@@ -7,6 +7,7 @@ import { typeGoal } from "../../types/SchedulerType";
 import useHttp from "../../hooks/use-http";
 import { DateContext } from "../../context/date-context";
 import EditGoal from "./EditGoal";
+import Spinner from "../../layout/Spinner";
 
 const Goal = ({ user }: { user: string }) => {
   const modeCtx = useContext(ModeContext);
@@ -101,7 +102,7 @@ const Goal = ({ user }: { user: string }) => {
               )}
             </div>
           )}
-          {loading && error && <p>Loading...</p>}
+          {loading && !error && <Spinner />}
           {error && <p>데이터를 불러올 수 없습니다</p>}
         </Card>
       </div>

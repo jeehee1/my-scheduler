@@ -4,6 +4,7 @@ import { typeTodo } from "../../types/SchedulerType";
 import useHttp from "../../hooks/use-http";
 import { DateContext } from "../../context/date-context";
 import Card from "../../layout/Card";
+import Spinner from "../../layout/Spinner";
 
 const ShowTodos = ({ user }: { user: string }) => {
   const dateCtx = useContext(DateContext);
@@ -110,7 +111,7 @@ const ShowTodos = ({ user }: { user: string }) => {
   return (
     <div>
       <Card editting={false}>
-        {loading && !error && <p>Loading...</p>}
+        {loading && !error && <Spinner />}
         {!loading && !error && (
           <div className={classes.todos}>
             <ul>{todosList}</ul>

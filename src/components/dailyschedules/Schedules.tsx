@@ -8,6 +8,7 @@ import { typeSchedule } from "../../types/SchedulerType";
 import useHttp from "../../hooks/use-http";
 import EditSchedules from "./EditSchedule";
 import { DateContext } from "../../context/date-context";
+import Spinner from "../../layout/Spinner";
 
 const minArray = [0, 10, 20, 30, 40, 50];
 
@@ -233,7 +234,7 @@ const Schedules = ({ user }: { user: string }) => {
       <Title>Schedules</Title>
       <div onClick={() => modeCtx.editMode && setEditSchedulesMode(true)}>
         <Card editting={editSchedulesMode}>
-          {loading && !error && <p>Loading...</p>}
+          {loading && !error && <Spinner />}
           {!loading && !error && (
             <>
               {editSchedulesMode && <p>표를 클릭해서 시간을 선택해주세요.</p>}

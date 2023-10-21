@@ -4,6 +4,7 @@ import useHttp from "../../hooks/use-http";
 import { typeTodo } from "../../types/SchedulerType";
 import { DateContext } from "../../context/date-context";
 import Card from "../../layout/Card";
+import Spinner from "../../layout/Spinner";
 
 const EditTodos = ({ user }: { user: string }) => {
   const [editTodosMode, setEditTodosMode] = useState<boolean>(false);
@@ -197,7 +198,7 @@ const EditTodos = ({ user }: { user: string }) => {
         }}
       >
         <Card editting={editTodosMode}>
-          {loading && !error && <p>Loading...</p>}
+          {loading && !error && <Spinner />}
           {!loading && !error && (
             <div className={classes.todos}>
               {editTodosMode && (

@@ -14,7 +14,7 @@ const Scheduler = () => {
   const userToken = useRouteLoaderData("root") || "";
   const validToken = userToken.toString();
   if (!validToken) {
-    return <Navigate to={'/auth?mode=login'}/>;
+    return <Navigate to={"/auth?mode=login"} />;
   }
 
   return (

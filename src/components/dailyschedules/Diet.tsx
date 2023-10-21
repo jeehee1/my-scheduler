@@ -6,6 +6,7 @@ import { JSX } from "react/jsx-runtime";
 import { ModeContext } from "../../context/mode-context";
 import useHttp from "../../hooks/use-http";
 import { DateContext } from "../../context/date-context";
+import Spinner from "../../layout/Spinner";
 
 const Diet = ({ user }: { user: string }) => {
   const modeCtx = useContext(ModeContext);
@@ -167,7 +168,7 @@ const Diet = ({ user }: { user: string }) => {
   const submitDietHandler = useCallback(
     (event: React.FormEvent) => {
       event.preventDefault();
-      console.log(loadedDiet)
+      console.log(loadedDiet);
       sendRequest(
         loadedDiet
           ? process.env.REACT_APP_DATABASE_URL +
@@ -199,7 +200,7 @@ const Diet = ({ user }: { user: string }) => {
       <div onClick={() => modeCtx.editMode && setEditDietMode(true)}>
         <Card editting={editDietMode}>
           {!loading && !error && dietList}
-          {loading && !error && <p>Loading...</p>}
+          {loading && !error && <Spinner />}
           {error && <p>데이터를 불러올 수 없습니다</p>}
         </Card>
       </div>
