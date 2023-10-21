@@ -1,7 +1,7 @@
 import classes from "./Diet.module.css";
 import Card from "../../layout/Card";
 import Title from "../../layout/Title";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { JSX } from "react/jsx-runtime";
 import { ModeContext } from "../../context/mode-context";
 import useHttp from "../../hooks/use-http";
@@ -24,7 +24,6 @@ const Diet = ({ user }: { user: string }) => {
   } | null>();
   let showDiet: JSX.Element;
   const [editDietMode, setEditDietMode] = useState<boolean>(false);
-  console.log(loadedDiet);
 
   useEffect(() => {
     if (!modeCtx.editMode) {
@@ -33,7 +32,6 @@ const Diet = ({ user }: { user: string }) => {
   }, [modeCtx.editMode]);
 
   useEffect(() => {
-    console.log("get");
     sendRequest(
       process.env.REACT_APP_DATABASE_URL +
         `/my-scheduler/${user}/${dateCtx.selectedDate}/diet.json`,
@@ -47,8 +45,6 @@ const Diet = ({ user }: { user: string }) => {
   useEffect(() => {
     switch (identifier) {
       case "GET_DIET":
-        console.log();
-        console.log("data: " + data);
         if (!loading && !loading && !error) {
           console.log(data);
           setLoadedDiet(
@@ -165,34 +161,37 @@ const Diet = ({ user }: { user: string }) => {
         </form>
       );
     }
-
     setDietList(showDiet);
   }, [loadedDiet, editDietMode]);
 
-  const submitDietHandler = async (event: React.FormEvent) => {
-    event.preventDefault();
-    await sendRequest(
-      loadedDiet
-        ? process.env.REACT_APP_DATABASE_URL +
-            `/my-scheduler/${user}/${dateCtx.selectedDate}/diet/${loadedDiet.id}.json`
-        : process.env.REACT_APP_DATABASE_URL +
-            `/my-scheduler//${user}/${dateCtx.selectedDate}/diet.json`,
-      loadedDiet ? "PUT" : "POST",
-      {
-        breakfast: breakfastRef.current?.value,
-        lunch: lunchRef.current?.value,
-        dinner: dinnerRef.current?.value,
-        snacks: snacksRef.current?.value,
-      },
-      {
-        breakfast: breakfastRef.current?.value,
-        lunch: lunchRef.current?.value,
-        dinner: dinnerRef.current?.value,
-        snacks: snacksRef.current?.value,
-      },
-      "SAVE_DIET"
-    );
-  };
+  const submitDietHandler = useCallback(
+    (event: React.FormEvent) => {
+      event.preventDefault();
+      console.log(loadedDiet)
+      sendRequest(
+        loadedDiet
+          ? process.env.REACT_APP_DATABASE_URL +
+              `/my-scheduler/${user}/${dateCtx.selectedDate}/diet/${loadedDiet.id}.json`
+          : process.env.REACT_APP_DATABASE_URL +
+              `/my-scheduler//${user}/${dateCtx.selectedDate}/diet.json`,
+        loadedDiet ? "PUT" : "POST",
+        {
+          breakfast: breakfastRef.current?.value,
+          lunch: lunchRef.current?.value,
+          dinner: dinnerRef.current?.value,
+          snacks: snacksRef.current?.value,
+        },
+        {
+          breakfast: breakfastRef.current?.value,
+          lunch: lunchRef.current?.value,
+          dinner: dinnerRef.current?.value,
+          snacks: snacksRef.current?.value,
+        },
+        "SAVE_DIET"
+      );
+    },
+    [sendRequest]
+  );
 
   return (
     <>

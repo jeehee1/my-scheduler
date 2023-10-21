@@ -1,7 +1,7 @@
 import classes from "./Goal.module.css";
 import Card from "../../layout/Card";
 import Title from "../../layout/Title";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { ModeContext } from "../../context/mode-context";
 import { typeGoal } from "../../types/SchedulerType";
 import useHttp from "../../hooks/use-http";
@@ -60,20 +60,22 @@ const Goal = ({ user }: { user: string }) => {
     }
   }, [loading, identifier, data, extra, error]);
 
-  const updateGoalHandler = (newGoal: string) => {
-    console.log("edit goal");
-    sendRequest(
-      loadedGoal
-        ? process.env.REACT_APP_DATABASE_URL +
-            `/my-scheduler/${user}/${dateCtx.selectedDate}/goal/${loadedGoal.id}.json`
-        : process.env.REACT_APP_DATABASE_URL +
-            `/my-scheduler/${user}/${dateCtx.selectedDate}/goal.json`,
-      loadedGoal ? "PUT" : "POST",
-      newGoal,
-      newGoal,
-      "SAVE_GOAL"
-    );
-  };
+  const updateGoalHandler = useCallback(
+    (newGoal: string) => {
+      sendRequest(
+        loadedGoal
+          ? process.env.REACT_APP_DATABASE_URL +
+              `/my-scheduler/${user}/${dateCtx.selectedDate}/goal/${loadedGoal.id}.json`
+          : process.env.REACT_APP_DATABASE_URL +
+              `/my-scheduler/${user}/${dateCtx.selectedDate}/goal.json`,
+        loadedGoal ? "PUT" : "POST",
+        newGoal,
+        newGoal,
+        "SAVE_GOAL"
+      );
+    },
+    [sendRequest]
+  );
 
   return (
     <>
@@ -99,7 +101,7 @@ const Goal = ({ user }: { user: string }) => {
               )}
             </div>
           )}
-          {loading&& error && <p>Loading...</p>}
+          {loading && error && <p>Loading...</p>}
           {error && <p>데이터를 불러올 수 없습니다</p>}
         </Card>
       </div>

@@ -2,17 +2,20 @@ import classes from "./Schedules.module.css";
 import ShowTimeSchedule from "./ShowTimeSchedule";
 import Card from "../../layout/Card";
 import Title from "../../layout/Title";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { ModeContext } from "../../context/mode-context";
 import { typeSchedule } from "../../types/SchedulerType";
 import useHttp from "../../hooks/use-http";
 import EditSchedules from "./EditSchedule";
 import { DateContext } from "../../context/date-context";
 
-const Schedules = ({user}:{user:string}) => {
+const minArray = [0, 10, 20, 30, 40, 50];
+
+const Schedules = ({ user }: { user: string }) => {
   const modeCtx = useContext(ModeContext);
   const dateCtx = useContext(DateContext);
   const [editSchedulesMode, setEditSchedulesMode] = useState<boolean>(false);
+  const [tableBody, setTableBody] = useState<JSX.Element[]>([]);
   const {
     sendRequest,
     sendMultipleRequest,
@@ -22,7 +25,6 @@ const Schedules = ({user}:{user:string}) => {
     extra,
     identifier,
   } = useHttp();
-  const minArray = [0, 10, 20, 30, 40, 50];
 
   // 로드된 스케쥴 저장
   const [loadedSchedules, setLoadedSchedules] = useState<
@@ -57,10 +59,6 @@ const Schedules = ({user}:{user:string}) => {
 
   // 케이스에 따른 loadedSchedule 변화 저장
   useEffect(() => {
-    if (error) {
-      console.log(error);
-      return;
-    }
     switch (identifier) {
       case "GET_SCHEDULES":
         console.log("GET SCHEDULES");
@@ -78,8 +76,7 @@ const Schedules = ({user}:{user:string}) => {
         break;
       case "ADD_SCHEDULE":
         console.log("ADD_SCHEDULE");
-        console.log(data, extra);
-        if (!loading && !error) {
+        if (!loading && !error && data) {
           setLoadedSchedules(
             loadedSchedules
               ? [...loadedSchedules, { id: data.name, ...extra }]
@@ -89,17 +86,15 @@ const Schedules = ({user}:{user:string}) => {
         break;
       case "DELETE_SCHEDULE":
         console.log("DELETE_SCHEDULE");
-        console.log(data, extra);
-        if (!loading && !error) {
-          console.log(loadedSchedules);
+        if (!loading && !error && data && extra) {
           setLoadedSchedules((loadedSchedules) =>
             loadedSchedules!.filter((schedule) => schedule.id !== extra)
           );
         }
         break;
       case "MANIPULATE_SCHEDULE":
-        console.log(data, extra);
-        if (!loading && !error && extra.deleteIds) {
+        // 데이터를 삭제하고 업데이트 하는 경우
+        if (!loading && !error && data && extra.deleteIds) {
           const updatedSchedules = loadedSchedules?.filter(
             (schedule) => !extra.deleteIds.includes(schedule.id)
           );
@@ -108,6 +103,7 @@ const Schedules = ({user}:{user:string}) => {
             id: data[data.length - 1].name,
           });
           setLoadedSchedules(updatedSchedules);
+          // 데이터를 업데이트만 하는 경우
         } else if (!loading && !error && !extra.deleteIds) {
           loadedSchedules
             ? setLoadedSchedules([
@@ -122,48 +118,57 @@ const Schedules = ({user}:{user:string}) => {
     }
   }, [data, identifier, error, loading, extra]);
   console.log(loadedSchedules);
-  const manipulateScheduleHandler = (
-    deleteIds: string[] | null,
-    newSchedule: {
-      startTime: string;
-      endTime: string;
-      color: string;
-      schedule: string;
-    }
-  ) => {
-    const updatingData = [];
-    if (deleteIds) {
-      for (const deleteId of deleteIds) {
-        updatingData.push({
-          url:
-            process.env.REACT_APP_DATABASE_URL +
-            `/my-scheduler/${user}/${dateCtx.selectedDate}/schedules/${deleteId}.json`,
-          body: deleteId,
-          method: "DELETE",
-        });
+
+  // 업데이트 스케줄 - 겹치는 시간의 스케줄은 삭제 처리
+  const manipulateScheduleHandler = useCallback(
+    (
+      deleteIds: string[] | null,
+      newSchedule: {
+        startTime: string;
+        endTime: string;
+        color: string;
+        schedule: string;
       }
-    }
-    updatingData.push({
-      url:
-        process.env.REACT_APP_DATABASE_URL +
-        `/my-scheduler/${user}/${dateCtx.selectedDate}/schedules.json`,
-      body: newSchedule,
-      method: "POST",
-    });
-    sendMultipleRequest(
-      updatingData,
-      { deleteIds: deleteIds, newSchedule: newSchedule },
-      "MANIPULATE_SCHEDULE"
-    );
-  };
+    ) => {
+      const updatingData = [];
+      if (deleteIds) {
+        for (const deleteId of deleteIds) {
+          updatingData.push({
+            url:
+              process.env.REACT_APP_DATABASE_URL +
+              `/my-scheduler/${user}/${dateCtx.selectedDate}/schedules/${deleteId}.json`,
+            body: deleteId,
+            method: "DELETE",
+          });
+        }
+      }
+      updatingData.push({
+        url:
+          process.env.REACT_APP_DATABASE_URL +
+          `/my-scheduler/${user}/${dateCtx.selectedDate}/schedules.json`,
+        body: newSchedule,
+        method: "POST",
+      });
+      sendMultipleRequest(
+        updatingData,
+        { deleteIds: deleteIds, newSchedule: newSchedule },
+        "MANIPULATE_SCHEDULE"
+      );
+    },
+    [sendRequest, sendMultipleRequest, user, dateCtx.selectedDate, process.env.REACT_APP_DATABASE_URL]
+  );
 
   // 스케쥴 수정 시작 - 마우스 클릭 시간 셋팅
-  const startEditingHandler = (clickedTime: number) =>
-    setUpdatingSchedule({
-      editing: true,
-      time: clickedTime,
-    });
+  const startEditingHandler = useCallback(
+    (clickedTime: number) =>
+      setUpdatingSchedule({
+        editing: true,
+        time: clickedTime,
+      }),
+    [setUpdatingSchedule]
+  );
 
+  // 분을 JSX Element 배열로 생성
   const showMinute: JSX.Element[] = [];
   useEffect(() => {
     for (let m = 0; m < 6; m++) {
@@ -175,43 +180,47 @@ const Schedules = ({user}:{user:string}) => {
     }
   }, []);
 
-  const tableBody = [];
-  for (let time = 6; time < 25; time++) {
-    tableBody.push(
-      <tr key={time}>
-        <th key={time} className={classes["time-cell"]}>
-          {time}
-        </th>
-        {minArray.map((min) => (
-          <ShowTimeSchedule
-            key={time * 100 + min}
-            selectedTime={time * 100 + min}
-            timeInfo={{
-              time: time * 100 + min,
-              schedule: loadedSchedules
-                ? loadedSchedules.find(
-                    (schedule) =>
-                      parseInt(
-                        schedule.startTime.slice(0, 2) +
-                          schedule.startTime.slice(3, 5)
-                      ) <=
-                        time * 100 + min &&
-                      parseInt(
-                        schedule.endTime.slice(0, 2) +
-                          schedule.endTime.slice(3, 5)
-                      ) >
-                        time * 100 + min
-                  ) || null
-                : null,
-            }}
-            isEditing={editSchedulesMode}
-            startEditing={startEditingHandler}
-          />
-        ))}
-      </tr>
-    );
-  }
-
+  // JSX Element 배열 tableBody로 스케줄 테이블 Layout 생성
+  useEffect(() => {
+    const ScheduleTable: JSX.Element[] = [];
+    for (let time = 6; time < 25; time++) {
+      ScheduleTable.push(
+        <tr key={time}>
+          <th key={time} className={classes["time-cell"]}>
+            {time}
+          </th>
+          {minArray.map((min) => (
+            <ShowTimeSchedule
+              key={time * 100 + min}
+              selectedTime={time * 100 + min}
+              timeInfo={{
+                time: time * 100 + min,
+                schedule: loadedSchedules
+                  ? loadedSchedules.find(
+                      (schedule) =>
+                        parseInt(
+                          schedule.startTime.slice(0, 2) +
+                            schedule.startTime.slice(3, 5)
+                        ) <=
+                          time * 100 + min &&
+                        parseInt(
+                          schedule.endTime.slice(0, 2) +
+                            schedule.endTime.slice(3, 5)
+                        ) >
+                          time * 100 + min
+                    ) || null
+                  : null,
+              }}
+              isEditing={editSchedulesMode}
+              startEditing={startEditingHandler}
+            />
+          ))}
+        </tr>
+      );
+    }
+    setTableBody(ScheduleTable);
+  }, [loadedSchedules, editSchedulesMode, startEditingHandler]);
+  
   return (
     <>
       <Title>Schedules</Title>
@@ -230,13 +239,12 @@ const Schedules = ({user}:{user:string}) => {
                 </thead>
                 <tbody className={classes["table-body"]}>{tableBody}</tbody>
               </table>
+              {/* 스케줄 수정 모드 */}
               {editSchedulesMode && updatingSchedule?.editing && (
                 <EditSchedules
                   loadedSchedules={loadedSchedules || null}
                   timeNum={updatingSchedule.time}
                   manipulateSchedule={manipulateScheduleHandler}
-                  // addSchedule={addScheduleHandler}
-                  // deleteSchedule={deleteScheduleHandler}
                   cancelEdit={() => {
                     setUpdatingSchedule({ editing: false, time: 0 });
                   }}

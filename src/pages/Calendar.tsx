@@ -12,7 +12,6 @@ const Calendar = () => {
   const userToken = useRouteLoaderData("root") || "";
   const validToken = userToken.toString();
 
-
   const [loadedSchedules, setLoadedSchedules] = useState<
     {
       id: string;

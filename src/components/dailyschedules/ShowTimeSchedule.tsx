@@ -1,9 +1,6 @@
-//   colorTable should be [{time: 9.4, color: 'yellow', 'content:'something'}, {time:9.5, color: 'yellow', 'content:'something'}]
-
 import { MouseEvent, useContext, useState } from "react";
 import ShowScheduleInfo from "./ShowScheduleInfo";
 import { ModeContext } from "../../context/mode-context";
-import EditSchedules from "./EditSchedule";
 import { typeSchedule } from "../../types/SchedulerType";
 
 const ShowTimeSchedule = ({
@@ -20,7 +17,6 @@ const ShowTimeSchedule = ({
   startEditing: (clickedTime: number) => void;
   selectedTime: number;
 }) => {
-  timeInfo.schedule &&console.log(timeInfo)
   const modeCtx = useContext(ModeContext);
   const [showInfo, setShowInfo] = useState(false);
   const showScheduleHandler = (event: MouseEvent) => {
@@ -30,6 +26,7 @@ const ShowTimeSchedule = ({
   return (
     <>
       {!isEditing && (
+        // 스케줄 정보 표시
         <td
           onMouseOver={showScheduleHandler}
           onMouseLeave={() => {

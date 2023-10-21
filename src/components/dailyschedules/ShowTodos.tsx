@@ -38,7 +38,6 @@ const ShowTodos = ({ user }: { user: string }) => {
         break;
     }
   }, [data, identifier, loading, extra]);
-  console.log(data);
 
   useEffect(() => {
     sendRequest(

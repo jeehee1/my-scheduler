@@ -7,14 +7,7 @@ import { ModeContext } from "../context/mode-context";
 import EditMessage from "../layout/EditMessage";
 import Todos from "../components/dailyschedules/Todos";
 import SearchDate from "../components/dailyschedules/SearchDate";
-import { Navigate, redirect, useNavigate, useRouteLoaderData } from "react-router-dom";
-
-const defaultEditingState = {
-  editingTodos: false,
-  editingGoal: false,
-  editingSchedules: false,
-  editingDiet: false,
-};
+import { Navigate, useRouteLoaderData } from "react-router-dom";
 
 const Scheduler = () => {
   const modeCtx = useContext(ModeContext);
