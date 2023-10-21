@@ -77,6 +77,35 @@ const Diet = ({ user }: { user: string }) => {
     }
   }, [data, loading, error, identifier]);
 
+  const submitDietHandler = useCallback(
+    (event: React.FormEvent) => {
+      event.preventDefault();
+      console.log(loadedDiet);
+      sendRequest(
+        loadedDiet
+          ? process.env.REACT_APP_DATABASE_URL +
+              `/my-scheduler/${user}/${dateCtx.selectedDate}/diet/${loadedDiet.id}.json`
+          : process.env.REACT_APP_DATABASE_URL +
+              `/my-scheduler//${user}/${dateCtx.selectedDate}/diet.json`,
+        loadedDiet ? "PUT" : "POST",
+        {
+          breakfast: breakfastRef.current?.value,
+          lunch: lunchRef.current?.value,
+          dinner: dinnerRef.current?.value,
+          snacks: snacksRef.current?.value,
+        },
+        {
+          breakfast: breakfastRef.current?.value,
+          lunch: lunchRef.current?.value,
+          dinner: dinnerRef.current?.value,
+          snacks: snacksRef.current?.value,
+        },
+        "SAVE_DIET"
+      );
+    },
+    [sendRequest, loadedDiet, user, dateCtx.selectedDate]
+  );
+
   useEffect(() => {
     if (!editDietMode) {
       //뷰모드
@@ -164,35 +193,6 @@ const Diet = ({ user }: { user: string }) => {
     }
     setDietList(showDiet);
   }, [loadedDiet, editDietMode]);
-
-  const submitDietHandler = useCallback(
-    (event: React.FormEvent) => {
-      event.preventDefault();
-      console.log(loadedDiet);
-      sendRequest(
-        loadedDiet
-          ? process.env.REACT_APP_DATABASE_URL +
-              `/my-scheduler/${user}/${dateCtx.selectedDate}/diet/${loadedDiet.id}.json`
-          : process.env.REACT_APP_DATABASE_URL +
-              `/my-scheduler//${user}/${dateCtx.selectedDate}/diet.json`,
-        loadedDiet ? "PUT" : "POST",
-        {
-          breakfast: breakfastRef.current?.value,
-          lunch: lunchRef.current?.value,
-          dinner: dinnerRef.current?.value,
-          snacks: snacksRef.current?.value,
-        },
-        {
-          breakfast: breakfastRef.current?.value,
-          lunch: lunchRef.current?.value,
-          dinner: dinnerRef.current?.value,
-          snacks: snacksRef.current?.value,
-        },
-        "SAVE_DIET"
-      );
-    },
-    [sendRequest]
-  );
 
   return (
     <>
