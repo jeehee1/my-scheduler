@@ -95,10 +95,11 @@ const Schedules = ({ user }: { user: string }) => {
       case "MANIPULATE_SCHEDULE":
         // 데이터를 삭제하고 업데이트 하는 경우
         if (!loading && !error && data && extra.deleteIds) {
-          const updatedSchedules = loadedSchedules?.filter(
-            (schedule) => !extra.deleteIds.includes(schedule.id)
-          );
-          updatedSchedules?.push({
+          const updatedSchedules =
+            loadedSchedules?.filter(
+              (schedule) => !extra.deleteIds.includes(schedule.id)
+            ) || [];
+          updatedSchedules.push({
             ...extra.newSchedule,
             id: data[data.length - 1].name,
           });
@@ -155,7 +156,13 @@ const Schedules = ({ user }: { user: string }) => {
         "MANIPULATE_SCHEDULE"
       );
     },
-    [sendRequest, sendMultipleRequest, user, dateCtx.selectedDate, process.env.REACT_APP_DATABASE_URL]
+    [
+      sendRequest,
+      sendMultipleRequest,
+      user,
+      dateCtx.selectedDate,
+      process.env.REACT_APP_DATABASE_URL,
+    ]
   );
 
   // 스케쥴 수정 시작 - 마우스 클릭 시간 셋팅
@@ -220,7 +227,7 @@ const Schedules = ({ user }: { user: string }) => {
     }
     setTableBody(ScheduleTable);
   }, [loadedSchedules, editSchedulesMode, startEditingHandler]);
-  
+
   return (
     <>
       <Title>Schedules</Title>

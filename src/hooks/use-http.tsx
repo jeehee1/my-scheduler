@@ -86,14 +86,14 @@ const useHttp = () => {
         }
         const data = await response.json();
         dataArr.push(data);
-        setHttpState({
-          extra: manipulatedData,
-          loading: false,
-          data: dataArr,
-          error: false,
-          identifier: identifier,
-        });
       }
+      setHttpState({
+        extra: manipulatedData,
+        loading: false,
+        data: dataArr,
+        error: false,
+        identifier: identifier,
+      });
     } catch (err) {
       setHttpState({
         extra: null,
