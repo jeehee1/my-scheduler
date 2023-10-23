@@ -17,6 +17,8 @@ const Scheduler = () => {
     return <Navigate to={"/auth?mode=login"} />;
   }
 
+  console.log("scheduler page")
+
   return (
     <>
       <SearchDate />

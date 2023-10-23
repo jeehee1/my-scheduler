@@ -26,23 +26,30 @@ const Diet = ({ user }: { user: string }) => {
   let showDiet: JSX.Element;
   const [editDietMode, setEditDietMode] = useState<boolean>(false);
 
+  // 전체 에딧 모드를 취소하는 경우 editDietMode false 설정
   useEffect(() => {
     if (!modeCtx.editMode) {
       setEditDietMode(false);
     }
   }, [modeCtx.editMode]);
 
+  // 날짜 변경시 데이터 불러오기
   useEffect(() => {
-    sendRequest(
-      process.env.REACT_APP_DATABASE_URL +
-        `/my-scheduler/${user}/${dateCtx.selectedDate}/diet.json`,
-      "GET",
-      null,
-      null,
-      "GET_DIET"
-    );
-  }, [dateCtx.selectedDate]);
+    if (dateCtx.selectedDate) {
+      console.log(user);
+      console.log(dateCtx.selectedDate);
+      sendRequest(
+        process.env.REACT_APP_DATABASE_URL +
+          `/my-scheduler/${user}/${dateCtx.selectedDate}/diet.json`,
+        "GET",
+        null,
+        null,
+        "GET_DIET"
+      );
+    }
+  }, [dateCtx.selectedDate, user, process.env.REACT_APP_DATABASE_URL]);
 
+  // CRUD 작업시 loadedDiet state 변경
   useEffect(() => {
     switch (identifier) {
       case "GET_DIET":
@@ -77,10 +84,10 @@ const Diet = ({ user }: { user: string }) => {
     }
   }, [data, loading, error, identifier]);
 
+  // 업데이트된 diet 데이터 저장
   const submitDietHandler = useCallback(
     (event: React.FormEvent) => {
       event.preventDefault();
-      console.log(loadedDiet);
       sendRequest(
         loadedDiet
           ? process.env.REACT_APP_DATABASE_URL +
@@ -106,6 +113,7 @@ const Diet = ({ user }: { user: string }) => {
     [sendRequest, loadedDiet, user, dateCtx.selectedDate]
   );
 
+  // 화면에 표시할 JSX element 지정
   useEffect(() => {
     if (!editDietMode) {
       //뷰모드
