@@ -56,13 +56,12 @@ const Schedules = ({ user }: { user: string }) => {
       null,
       "GET_SCHEDULES"
     );
-  }, [dateCtx.selectedDate]);
+  }, [dateCtx.selectedDate, user, process.env.REACT_APP_DATABASE_URL]);
 
   // 케이스에 따른 loadedSchedule 변화 저장
   useEffect(() => {
     switch (identifier) {
       case "GET_SCHEDULES":
-        console.log("GET SCHEDULES");
         if (!loading && !error) {
           if (data) {
             let schedulesArray = [];
@@ -76,7 +75,6 @@ const Schedules = ({ user }: { user: string }) => {
         }
         break;
       case "ADD_SCHEDULE":
-        console.log("ADD_SCHEDULE");
         if (!loading && !error && data) {
           setLoadedSchedules(
             loadedSchedules
@@ -86,7 +84,6 @@ const Schedules = ({ user }: { user: string }) => {
         }
         break;
       case "DELETE_SCHEDULE":
-        console.log("DELETE_SCHEDULE");
         if (!loading && !error && data && extra) {
           setLoadedSchedules((loadedSchedules) =>
             loadedSchedules!.filter((schedule) => schedule.id !== extra)
@@ -119,7 +116,6 @@ const Schedules = ({ user }: { user: string }) => {
         break;
     }
   }, [data, identifier, error, loading, extra]);
-  console.log(loadedSchedules);
 
   // 업데이트 스케줄 - 겹치는 시간의 스케줄은 삭제 처리
   const manipulateScheduleHandler = useCallback(
@@ -168,25 +164,14 @@ const Schedules = ({ user }: { user: string }) => {
 
   // 스케쥴 수정 시작 - 마우스 클릭 시간 셋팅
   const startEditingHandler = useCallback(
-    (clickedTime: number) =>
+    (clickedTime: number) => {
       setUpdatingSchedule({
         editing: true,
         time: clickedTime,
-      }),
+      });
+    },
     [setUpdatingSchedule]
   );
-
-  // 분을 JSX Element 배열로 생성
-  const showMinute: JSX.Element[] = [];
-  useEffect(() => {
-    for (let m = 0; m < 6; m++) {
-      showMinute.push(
-        <th key={minArray[m]}>
-          <div>{minArray[m] + 10}</div>
-        </th>
-      );
-    }
-  }, []);
 
   // JSX Element 배열 tableBody로 스케줄 테이블 Layout 생성
   useEffect(() => {
@@ -195,7 +180,7 @@ const Schedules = ({ user }: { user: string }) => {
       ScheduleTable.push(
         <tr key={time}>
           <th key={time} className={classes["time-cell"]}>
-            {time}
+            {time}시
           </th>
           {minArray.map((min) => (
             <ShowTimeSchedule
@@ -239,10 +224,15 @@ const Schedules = ({ user }: { user: string }) => {
             <>
               {editSchedulesMode && <p>표를 클릭해서 시간을 선택해주세요.</p>}
               <table className={classes.table}>
+                {/* 분 표시 */}
                 <thead>
                   <tr className={classes.min}>
                     <th></th>
-                    {showMinute}
+                    {minArray.map((min) => (
+                      <th key={minArray[min]}>
+                        <div>{minArray[min] + 10}</div>
+                      </th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody className={classes["table-body"]}>{tableBody}</tbody>

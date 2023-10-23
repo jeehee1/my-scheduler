@@ -38,7 +38,7 @@ const ShowTimeSchedule = ({
               : undefined,
           }}
         >
-          {!modeCtx.editMode && !isEditing && showInfo && (
+          {!modeCtx.editMode && !isEditing && showInfo && timeInfo.schedule && (
             <ShowScheduleInfo info={timeInfo.schedule} />
           )}
         </td>

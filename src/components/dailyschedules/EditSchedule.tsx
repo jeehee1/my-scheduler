@@ -2,6 +2,16 @@ import classes from "./EditSchedule.module.css";
 import { FormEvent, useEffect, useState } from "react";
 import { typeSchedule } from "../../types/SchedulerType";
 
+// 시간 선택 input을 위한 배열 생성
+const timeArray = {
+  timeArr: Array.from({ length: 19 }, (v, i) => 6 + i),
+  minArr: ["00", "10", "20", "30", "40", "50"],
+};
+
+const getTimeFormatted = (time: string) => {
+  return time.length === 1 ? "0" + time : time;
+};
+
 const EditSchedules = ({
   loadedSchedules,
   timeNum,
@@ -21,22 +31,17 @@ const EditSchedules = ({
   ) => void;
   cancelEdit: () => void;
 }) => {
-  // 시간 선택 input을 위한 배열 생성
-  const [timeArray, setTimeArray] = useState<{
-    timeArr: string[];
-    minArr: string[];
-  }>({ timeArr: [], minArr: [] });
+  //시작시간과 종료시간 값 저장
+  const [startTime, setStartTime] = useState<{ time: string; min: string }>({
+    time: "",
+    min: "",
+  });
+  const [endTime, setEndTime] = useState<{ time: string; min: string }>({
+    time: "",
+    min: "",
+  });
 
-  useEffect(() => {
-    const timeArr = [];
-    for (let i = 6; i < 24; i++) {
-      timeArr.push(`${i}`);
-    }
-    const minArr = ["00", "10", "20", "30", "40", "50"];
-    setTimeArray({ timeArr: timeArr, minArr: minArr });
-  }, []);
-
-  // 클릭시 시간 셋팅
+  // 클릭시 시간 셋팅 hmm 형식
   useEffect(() => {
     const hourStr = `${Math.floor(timeNum / 100)}`;
     const minStr = `${timeNum % 100}`;
@@ -50,18 +55,10 @@ const EditSchedules = ({
     });
   }, [timeNum]);
 
-  //시작시간과 종료시간 값 저장
-  const [startTime, setStartTime] = useState<{ time: string; min: string }>({
-    time: "",
-    min: "",
-  });
-  const [endTime, setEndTime] = useState<{ time: string; min: string }>({
-    time: "",
-    min: "",
-  });
   const [color, setColor] = useState<string>("");
   const [scheduleInput, setScheduleInput] = useState<string>("");
 
+  // 업데이트 하는 경우 데이터가 존재하는지 여부 설정
   const [updatingAble, setUpdatingAble] = useState<{
     existedSchedules: typeSchedule[] | null;
     isAble: boolean;
@@ -97,6 +94,7 @@ const EditSchedules = ({
     // 시간이 중첩되는 경우
     if (loadedSchedules) {
       let i = 0;
+      // 중첩되는 데이터 목록 저장
       while (i < loadedSchedules!.length) {
         if (
           (parseInt(
@@ -132,8 +130,8 @@ const EditSchedules = ({
     // 시간이 중첩되면 삭제메시지 표시
     if (duplicatedSchedules.length > 0) {
       setUpdatingAble({ isAble: false, existedSchedules: duplicatedSchedules });
+      return;
     } else {
-      console.log("start updating");
       // 중첩이 안될경우 스케쥴 등록 진행
       // 시간 데이터베이스 형식으로 변환
       const newStartTime =
@@ -151,10 +149,6 @@ const EditSchedules = ({
       });
       cancelEdit();
     }
-  };
-
-  const getTimeFormatted = (time: string) => {
-    return time.length === 1 ? "0" + time : time;
   };
 
   const deleteAndAddSchedule = (event: FormEvent) => {
@@ -180,14 +174,13 @@ const EditSchedules = ({
     cancelEdit();
   };
 
-  console.log(startTime.time + startTime.min);
-  console.log(endTime.time + endTime.min);
   return (
     <div className={classes["edit-form"]}>
       {updatingAble.isAble && (
         <div>
           <button onClick={cancelEdit}>x</button>
           <form onSubmit={submitNewScheduleHandler}>
+          {/* 시작 시간과 종료 시간 select */}
             <div className={classes.time}>
               <label htmlFor="start-time">시작 시간</label>
               <select
@@ -236,6 +229,7 @@ const EditSchedules = ({
                 ))}
               </select>
             </div>
+            {/* 스케줄 input */}
             <div className={classes.schedule}>
               <label htmlFor="schedule">어떤 일을 하시겠어요?</label>
               <input
@@ -258,6 +252,7 @@ const EditSchedules = ({
           </form>
         </div>
       )}
+      {/* 스케줄이 이미 존재하는 경우 */}
       {!updatingAble.isAble && (
         <div className={classes.confirm}>
           <p>
