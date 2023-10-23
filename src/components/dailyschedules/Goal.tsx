@@ -16,12 +16,14 @@ const Goal = ({ user }: { user: string }) => {
   const [loadedGoal, setLoadedGoal] = useState<typeGoal | null>();
   const [editGoalMode, setEditGoalMode] = useState<boolean>(false);
 
+  // 전체 에딧 모드 취소시 goalEditMode 취소
   useEffect(() => {
     if (!modeCtx.editMode) {
       setEditGoalMode(false);
     }
   }, [modeCtx.editMode]);
 
+  //날짜와 사용자 변경시 데이터 불러오기
   useEffect(() => {
     sendRequest(
       process.env.REACT_APP_DATABASE_URL +
@@ -31,7 +33,7 @@ const Goal = ({ user }: { user: string }) => {
       null,
       "GET_GOAL"
     );
-  }, [sendRequest, dateCtx.selectedDate]);
+  }, [sendRequest, dateCtx.selectedDate, user, process.env.REACT_APP_DATABASE_URL]);
 
   useEffect(() => {
     switch (identifier) {
@@ -75,7 +77,7 @@ const Goal = ({ user }: { user: string }) => {
         "SAVE_GOAL"
       );
     },
-    [sendRequest]
+    [sendRequest, user, dateCtx.selectedDate, loadedGoal]
   );
 
   return (

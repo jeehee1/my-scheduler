@@ -47,7 +47,12 @@ const Diet = ({ user }: { user: string }) => {
         "GET_DIET"
       );
     }
-  }, [dateCtx.selectedDate, user, process.env.REACT_APP_DATABASE_URL]);
+  }, [
+    sendRequest,
+    dateCtx.selectedDate,
+    user,
+    process.env.REACT_APP_DATABASE_URL,
+  ]);
 
   // CRUD 작업시 loadedDiet state 변경
   useEffect(() => {
